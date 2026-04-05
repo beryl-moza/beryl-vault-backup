@@ -1,2 +1,0 @@
-# WUD
-Personal project workspace.
