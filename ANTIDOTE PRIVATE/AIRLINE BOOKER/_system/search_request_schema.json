@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Flight Search Request",
+  "description": "Schema for flexible flight search requests supporting variable dates, multiple airports, and smart comparison modes",
+  "type": "object",
+  "required": ["request_id", "user_id", "search_type", "trips"],
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "description": "Unique identifier for this search request"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User profile ID (e.g., beryl, clayton, brandon)"
+    },
+    "search_type": {
+      "type": "string",
+      "enum": ["specific", "flexible", "best_deal", "points_optimized"],
+      "description": "specific = exact dates, flexible = date ranges/weekends, best_deal = cheapest across wide range, points_optimized = best points redemption"
+    },
+    "trips": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["origin", "destination", "date_spec"],
+        "properties": {
+          "origin": {
+            "type": "object",
+            "properties": {
+              "airports": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "IATA airport codes to search from (e.g., ['ORD', 'MDW'] for Chicago)"
+              },
+              "city": {
+                "type": "string",
+                "description": "City name - system will resolve to airport codes"
+              },
+              "radius_miles": {
+                "type": "integer",
+                "description": "Search airports within this radius of the city"
+              }
+            }
+          },
+          "destination": {
+            "type": "object",
+            "properties": {
+              "airports": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "IATA airport codes to fly into"
+              },
+              "city": {
+                "type": "string",
+                "description": "City name - system will resolve to airport codes"
+              },
+              "radius_miles": {
+                "type": "integer"
+              }
+            }
+          },
+          "date_spec": {
+            "type": "object",
+            "description": "Flexible date specification",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": ["exact", "range", "weekends_in_month", "cheapest_in_range", "any_weekend", "specific_days"],
+                "description": "How to interpret dates"
+              },
+              "exact_date": {
+                "type": "string",
+                "format": "date",
+                "description": "For mode=exact"
+              },
+              "start_date": {
+                "type": "string",
+                "format": "date",
+                "description": "Start of search range"
+              },
+              "end_date": {
+                "type": "string",
+                "format": "date",
+                "description": "End of search range"
+              },
+              "month": {
+                "type": "string",
+                "description": "Month name or number for weekends_in_month mode"
+              },
+              "year": {
+                "type": "integer"
+              },
+              "preferred_days": {
+                "type": "array",
+                "items": {"type": "string", "enum": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]},
+                "description": "Preferred days of week for departure"
+              },
+              "flexibility_days": {
+                "type": "integer",
+                "description": "Number of days flexibility around preferred dates"
+              }
+            }
+          },
+          "direction": {
+            "type": "string",
+            "enum": ["outbound", "return"],
+            "description": "Whether this is the outbound or return leg"
+          }
+        }
+      }
+    },
+    "passengers": {
+      "type": "object",
+      "properties": {
+        "adults": {"type": "integer", "default": 1},
+        "children": {"type": "integer", "default": 0},
+        "infants": {"type": "integer", "default": 0}
+      }
+    },
+    "preferences": {
+      "type": "object",
+      "properties": {
+        "airlines": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Preferred airline codes (empty = all)"
+        },
+        "exclude_airlines": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "max_stops": {
+          "type": "integer",
+          "description": "0 = nonstop only, 1 = up to 1 stop, etc."
+        },
+        "cabin_class": {
+          "type": "string",
+          "enum": ["economy", "premium_economy", "business", "first"]
+        },
+        "max_price_usd": {
+          "type": "number",
+          "description": "Maximum price per person"
+        },
+        "max_duration_hours": {
+          "type": "number"
+        },
+        "preferred_departure_window": {
+          "type": "object",
+          "properties": {
+            "earliest": {"type": "string", "description": "HH:MM"},
+            "latest": {"type": "string", "description": "HH:MM"}
+          }
+        },
+        "sort_priority": {
+          "type": "string",
+          "enum": ["price", "duration", "departure_time", "stops", "points_value"],
+          "default": "price"
+        }
+      }
+    },
+    "comparison_mode": {
+      "type": "object",
+      "description": "Settings for smart comparison across variable options",
+      "properties": {
+        "enabled": {"type": "boolean", "default": true},
+        "compare_by": {
+          "type": "array",
+          "items": {"type": "string", "enum": ["date", "airline", "airport", "stops", "time_of_day"]},
+          "description": "Dimensions to compare across"
+        },
+        "top_n_results": {
+          "type": "integer",
+          "default": 10,
+          "description": "Number of top options to return"
+        },
+        "include_insights": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include smart analysis of patterns and recommendations"
+        }
+      }
+    },
+    "points_search": {
+      "type": "object",
+      "description": "Points/miles search configuration (Phase 2)",
+      "properties": {
+        "enabled": {"type": "boolean", "default": false},
+        "programs_to_check": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Loyalty program names to search"
+        },
+        "compare_points_vs_cash": {
+          "type": "boolean",
+          "default": true
+        },
+        "min_cpp_threshold": {
+          "type": "number",
+          "description": "Minimum cents-per-point value to consider a good redemption"
+        }
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "notes": {"type": "string"}
+  }
+}

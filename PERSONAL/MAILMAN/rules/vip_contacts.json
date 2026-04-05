@@ -1,0 +1,58 @@
+{
+  "contacts": [
+    {
+      "email": "beryl@antidote.group",
+      "name": "Beryl Jacobson",
+      "tier": "owner",
+      "notes": "Self - for tracking outbound"
+    },
+    {
+      "email": "clayton@antidote.group",
+      "name": "Clayton Dolan",
+      "tier": "team",
+      "notes": "Antidote team - operations"
+    },
+    {
+      "email": "brandon@antidote.group",
+      "name": "Brandon Ancier",
+      "tier": "team",
+      "notes": "Antidote team - business development"
+    },
+    {
+      "email": "eddy@antidote.group",
+      "name": "Eddy Athena",
+      "tier": "team",
+      "notes": "Antidote team - scheduling & admin"
+    },
+    {
+      "email": "insights@antidote.group",
+      "name": "Antidote Insights",
+      "tier": "team",
+      "notes": "Shared team inbox"
+    },
+    {
+      "email": "bill@flyingembers.com",
+      "name": "Bill Moses",
+      "tier": "inner_circle",
+      "notes": "Co-founder from Flying Embers, Casa B partner"
+    }
+  ],
+  "domains_always_priority": [
+    "antidote.group",
+    "karpreilly.com",
+    "yerbamadre.com",
+    "gurunanda.com"
+  ],
+  "senders_always_priority": [
+    "alerts@notify.wellsfargo.com",
+    "express@airbnb.com"
+  ],
+  "notes": "VIP contacts always get P1+ priority and are protected from unsubscribe/auto-archive.",
+  "tiers": {
+    "owner": "System owner - highest priority",
+    "inner_circle": "Family, close partners, key clients",
+    "team": "Antidote team members",
+    "client": "Active clients",
+    "advisor": "Advisors, mentors, board members"
+  }
+}

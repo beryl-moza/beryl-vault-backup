@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Airline Booker · SYD→DPS · April 1, 2026</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { margin: 0; background: #030712; font-family: system-ui, -apple-system, sans-serif; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #111827; }
+    ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+    .glow-green { box-shadow: 0 0 20px rgba(16,185,129,0.15); }
+    .glow-blue { box-shadow: 0 0 20px rgba(99,102,241,0.15); }
+    .glow-amber { box-shadow: 0 0 20px rgba(245,158,11,0.15); }
+    .badge-pulse { animation: bpulse 2s infinite; }
+    @keyframes bpulse { 0%,100% { opacity:1; } 50% { opacity:0.7; } }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    // ═══════════════════════════════════════════════════════════════
+    // AIRLINE BOOKER — SYD → DPS · April 1, 2026 (Wednesday)
+    // Context: Staff standby (myID) overbooked. Need confirmed seat.
+    // Mode: POWER SEARCH — Cash + Points hedge
+    // Flight time: ~6h 20–40min · Economy acceptable (under 8hr rule)
+    // Timezone: SYD = AEDT (UTC+11) → DPS = WITA (UTC+8) = 3hr behind
+    // ═══════════════════════════════════════════════════════════════
+
+    const TABS = ["✈️ Flight Options", "💰 Points Plays", "🎲 Hedge Portfolio", "📋 Action Plan"];
+
+    // ─── REAL PRICES from Google Flights — March 30, 2026 ─────
+    // Google Flights notes: "Prices are currently HIGH"
+    const FLIGHTS = [
+      {
+        rank: 1,
+        badge: "TOP PICK — AFTERNOON NONSTOP",
+        badgeColor: "bg-emerald-600",
+        airline: "Qantas",
+        code: "QF43",
+        aircraft: "A330",
+        depart: "5:20 PM",
+        arrive: "8:50 PM",
+        departTz: "AEDT",
+        arriveTz: "WITA",
+        duration: "6h 30m",
+        cabin: "Economy",
+        cashAUD: "AUD $1,347",
+        cashUSD: "~USD $850",
+        whyPick: "This is THE flight for your brief. Afternoon nonstop, lands 8:50 PM Bali = perfect evening arrival. Full-service Qantas: meals, bags, entertainment all included. Only $25 more than Jetstar bare-bones — Qantas is the obvious pick at this price gap. A330 widebody comfort.",
+        bookUrl: "https://www.qantas.com/au/en/book-a-trip/flights.html",
+        pointsOption: "18,000–23,300 Qantas Points + ~$147 taxes (Classic Reward — check availability)",
+        refundable: "Check if Flex fare is available at booking. Standard economy may not be refundable this close to departure.",
+        seatTip: "A330: 2-4-2 in economy. Grab a window or aisle in rows 30+.",
+      },
+      {
+        rank: 2,
+        badge: "AFTERNOON NONSTOP",
+        badgeColor: "bg-blue-600",
+        airline: "Jetstar",
+        code: "JQ—",
+        aircraft: "787 Dreamliner",
+        depart: "5:25 PM",
+        arrive: "9:00 PM",
+        departTz: "AEDT",
+        arriveTz: "WITA",
+        duration: "6h 35m",
+        cabin: "Economy",
+        cashAUD: "AUD $1,322",
+        cashUSD: "~USD $835",
+        whyPick: "Same afternoon timing, $25 cheaper than Qantas but bare-bones: no meals, no bags included. You're carry-on only so no bag penalty, but for $25 more Qantas gives you the full package. Only pick Jetstar if Qantas sells out.",
+        bookUrl: "https://www.jetstar.com/au/en/home",
+        pointsOption: "20,700 Qantas Points + taxes (via Qantas Classic Reward on Jetstar)",
+        refundable: "Flex Bundle adds free changes (~$100 extra). Standard = limited refund.",
+        seatTip: "787 Dreamliner: 3-3-3. Better cabin pressure than older planes.",
+      },
+      {
+        rank: 3,
+        badge: "CHEAPEST NONSTOP",
+        badgeColor: "bg-amber-600",
+        airline: "Batik Air",
+        code: "OD—",
+        aircraft: "A330",
+        depart: "8:35 AM",
+        arrive: "12:05 PM",
+        departTz: "AEDT",
+        arriveTz: "WITA",
+        duration: "6h 30m",
+        cabin: "Economy",
+        cashAUD: "AUD $944",
+        cashUSD: "~USD $595",
+        whyPick: "Saves $400 vs afternoon flights but it's a morning departure. You'd arrive Bali at noon — not your preference but gets the job done for way less. Second Batik flight at 8:05 AM for $959.",
+        bookUrl: "https://www.batikair.com/",
+        pointsOption: "No major loyalty partner for direct booking",
+        refundable: "Check Batik Air directly for cancel policy.",
+        seatTip: "A330 widebody. Decent comfort for a 6.5hr flight.",
+      },
+      {
+        rank: 4,
+        badge: "LATE MORNING NONSTOP",
+        badgeColor: "bg-indigo-600",
+        airline: "Garuda Indonesia",
+        code: "GA—",
+        aircraft: "A330",
+        depart: "11:10 AM",
+        arrive: "2:45 PM",
+        departTz: "AEDT",
+        arriveTz: "WITA",
+        duration: "6h 35m",
+        cabin: "Economy",
+        cashAUD: "AUD $1,246",
+        cashUSD: "~USD $785",
+        whyPick: "Full-service carrier, nonstop, late morning departure. $100 less than Qantas/Jetstar afternoon slots. Arrives 2:45 PM Bali — afternoon arrival, earlier than you wanted but not bad. Meals and bags included.",
+        bookUrl: "https://www.garuda-indonesia.com/flights/en/",
+        pointsOption: "Partner award via KrisFlyer or SkyTeam partners",
+        refundable: "Varies by fare class — check Garuda directly.",
+        seatTip: "A330: 2-4-2 layout. Solid comfort.",
+      },
+      {
+        rank: 5,
+        badge: "CHEAPEST AFTERNOON (1 STOP)",
+        badgeColor: "bg-purple-600",
+        airline: "Jetstar",
+        code: "JQ— via ADL",
+        aircraft: "Mixed",
+        depart: "3:00 PM",
+        arrive: "9:40 PM",
+        departTz: "AEDT",
+        arriveTz: "WITA",
+        duration: "9h 40m (2h10m layover ADL)",
+        cabin: "Economy",
+        cashAUD: "AUD $939",
+        cashUSD: "~USD $590",
+        whyPick: "Cheapest afternoon departure at $939. Leaves 3 PM, 2hr layover in Adelaide, lands 9:40 PM Bali. Saves $400 vs nonstop afternoon flights. Trade-off: adds 3 hours total travel and a connection. But arrives at the right time.",
+        bookUrl: "https://www.jetstar.com/au/en/home",
+        pointsOption: "Check Qantas Points for Jetstar partner award",
+        refundable: "Limited. Flex Bundle recommended if booking.",
+        seatTip: "Two separate Jetstar legs. Carry-on only = easy connection.",
+      },
+      {
+        rank: 6,
+        badge: "MORNING NONSTOP",
+        badgeColor: "bg-gray-600",
+        airline: "Jetstar",
+        code: "JQ—",
+        aircraft: "787 Dreamliner",
+        depart: "7:15 AM",
+        arrive: "10:50 AM",
+        departTz: "AEDT",
+        arriveTz: "WITA",
+        duration: "6h 35m",
+        cabin: "Economy",
+        cashAUD: "AUD $1,322",
+        cashUSD: "~USD $835",
+        whyPick: "Same $1,322 price as the afternoon Jetstar but morning departure. No reason to pick this over the 5:25 PM flight at the same price unless the PM one sells out.",
+        bookUrl: "https://www.jetstar.com/au/en/home",
+        pointsOption: "20,700 Qantas Points + taxes",
+        refundable: "Limited.",
+        seatTip: "787 Dreamliner: 3-3-3.",
+      },
+    ];
+
+    // ─── POINTS STRATEGIES ───────────────────────────────────────
+    const POINTS_PLAYS = [
+      {
+        id: "pp1",
+        label: "Amex MR → KrisFlyer (20% Sale Active!)",
+        tagline: "Best value right now — sale runs until May 2026",
+        color: "border-emerald-500/40",
+        glowClass: "glow-green",
+        badgeText: "SALE ACTIVE",
+        badgeColor: "bg-emerald-600",
+        transfer: "Amex MR → Singapore KrisFlyer (1:1)",
+        milesNeeded: "~16,000–20,000 KrisFlyer miles (after 20% discount on Saver awards)",
+        normalPrice: "~20,000–25,000 miles without sale",
+        taxes: "~$30–50 USD",
+        totalCost: "16K–20K Amex MR + ~$40 taxes",
+        centsPerPoint: "~1.1–1.6 cpp (decent for economy)",
+        bookOn: "Singapore Airlines operates SIN-DPS but not SYD-DPS direct. Would need to book a partner award (Garuda, Virgin) via KrisFlyer, or route via SIN (adds connection).",
+        partnerNote: "KrisFlyer partner award on Garuda SYD→DPS or Virgin SYD→DPS may be available. Check singaporeair.com award search.",
+        availability: "Check KrisFlyer award search for April 1. Partner Saver space opens sporadically.",
+        balanceAfter: "152,184 - 20,000 = ~132,184 Amex MR remaining",
+        verdict: "Best if partner award space exists on Garuda or Virgin for April 1. The 20% sale makes this the cheapest points play.",
+      },
+      {
+        id: "pp2",
+        label: "Amex MR → ANA Mileage Club",
+        tagline: "Zone-based chart — Australia to SE Asia is sweet spot",
+        color: "border-blue-500/40",
+        glowClass: "glow-blue",
+        badgeText: "SWEET SPOT",
+        badgeColor: "bg-blue-600",
+        transfer: "Amex MR → ANA Mileage Club (1:1)",
+        milesNeeded: "~17,000 ANA miles (Low Season economy, Oceania → Asia)",
+        normalPrice: "17,000 miles (Low) / 20,000 miles (Regular) / 23,000 miles (High)",
+        taxes: "~$20–40 USD",
+        totalCost: "17K Amex MR + ~$30 taxes",
+        centsPerPoint: "~1.3–1.8 cpp",
+        bookOn: "ANA partner award on Garuda, Jetstar (codeshare), or other Star Alliance carrier. Book via ANA website.",
+        partnerNote: "ANA can book Garuda (SkyTeam→Star: NO — Garuda is SkyTeam). Actually ANA partner awards are Star Alliance only. So this would need to be on a Star Alliance carrier. No direct SYD-DPS on Star Alliance. Would need connection.",
+        availability: "Limited for direct SYD-DPS. Better for connecting routes via SIN/NRT.",
+        balanceAfter: "152,184 - 17,000 = ~135,184 Amex MR remaining",
+        verdict: "Great value per mile BUT no Star Alliance carrier flies SYD-DPS direct. Skip for this route unless you're OK with a connection.",
+      },
+      {
+        id: "pp3",
+        label: "Chase UR → United MileagePlus",
+        tagline: "Star Alliance partner awards",
+        color: "border-indigo-500/40",
+        glowClass: "glow-blue",
+        badgeText: "BACKUP",
+        badgeColor: "bg-indigo-600",
+        transfer: "Chase UR → United MileagePlus (1:1)",
+        milesNeeded: "~17,500 United miles (economy Saver, Oceania to SE Asia)",
+        normalPrice: "17,500 miles",
+        taxes: "~$30–50 USD",
+        totalCost: "17.5K Chase UR + ~$40 taxes",
+        centsPerPoint: "~1.3–1.8 cpp",
+        bookOn: "United.com for Star Alliance partner awards.",
+        partnerNote: "Same issue as ANA — no Star Alliance direct SYD-DPS. Singapore Airlines doesn't fly this route nonstop. Would require SIN connection on SQ.",
+        availability: "SQ has good SYD→SIN→DPS routings but adds hours and a connection.",
+        balanceAfter: "202,033 - 17,500 = ~184,533 Chase UR remaining",
+        verdict: "Solid backup if you're willing to connect in Singapore. Otherwise cash is simpler for this short direct flight.",
+      },
+      {
+        id: "pp4",
+        label: "Chase UR → Pay Yourself Back / Portal",
+        tagline: "Use points as cash at 1.25–1.5x via Sapphire Reserve",
+        color: "border-amber-500/40",
+        glowClass: "glow-amber",
+        badgeText: "SIMPLEST",
+        badgeColor: "bg-amber-600",
+        transfer: "No transfer — book via Chase Travel Portal at 1.25–1.5x value",
+        milesNeeded: "~63K–90K UR points (for $944–$1,347 AUD fares @ 1.5cpp)",
+        normalPrice: "Varies with fare",
+        taxes: "Included in portal price",
+        totalCost: "63K–90K Chase UR (based on real prices $944–$1,347 AUD)",
+        centsPerPoint: "1.25 cpp (Preferred) or 1.5 cpp (Reserve)",
+        bookOn: "Chase Travel portal or Pay Yourself Back after purchasing",
+        partnerNote: "Book ANY airline through Chase portal — Batik, Jetstar, Qantas, Garuda. No award availability restrictions. But at these inflated cash prices, you're burning a LOT of UR.",
+        availability: "Always available if the cash fare is bookable. No award space lottery.",
+        balanceAfter: "202,033 - 63K–90K = ~112K–139K Chase UR remaining",
+        verdict: "LESS ATTRACTIVE at real prices. Spending 63K–90K UR on economy SYD-DPS is poor value. If an airline award (KrisFlyer/Qantas) exists for 16K–23K miles, that's 3–4x better. Use Chase portal only as last resort if no award space exists.",
+      },
+    ];
+
+    // ─── HEDGE PORTFOLIO ────────────────────────────────────────
+    const HEDGE = {
+      label: "SYD→DPS Hedge Portfolio — Real Prices",
+      tagline: "Staff standby off the table. At $1,300+ for afternoon nonstops, points awards become critical.",
+      positions: [
+        {
+          slot: "A",
+          color: "bg-blue-600",
+          label: "Points Award — KrisFlyer or Qantas Classic Reward",
+          type: "points",
+          route: "SYD → DPS direct (partner award on Garuda/Qantas/Jetstar)",
+          details: "CHECK FIRST: KrisFlyer partner Saver (16K–20K Amex MR with 20% sale) or Qantas Classic Reward (18K–23K points + $147). At $1,300+ cash, even 23K points + $147 taxes is a massive win.",
+          cost: "16K–23K miles + ~$40–147 taxes",
+          cancelPolicy: "KrisFlyer: cancel before departure, $75 fee, miles returned. Qantas Classic: depends on fare rules.",
+          cancelFee: "$75 (KrisFlyer) or varies (Qantas)",
+          action: "Check KrisFlyer award search on singaporeair.com AND Qantas Classic Reward on qantas.com RIGHT NOW. Book whichever has Saver space on the flight you want.",
+          priority: "PRIMARY — best value play by far at these cash prices",
+        },
+        {
+          slot: "B",
+          color: "bg-emerald-600",
+          label: "Cash Fare — Batik Air $944 or Qantas $1,347",
+          type: "cash",
+          route: "SYD → DPS direct",
+          details: "If no award space: Batik Air at $944 (morning, cheapest nonstop) or Qantas at $1,347 (afternoon, ideal timing). Jetstar via Adelaide at $939 is the cheapest afternoon arrival option.",
+          cost: "AUD $939–$1,347 cash",
+          cancelPolicy: "Varies by airline and fare class. This close to departure, most fares are non-refundable.",
+          cancelFee: "Likely non-refundable at 2 days out. Book with intent to fly.",
+          action: "Book as FALLBACK if no award space exists. Or if you want guaranteed afternoon timing, just pay the $1,347 for Qantas and move on.",
+          priority: "FALLBACK — use if points awards unavailable",
+        },
+      ],
+      collapseLogic: [
+        { trigger: "KrisFlyer or Qantas has Saver award space on afternoon nonstop", action: "Book the award immediately. 16K–23K miles for a flight worth $1,300+ cash = incredible value (5.8–8.4 cpp). Done.", emoji: "🎯" },
+        { trigger: "Award space exists but only on morning flights", action: "Decide: take morning award for 16K–23K miles (saves $1,000+), or pay $1,347 cash for afternoon Qantas?", emoji: "🤔" },
+        { trigger: "No award space on any nonstop April 1", action: "Cash decision: $944 Batik morning nonstop, $939 Jetstar afternoon via Adelaide, or $1,347 Qantas afternoon nonstop.", emoji: "💸" },
+        { trigger: "Afternoon nonstops sell out entirely", action: "Batik Air 8:35 AM at $944 is your fallback. Arrives noon Bali.", emoji: "⏰" },
+      ],
+    };
+
+    // ─── ACTION PLAN ─────────────────────────────────────────────
+    const ACTIONS = [
+      {
+        priority: "🔴 DO RIGHT NOW (March 30)",
+        items: [
+          "STEP 1: Go to singaporeair.com → KrisFlyer → Redeem → search partner flights SYD→DPS April 1. Look for Saver economy award on Garuda or any partner. With 20% sale, should be ~16K–20K miles.",
+          "STEP 2: Go to qantas.com → Classic Flight Rewards → search SYD→DPS April 1 economy. Need 18K–23K Qantas Points + $147 taxes. Check if Classic Reward seats are available.",
+          "STEP 3: If award space found on EITHER → transfer Amex MR to that program (both are 1:1, usually instant) and book immediately.",
+          "STEP 4: If NO award space → decision time: pay $944 cash for Batik Air 8:35 AM (morning nonstop), $939 for Jetstar via Adelaide 3 PM (afternoon, 1 stop), or $1,347 for Qantas 5:20 PM (afternoon nonstop).",
+          "DO NOT WAIT — prices will only go up from here at 2 days out.",
+        ],
+      },
+      {
+        priority: "🟡 BOOKING TIPS",
+        items: [
+          "24-hour free cancellation does NOT apply — trip is less than 7 days away. Book with intent to fly.",
+          "Amex MR → KrisFlyer transfer is usually instant. Amex MR → ANA can take 1-2 days — too slow at this point.",
+          "Carry-on only = Jetstar and Batik Air work fine (no checked bag fee concern)",
+          "Indonesia visa: Visa on Arrival (VOA) for Australians and Americans — USD $35 at DPS airport. Passport needs 6+ months validity.",
+          "Google Flights confirms prices are HIGH for April 1. Monday March 30 ($905 on Qantas) was cheaper — April 1 Wednesday is peak-priced.",
+          "If you can flex to March 30 (today!) Qantas is $905 — $442 cheaper. But that's today so probably too last-minute.",
+        ],
+      },
+      {
+        priority: "🟢 POINTS MATH — UPDATED FOR REAL PRICES",
+        items: [
+          "At $1,347 cash, a 23K Qantas Points Classic Reward + $147 taxes = effective value of 5.2 cpp. EXCELLENT redemption.",
+          "At $1,347 cash, a 20K KrisFlyer partner award + $40 taxes = effective value of 6.5 cpp. OUTSTANDING with the 20% sale.",
+          "Chase UR portal would cost 63K–90K UR for same flights. That's 3-4x more points than airline awards. AVOID unless no other option.",
+          "Amex MR: 152,184 available → easily covers KrisFlyer (20K) or Qantas (23K via transfer to Qantas). Preserves Chase UR for future use.",
+          "AA miles (63K) and Alaska/ATMOS (111K): not useful for SYD-DPS route. Save for LAX-based trips.",
+        ],
+      },
+    ];
+
+    // ─── COMPONENTS ──────────────────────────────────────────────
+
+    function Header() {
+      return (
+        <div className="bg-gradient-to-r from-gray-900 via-indigo-950/30 to-gray-900 border-b border-white/10 px-6 py-5">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="text-2xl">✈️</span>
+              <h1 className="text-xl font-bold text-white tracking-tight">AIRLINE BOOKER</h1>
+              <span className="text-xs bg-red-600 text-white px-2 py-0.5 rounded-full font-bold badge-pulse">URGENT — 2 DAYS OUT</span>
+            </div>
+            <div className="flex flex-wrap gap-4 text-sm text-gray-400 mt-1">
+              <span className="text-white font-medium">SYD → DPS</span>
+              <span>|</span>
+              <span>Wednesday, April 1, 2026</span>
+              <span>|</span>
+              <span>Afternoon departure → Evening arrival</span>
+              <span>|</span>
+              <span>Direct only</span>
+              <span>|</span>
+              <span className="text-red-400">myID overbooked ❌</span>
+            </div>
+            <div className="flex flex-wrap gap-3 mt-3">
+              <span className="text-xs bg-white/10 text-gray-300 px-2 py-1 rounded">🕐 ~6h 30m flight</span>
+              <span className="text-xs bg-white/10 text-gray-300 px-2 py-1 rounded">🪑 Economy OK (under 8hr rule)</span>
+              <span className="text-xs bg-white/10 text-gray-300 px-2 py-1 rounded">🧳 Carry-on only</span>
+              <span className="text-xs bg-white/10 text-gray-300 px-2 py-1 rounded">⏰ SYD is 3hr ahead of Bali</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function TabBar({ active, setActive }) {
+      return (
+        <div className="bg-gray-900/50 border-b border-white/5 px-6">
+          <div className="max-w-6xl mx-auto flex gap-1 overflow-x-auto py-2">
+            {TABS.map((t, i) => (
+              <button key={i} onClick={() => setActive(i)}
+                className={`px-4 py-2 text-sm rounded-lg whitespace-nowrap transition-all ${
+                  active === i ? "bg-indigo-600/30 text-white font-medium border border-indigo-500/40" : "text-gray-500 hover:text-gray-300 hover:bg-white/5"
+                }`}>{t}</button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function FlightCard({ f }) {
+      return (
+        <div className={`bg-gray-800/60 border border-white/10 rounded-xl p-5 hover:border-white/20 transition-all ${f.rank === 1 ? 'glow-green' : ''}`}>
+          <div className="flex items-start justify-between mb-3">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl font-bold text-gray-600">#{f.rank}</span>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-white font-bold text-lg">{f.airline}</span>
+                  <span className="text-gray-400 text-sm">{f.code}</span>
+                  <span className={`text-xs ${f.badgeColor} text-white px-2 py-0.5 rounded-full font-bold`}>{f.badge}</span>
+                </div>
+                <span className="text-gray-500 text-xs">{f.aircraft}</span>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-emerald-400 font-bold text-lg">{f.cashAUD}</div>
+              <div className="text-gray-500 text-xs">{f.cashUSD}</div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 bg-black/30 rounded-lg p-3 mb-3">
+            <div className="text-center">
+              <div className="text-white font-bold">{f.depart}</div>
+              <div className="text-gray-500 text-xs">SYD ({f.departTz})</div>
+            </div>
+            <div className="flex-1 flex items-center gap-2">
+              <div className="flex-1 h-px bg-gradient-to-r from-indigo-500 to-emerald-500"></div>
+              <span className="text-xs text-gray-400 bg-gray-800 px-2 py-0.5 rounded">{f.duration}</span>
+              <div className="flex-1 h-px bg-gradient-to-r from-emerald-500 to-indigo-500"></div>
+            </div>
+            <div className="text-center">
+              <div className="text-white font-bold">{f.arrive}</div>
+              <div className="text-gray-500 text-xs">DPS ({f.arriveTz})</div>
+            </div>
+          </div>
+
+          <p className="text-gray-300 text-sm mb-3 leading-relaxed">{f.whyPick}</p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+            <div className="bg-white/5 rounded-lg p-2">
+              <span className="text-gray-500">Points option:</span>
+              <span className="text-gray-300 ml-1">{f.pointsOption}</span>
+            </div>
+            <div className="bg-white/5 rounded-lg p-2">
+              <span className="text-gray-500">Refund policy:</span>
+              <span className="text-gray-300 ml-1">{f.refundable}</span>
+            </div>
+            <div className="bg-white/5 rounded-lg p-2">
+              <span className="text-gray-500">Seat tip:</span>
+              <span className="text-gray-300 ml-1">{f.seatTip}</span>
+            </div>
+            <div className="bg-white/5 rounded-lg p-2">
+              <a href={f.bookUrl} target="_blank" rel="noopener" className="text-indigo-400 hover:text-indigo-300 font-medium">
+                🔗 Book on {f.airline} →
+              </a>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function FlightOptions() {
+      return (
+        <div className="space-y-4">
+          <div className="bg-red-950/30 border border-red-500/30 rounded-xl p-4 mb-2">
+            <h3 className="text-red-400 font-bold mb-1">⚠️ Prices Are HIGH — Last Minute Premium</h3>
+            <p className="text-gray-300 text-sm">Google Flights confirms prices are elevated. Afternoon nonstops are $1,300+ AUD. The cheapest nonstop (Batik Air morning) is $944.</p>
+          </div>
+          <div className="bg-emerald-950/30 border border-emerald-500/30 rounded-xl p-4 mb-4">
+            <h3 className="text-emerald-400 font-bold mb-1">🎯 Quick Verdict</h3>
+            <p className="text-gray-300 text-sm">
+              Two afternoon nonstops match your brief: <strong className="text-white">Qantas at 5:20 PM ($1,347)</strong> and <strong className="text-white">Jetstar at 5:25 PM ($1,322)</strong>. Only $25 apart — take Qantas for full service. If $1,300+ is too steep, consider <strong className="text-white">Batik Air at 8:35 AM ($944)</strong> to save ~$400 (but morning departure), or <strong className="text-white">Jetstar via Adelaide at 3 PM ($939)</strong> which arrives 9:40 PM Bali with a 2hr connection. Points via Chase UR portal could offset ~$900 of cash cost.
+            </p>
+          </div>
+          {FLIGHTS.map((f, i) => <FlightCard key={i} f={f} />)}
+        </div>
+      );
+    }
+
+    function PointsPlays() {
+      return (
+        <div className="space-y-4">
+          <div className="bg-blue-950/30 border border-blue-500/30 rounded-xl p-4 mb-4">
+            <h3 className="text-blue-400 font-bold mb-1">💡 Points Reality Check — Updated for Real Prices</h3>
+            <p className="text-gray-300 text-sm">
+              At <strong className="text-white">$944–$1,347 AUD cash</strong>, points become much more compelling than at normal prices. <strong className="text-white">Chase UR portal at 1.5x</strong> would cost ~63K–90K UR points to fully cover a ticket — that's a lot of points for economy. Transfer-based awards (KrisFlyer 20% sale at ~16K–20K miles) are now <strong className="text-white">dramatically better value</strong> if Saver space exists. Even Qantas Classic Reward at 18K–23K points + $147 taxes beats paying $1,347 cash.
+            </p>
+          </div>
+          {POINTS_PLAYS.map((pp) => (
+            <div key={pp.id} className={`bg-gray-800/60 border ${pp.color} rounded-xl p-5 ${pp.glowClass}`}>
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-white font-bold">{pp.label}</span>
+                    <span className={`text-xs ${pp.badgeColor} text-white px-2 py-0.5 rounded-full font-bold`}>{pp.badgeText}</span>
+                  </div>
+                  <p className="text-gray-400 text-sm">{pp.tagline}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                <div><span className="text-gray-500">Transfer:</span> <span className="text-gray-300">{pp.transfer}</span></div>
+                <div><span className="text-gray-500">Miles needed:</span> <span className="text-emerald-400 font-medium">{pp.milesNeeded}</span></div>
+                <div><span className="text-gray-500">Total cost:</span> <span className="text-white font-medium">{pp.totalCost}</span></div>
+                <div><span className="text-gray-500">Value:</span> <span className="text-gray-300">{pp.centsPerPoint}</span></div>
+                <div className="md:col-span-2"><span className="text-gray-500">Book on:</span> <span className="text-gray-300">{pp.bookOn}</span></div>
+                {pp.partnerNote && <div className="md:col-span-2"><span className="text-gray-500">Partner note:</span> <span className="text-yellow-400/80">{pp.partnerNote}</span></div>}
+                <div className="md:col-span-2"><span className="text-gray-500">Balance after:</span> <span className="text-gray-300">{pp.balanceAfter}</span></div>
+              </div>
+              <div className="mt-3 bg-black/30 rounded-lg p-3">
+                <span className="text-gray-500 text-xs">VERDICT:</span>
+                <p className="text-gray-200 text-sm mt-1">{pp.verdict}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    function HedgePortfolio() {
+      return (
+        <div className="space-y-4">
+          <div className="bg-indigo-950/30 border border-indigo-500/30 rounded-xl p-4 mb-2">
+            <h3 className="text-indigo-400 font-bold mb-1">🎲 {HEDGE.label}</h3>
+            <p className="text-gray-300 text-sm">{HEDGE.tagline}</p>
+            <p className="text-gray-400 text-xs mt-2">Note: With myID overbooked and only 2 days to departure, this is a streamlined 2-position hedge, not the full 3-position portfolio used for advance bookings.</p>
+          </div>
+
+          {HEDGE.positions.map((pos, i) => (
+            <div key={i} className={`bg-gray-800/60 border border-white/10 rounded-xl p-5`}>
+              <div className="flex items-center gap-3 mb-3">
+                <span className={`${pos.color} text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm`}>{pos.slot}</span>
+                <div>
+                  <div className="text-white font-bold">{pos.label}</div>
+                  <div className="text-gray-400 text-xs">{pos.type.toUpperCase()} · {pos.route}</div>
+                </div>
+              </div>
+              <p className="text-gray-300 text-sm mb-3">{pos.details}</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                <div className="bg-white/5 rounded p-2"><span className="text-gray-500">Cost:</span> <span className="text-emerald-400">{pos.cost}</span></div>
+                <div className="bg-white/5 rounded p-2"><span className="text-gray-500">Cancel policy:</span> <span className="text-gray-300">{pos.cancelPolicy}</span></div>
+                <div className="bg-white/5 rounded p-2"><span className="text-gray-500">Cancel fee:</span> <span className="text-gray-300">{pos.cancelFee}</span></div>
+                <div className="bg-white/5 rounded p-2"><span className="text-gray-500">Priority:</span> <span className="text-yellow-400">{pos.priority}</span></div>
+              </div>
+              <div className="mt-3 bg-indigo-950/30 rounded-lg p-3">
+                <span className="text-indigo-400 text-xs font-bold">ACTION:</span>
+                <p className="text-gray-200 text-sm mt-1">{pos.action}</p>
+              </div>
+            </div>
+          ))}
+
+          <div className="bg-gray-800/60 border border-white/10 rounded-xl p-5">
+            <h3 className="text-white font-bold mb-3">🔀 Collapse Logic</h3>
+            <div className="space-y-3">
+              {HEDGE.collapseLogic.map((cl, i) => (
+                <div key={i} className="flex gap-3 bg-black/30 rounded-lg p-3">
+                  <span className="text-xl">{cl.emoji}</span>
+                  <div>
+                    <div className="text-gray-400 text-xs mb-1">IF: {cl.trigger}</div>
+                    <div className="text-gray-200 text-sm">→ {cl.action}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function ActionPlan() {
+      return (
+        <div className="space-y-4">
+          {ACTIONS.map((group, i) => (
+            <div key={i} className="bg-gray-800/60 border border-white/10 rounded-xl p-5">
+              <h3 className="text-white font-bold mb-3">{group.priority}</h3>
+              <div className="space-y-2">
+                {group.items.map((item, j) => (
+                  <div key={j} className="flex gap-3 items-start">
+                    <span className="text-gray-600 mt-0.5">▸</span>
+                    <p className="text-gray-300 text-sm">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          <div className="bg-amber-950/30 border border-amber-500/30 rounded-xl p-4">
+            <h3 className="text-amber-400 font-bold mb-2">⚡ Bottom Line</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              You're 2 days out and need a confirmed seat. <strong className="text-white">Book Qantas QF43 (4:25 PM, lands 8:05 PM Bali) today.</strong> If it's over AUD $450, go Jetstar JQ37 (6 PM, lands 9:20 PM). Pay via Chase UR portal for 1.5x value (~13K–20K points), or straight cash if portal pricing doesn't match. Quick check of KrisFlyer partner awards first — if there's a Saver seat on Garuda for 16K miles with the sale, that beats everything. But don't wait on it — cash is the safe play this close to departure.
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const [tab, setTab] = useState(0);
+      const panels = [FlightOptions, PointsPlays, HedgePortfolio, ActionPlan];
+      const Panel = panels[tab];
+      return (
+        <div className="min-h-screen bg-gray-950 text-gray-200">
+          <Header />
+          <TabBar active={tab} setActive={setTab} />
+          <div className="max-w-6xl mx-auto px-6 py-6">
+            <Panel />
+          </div>
+          <div className="text-center text-gray-600 text-xs py-6 border-t border-white/5">
+            AIRLINE BOOKER · SYD→DPS · Generated March 30, 2026 · Prices are indicative — verify on airline sites before booking
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
+</body>
+</html>

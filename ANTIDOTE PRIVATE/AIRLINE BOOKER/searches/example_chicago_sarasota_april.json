@@ -1,0 +1,68 @@
+{
+  "request_id": "search_001_chi_srq_apr2026",
+  "user_id": "beryl",
+  "search_type": "flexible",
+  "description": "Find best weekend flights Chicago to Sarasota for daughter, any weekend in April 2026",
+  "trips": [
+    {
+      "origin": {
+        "city": "chicago",
+        "airports": ["ORD", "MDW"],
+        "radius_miles": 50
+      },
+      "destination": {
+        "city": "sarasota",
+        "airports": ["SRQ", "TPA", "PIE"],
+        "radius_miles": 60
+      },
+      "date_spec": {
+        "mode": "weekends_in_month",
+        "month": "april",
+        "year": 2026,
+        "preferred_days": ["friday", "saturday"],
+        "flexibility_days": 1
+      },
+      "direction": "outbound"
+    },
+    {
+      "origin": {
+        "city": "sarasota",
+        "airports": ["SRQ", "TPA", "PIE"]
+      },
+      "destination": {
+        "city": "chicago",
+        "airports": ["ORD", "MDW"]
+      },
+      "date_spec": {
+        "mode": "weekends_in_month",
+        "month": "april",
+        "year": 2026,
+        "preferred_days": ["sunday", "monday"],
+        "flexibility_days": 1
+      },
+      "direction": "return"
+    }
+  ],
+  "passengers": {
+    "adults": 1,
+    "children": 0,
+    "infants": 0
+  },
+  "preferences": {
+    "airlines": [],
+    "max_stops": 1,
+    "cabin_class": "economy",
+    "sort_priority": "price"
+  },
+  "comparison_mode": {
+    "enabled": true,
+    "compare_by": ["date", "airline", "airport", "stops"],
+    "top_n_results": 15,
+    "include_insights": true
+  },
+  "points_search": {
+    "enabled": false
+  },
+  "created_at": "2026-03-16T00:00:00Z",
+  "notes": "Looking for best price for daughter flying Chicago to Sarasota. Flexible on which weekend in April. Also checking nearby airports TPA and PIE for potentially cheaper options."
+}

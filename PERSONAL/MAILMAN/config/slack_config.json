@@ -1,0 +1,16 @@
+{
+  "channels": {
+    "alerts": "D06K2SVH5FY",
+    "digest": "D06K2SVH5FY",
+    "triage": "D06K2SVH5FY",
+    "security": "D06K2SVH5FY"
+  },
+  "default_channel": "D06K2SVH5FY",
+  "user_id": "U06K9G3T4QJ",
+  "mention_on_p0": true,
+  "quiet_hours": {
+    "start": "22:00",
+    "end": "07:00"
+  },
+  "timezone": "America/Los_Angeles"
+}

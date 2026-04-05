@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beryl's Uluwatu Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --sand: #F5F0E8;
+    --sand-dark: #E8E0D0;
+    --ocean: #1A6B6A;
+    --ocean-light: #2A8B8A;
+    --ocean-faint: #E8F4F3;
+    --sunset: #E07A3A;
+    --sunset-light: #F4A261;
+    --charcoal: #2C2C2C;
+    --stone: #6B6B6B;
+    --white: #FFFFFF;
+    --coral: #E76F51;
+    --palm: #4A7C59;
+    --gold: #D4A843;
+    --purple: #7B68AE;
+    --sky: #5B9BD5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--sand);
+    color: var(--charcoal);
+    min-height: 100vh;
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--ocean) 0%, var(--ocean-light) 50%, var(--sunset) 100%);
+    padding: 3rem 1.5rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.08) 0%, transparent 50%);
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    color: var(--white);
+    font-weight: 600;
+    position: relative;
+    letter-spacing: -0.5px;
+  }
+  .hero .subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: rgba(255,255,255,0.85);
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    position: relative;
+  }
+  .hero .byline {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    position: relative;
+  }
+
+  /* Search */
+  .search-container {
+    max-width: 600px;
+    margin: -1.25rem auto 0;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 10;
+  }
+  .search-box {
+    width: 100%;
+    padding: 0.9rem 1.2rem 0.9rem 2.8rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    outline: none;
+    transition: box-shadow 0.2s;
+  }
+  .search-box:focus { box-shadow: 0 4px 24px rgba(26,107,106,0.2); }
+  .search-icon {
+    position: absolute;
+    left: 2.4rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--stone);
+    font-size: 1rem;
+  }
+
+  /* Filter pills */
+  .filters {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1.5rem 1.5rem 0.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+  .filter-pill {
+    flex-shrink: 0;
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    border: 1.5px solid var(--sand-dark);
+    background: var(--white);
+    font-size: 0.82rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: var(--stone);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .filter-pill:hover { border-color: var(--ocean); color: var(--ocean); }
+  .filter-pill.active {
+    background: var(--ocean);
+    color: var(--white);
+    border-color: var(--ocean);
+  }
+  .filter-pill .emoji { margin-right: 0.3rem; }
+
+  /* Content */
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem 3rem;
+  }
+
+  /* Category section */
+  .category-section {
+    margin-bottom: 2rem;
+  }
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+    padding-top: 0.5rem;
+  }
+  .category-emoji { font-size: 1.4rem; }
+  .category-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--charcoal);
+  }
+  .category-count {
+    font-size: 0.75rem;
+    color: var(--stone);
+    background: var(--sand-dark);
+    padding: 0.15rem 0.55rem;
+    border-radius: 100px;
+    margin-left: 0.3rem;
+  }
+
+  /* Place cards */
+  .place-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: all 0.2s;
+    cursor: default;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .place-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+  }
+  .place-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .place-info { flex: 1; min-width: 0; }
+  .place-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--charcoal);
+    margin-bottom: 0.2rem;
+  }
+  .place-vibe {
+    font-size: 0.82rem;
+    color: var(--stone);
+    line-height: 1.4;
+  }
+  .place-tags {
+    display: flex;
+    gap: 0.35rem;
+    margin-top: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .place-tag {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+    background: var(--ocean-faint);
+    color: var(--ocean);
+    font-weight: 500;
+  }
+  .place-link {
+    color: var(--ocean);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    flex-shrink: 0;
+    align-self: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .place-card:hover .place-link { opacity: 1; }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--stone);
+  }
+  .empty-state .emoji { font-size: 2rem; margin-bottom: 0.5rem; }
+  .empty-state p { font-size: 0.9rem; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    color: var(--stone);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--sand-dark);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Color themes for badges */
+  .badge-eat { background: #FFF3E8; }
+  .badge-beach { background: #E8F4F8; }
+  .badge-stay { background: #F0E8F5; }
+  .badge-do { background: #E8F5EC; }
+  .badge-wellness { background: #FDE8E8; }
+  .badge-juice { background: #FFF8E1; }
+  .badge-shop { background: #F5E8F0; }
+  .badge-music { background: #E8EAF5; }
+  .badge-ride { background: #E8F0F5; }
+  .badge-coffee { background: #F0E8E0; }
+  .badge-steak { background: #F5E8E8; }
+  .badge-warung { background: #E8F0E0; }
+  .badge-dinner { background: #F0E0F0; }
+  .badge-other { background: var(--sand-dark); }
+
+  /* No results */
+  .no-results { display: none; }
+  .no-results.visible { display: block; }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 1.8rem; }
+    .hero .subtitle { font-size: 0.95rem; }
+    .place-card { padding: 0.85rem 1rem; }
+    .content { padding: 1rem 1rem 3rem; }
+    .filters { padding: 1.5rem 1rem 0.5rem; }
+    .search-container { padding: 0 1rem; }
+    .search-icon { left: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Uluwatu</h1>
+  <div class="subtitle">Beryl's favorite spots</div>
+  <div class="byline">A personal guide for friends heading to the Bukit</div>
+</div>
+
+<div class="search-container">
+  <span class="search-icon">&#128269;</span>
+  <input type="text" class="search-box" placeholder="Search places..." id="searchInput">
+</div>
+
+<div class="filters" id="filters">
+  <button class="filter-pill active" data-filter="all"><span class="emoji">&#9733;</span> All</button>
+  <button class="filter-pill" data-filter="eat"><span class="emoji">&#127860;</span> Eat & Drink</button>
+  <button class="filter-pill" data-filter="beach"><span class="emoji">&#127754;</span> Beaches & Surf</button>
+  <button class="filter-pill" data-filter="stay"><span class="emoji">&#127968;</span> Stay</button>
+  <button class="filter-pill" data-filter="do"><span class="emoji">&#9968;</span> Activities</button>
+  <button class="filter-pill" data-filter="wellness"><span class="emoji">&#128588;</span> Wellness</button>
+  <button class="filter-pill" data-filter="juice"><span class="emoji">&#129381;</span> Juice & Smoothies</button>
+  <button class="filter-pill" data-filter="shop"><span class="emoji">&#128717;</span> Shopping</button>
+  <button class="filter-pill" data-filter="coffee"><span class="emoji">&#9749;</span> Coffee</button>
+  <button class="filter-pill" data-filter="steak"><span class="emoji">&#129385;</span> Steak</button>
+  <button class="filter-pill" data-filter="warung"><span class="emoji">&#127834;</span> Warungs</button>
+  <button class="filter-pill" data-filter="dinner"><span class="emoji">&#127863;</span> Dinner</button>
+  <button class="filter-pill" data-filter="music"><span class="emoji">&#127926;</span> Music & Events</button>
+  <button class="filter-pill" data-filter="ride"><span class="emoji">&#127949;</span> Motorbikes</button>
+</div>
+
+<div class="filters" id="dayFilters" style="padding-top: 0.5rem;">
+  <button class="filter-pill day-pill active" data-day="all"><span class="emoji">&#128197;</span> Any Night</button>
+  <button class="filter-pill day-pill" data-day="mon">Mon</button>
+  <button class="filter-pill day-pill" data-day="tue">Tue</button>
+  <button class="filter-pill day-pill" data-day="wed">Wed</button>
+  <button class="filter-pill day-pill" data-day="thu">Thu</button>
+  <button class="filter-pill day-pill" data-day="fri">Fri</button>
+  <button class="filter-pill day-pill" data-day="sat">Sat</button>
+  <button class="filter-pill day-pill" data-day="sun">Sun</button>
+</div>
+
+<div class="content" id="content">
+  <!-- Places are rendered by JavaScript -->
+</div>
+
+<div class="footer">
+  Made with love by Beryl &middot; Last updated March 2026<br>
+  <span style="font-size: 0.75rem; opacity: 0.7;">This is a personal guide — not sponsored, just places I genuinely love.</span>
+</div>
+
+<script>
+// ============================================================
+// PLACE DATA — Edit this array to add/remove/update places
+// ============================================================
+const places = [
+  // ---- EAT & DRINK ----
+  {
+    name: "Alchemy",
+    category: "eat",
+    emoji: "🌱",
+    vibe: "Plant-based wellness complex — spend the morning at %Arabica next door, then move in here for hours: work, yoga, cold-pressed juices, and the most incredible chocolates. Best coconut soft serve on the Bukit. Permaculture garden, bonfire at night.",
+    tags: ["coworking", "juices", "yoga", "vegan", "soft serve", "chocolates", "wifi"],
+    maps: "https://www.google.com/maps/search/Alchemy+Uluwatu+Bingin+Pecatu+Bali"
+  },
+
+  // ---- COFFEE ----
+  {
+    name: "The Dharma Experience",
+    category: "coffee",
+    emoji: "☀️",
+    vibe: "My personal favorite. So big and comfortable with so many spots to find your corner. Start the day with great coffee and food, then just stay and work. Real Uluwatu surf-shop energy.",
+    tags: ["my favorite", "work spot", "food", "spacious", "morning"],
+    maps: "https://www.google.com/maps/search/The+Dharma+Experience+Uluwatu+Bingin+Bali"
+  },
+  {
+    name: "Analog",
+    category: "coffee",
+    emoji: "☕",
+    vibe: "Very cool — meticulously sourced beans, turmeric lattes, minimalist design on Labuansait. Plan at least one morning here for coffee and breakfast.",
+    tags: ["specialty", "breakfast", "minimalist", "must try"],
+    maps: "https://www.google.com/maps/search/Analog+Uluwatu+Labuansait+Bali"
+  },
+  {
+    name: "Drifter Surf Shop & Cafe",
+    category: "coffee",
+    emoji: "🌿",
+    vibe: "A must — don't skip this one. Super vibe, beautiful garden seating, yummy chocolates and food. Great coffee in a proper surfer setting.",
+    tags: ["must visit", "garden", "chocolates", "food", "surf culture"],
+    maps: "https://www.google.com/maps/search/Drifter+Surf+Shop+Cafe+Uluwatu+Pecatu+Bali"
+  },
+  {
+    name: "BGS Bali",
+    category: "coffee",
+    emoji: "💻",
+    vibe: "Very very good coffee near Suluban Beach. Strong wifi, power outlets everywhere. One of my go-to work spots.",
+    tags: ["coworking", "wifi", "suluban", "work spot"],
+    maps: "https://www.google.com/maps/search/BGS+Bali+Suluban+Pecatu"
+  },
+  {
+    name: "%Arabica (at Alchemy)",
+    category: "coffee",
+    emoji: "✨",
+    vibe: "Super special — Japanese specialty coffee chain tucked in next to Alchemy. Lots of friends meet here in the morning for a strong coffee before settling in to work at Alchemy for hours. Premium beans, garden setting.",
+    tags: ["specialty", "japanese", "meet up", "morning", "premium"],
+    maps: "https://www.google.com/maps/search/Arabica+Coffee+Alchemy+Bingin+Uluwatu+Bali"
+  },
+
+  // ---- STEAK ----
+  {
+    name: "Papi Sapi",
+    category: "steak",
+    emoji: "🥩",
+    vibe: "Pick your cut from the display chiller and they grill it to perfection. Casual neighborhood grill, incredible quality. 4pm-11:30pm.",
+    tags: ["pick your cut", "grill", "casual", "must try"],
+    maps: "https://www.google.com/maps/search/Papi+Sapi+Uluwatu+Pecatu+Bali"
+  },
+  {
+    name: "Tusk Grill & Bar",
+    category: "steak",
+    emoji: "🔥",
+    vibe: "Amazing. Fire-grilled premium Australian steaks in Bingin. Chef Nick from Cape Town knows what he's doing.",
+    tags: ["fire-grilled", "australian", "bingin"],
+    maps: "https://www.google.com/maps/search/Tusk+Grill+Bar+Bingin+Pecatu+Bali"
+  },
+  {
+    name: "Mason",
+    category: "steak",
+    emoji: "🪵",
+    vibe: "Wood-fired grill with incredible 400g ribeye. Stylish, moody space on the southern cliffs. Open noon to midnight.",
+    tags: ["wood-fired", "ribeye", "stylish"],
+    maps: "https://www.google.com/maps/search/Mason+Bar+Grill+Uluwatu+Labuansait+Pecatu+Bali"
+  },
+
+  // ---- DINNER & RESTAURANTS ----
+  {
+    name: "Sushimi",
+    category: "dinner",
+    emoji: "🍣",
+    vibe: "Conveyor belt sushi on Labuansait — fresh hand-rolled sushi comes to you on the belt. Fun concept, great quality. Open 11am-11pm daily. Wednesdays all plates drop to 20k IDR.",
+    tags: ["sushi", "japanese", "conveyor belt", "wed deal"],
+    maps: "https://www.google.com/maps/search/Sushimi+Uluwatu+Labuansait+Pecatu+Bali"
+  },
+  {
+    name: "Yuki",
+    category: "dinner",
+    emoji: "🔥",
+    vibe: "Higher-end Japanese — wood-fired and charcoal sushi, wagyu yakitori, tuna truffle maki. Moody, sophisticated two-storey space. Book ahead for weekends.",
+    tags: ["japanese", "sushi", "wagyu", "upscale", "reservation"],
+    maps: "https://www.google.com/maps/search/Yuki+Uluwatu+Bali"
+  },
+  {
+    name: "KALA",
+    category: "dinner",
+    emoji: "🫒",
+    vibe: "New Greek-Mediterranean spot (opened 2024) near Padang Padang. Everything cooked on open wood fire — fresh seafood, imported meats, great natural wines and speakeasy cocktails.",
+    tags: ["greek", "mediterranean", "wood fire", "new", "natural wine"],
+    maps: "https://www.google.com/maps/search/KALA+Uluwatu+Pecatu+Bali"
+  },
+  {
+    name: "Gooseberry",
+    category: "dinner",
+    emoji: "🇫🇷",
+    vibe: "Modern French above Bingin Beach. Tuna tataki, ravioli, soufflé pancakes. Reservations recommended. Hidden alley gem.",
+    tags: ["french", "reservation", "bingin", "special"],
+    maps: "https://www.google.com/maps/search/Gooseberry+Restaurant+Bingin+Uluwatu+Bali"
+  },
+
+  // ---- WARUNGS ----
+  {
+    name: "Yeye's Warung",
+    category: "warung",
+    emoji: "🍛",
+    vibe: "25+ years and going strong. Classic nasi campur, Indo & Western. Laid-back and timeless — a proper Uluwatu institution.",
+    tags: ["nasi campur", "classic", "local", "affordable"],
+    maps: "https://www.google.com/maps/search/Yeye's+Warung+Uluwatu+Pecatu+Bali"
+  },
+  {
+    name: "Warung Local",
+    category: "warung",
+    emoji: "🌾",
+    vibe: "My favorite warung. Build-your-plate nasi campur buffet at Bingin Beach — fresh, authentic, and incredibly cheap. The real deal.",
+    tags: ["my favorite", "nasi campur", "buffet", "bingin", "budget"],
+    maps: "https://www.google.com/maps/search/Warung+Local+Bingin+Beach+Pecatu+Bali"
+  },
+
+  // ---- BEACHES & SURF ----
+
+  // ---- STAY ----
+
+  // ---- ACTIVITIES ----
+
+  // ---- WELLNESS ----
+  {
+    name: "Spring Spa (next to Alchemy)",
+    category: "wellness",
+    emoji: "🙌",
+    vibe: "Ask for Seven. Not your average Bali massage — he is a serious healer, next level. Come prepared for a real healing experience. Hard to get an appointment so book early.",
+    tags: ["massage", "healing", "ask for Seven", "book early", "next to Alchemy"],
+    maps: "https://www.google.com/maps/search/Spring+Spa+Bingin+Uluwatu+Bali"
+  },
+  {
+    name: "Bambu Fitness",
+    category: "wellness",
+    emoji: "💪",
+    vibe: "World-class gym with CrossFit, HIIT, pilates, and more. Now has the Oasis Recovery Centre with sauna, ice baths, jacuzzi & pool. Drop-in 225k IDR.",
+    tags: ["gym", "classes", "sauna", "ice bath", "bingin"],
+    maps: "https://www.google.com/maps/search/Bambu+Fitness+Bingin+Uluwatu+Bali"
+  },
+  {
+    name: "Santai Recovery Spa",
+    category: "wellness",
+    emoji: "♨️",
+    vibe: "Stadium-style sauna with panoramic glass, big group ice bath (8-10 people), hot pool & swimming pool. Peaceful and spacious — great vibes.",
+    tags: ["sauna", "ice bath", "recovery", "bingin"],
+    maps: "https://www.google.com/maps/search/Santai+Recovery+Spa+Bingin+Uluwatu+Bali"
+  },
+
+  // ---- JUICE & SMOOTHIES ----
+  {
+    name: "Ubud Kitchen Juice Bar",
+    category: "juice",
+    emoji: "🧃",
+    vibe: "Like going back in time — the sweetest ladies who love giving samples. Stock up on 3-4 bottles at a fraction of juice bar prices. Big jars of coconut water too. Open til 11pm!",
+    tags: ["cheap", "bulk buys", "coconut water", "open late"],
+    maps: "https://www.google.com/maps/search/Ubud+Kitchen+Juice+Bar+Uluwatu+Labuansait+Pecatu+Bali"
+  },
+
+  // ---- SUNSET ----
+  {
+    name: "Bingin Cliff",
+    category: "do",
+    emoji: "🌅",
+    vibe: "My go-to sunset spot to bring people. Just the cliff above Bingin — no entry fee, no crowds, no fuss. Pure Uluwatu magic.",
+    tags: ["sunset", "free", "bingin", "local secret"],
+    maps: "https://www.google.com/maps/search/Bingin+Cliff+Pecatu+Uluwatu+Bali"
+  },
+
+  // ---- SHOPPING ----
+
+  // ---- MUSIC & EVENTS ----
+  {
+    name: "Mana — Friday Sunset",
+    category: "music",
+    emoji: "🌅",
+    vibe: "Friday happy hour 4-6pm with DJs, infinity pool, and one of the best sunset views in Uluwatu. Surfer-chic bohemian vibes at Suluban Beach.",
+    tags: ["friday", "sunset", "pool", "DJs"],
+    day: "fri",
+    maps: "https://www.google.com/maps/search/Mana+Uluwatu+Suluban+Pecatu+Bali"
+  },
+  {
+    name: "Sushimi — Wednesday 20k Plates",
+    category: "music",
+    emoji: "🍣",
+    vibe: "Conveyor belt sushi spot where ALL plates drop to 20k IDR on Wednesdays from 5pm. Fun concept, great deal, Jl. Labuansait.",
+    tags: ["wednesday", "sushi", "deal"],
+    day: "wed",
+    maps: "https://www.google.com/maps/search/Sushimi+Uluwatu+Labuansait+Pecatu+Bali"
+  },
+  {
+    name: "Tabu — Wednesday Afrohouse",
+    category: "music",
+    emoji: "🎧",
+    vibe: "Dedicated Afro House DJ night every Wednesday. Rotating lineup — the dance floor goes off. Jl. Labuansait.",
+    tags: ["wednesday", "afrohouse", "DJs", "dancing"],
+    day: "wed",
+    maps: "https://www.google.com/maps/search/Tabu+Uluwatu+Labuansait+Pecatu+Bali"
+  },
+  {
+    name: "Tabu — Tuesday Sushi & Afro-Latin Beats",
+    category: "music",
+    emoji: "🍣",
+    vibe: "Moyo Tuesdays — sushi platters with Afro-Latin beats. Great combo of food and vibes.",
+    tags: ["tuesday", "sushi", "afro-latin"],
+    day: "tue",
+    maps: "https://www.google.com/maps/search/Tabu+Uluwatu+Labuansait+Pecatu+Bali"
+  },
+  {
+    name: "Tabu — Thursday Sushi & Beats",
+    category: "music",
+    emoji: "🎶",
+    vibe: "Live DJs + exclusive sushi platters + extended happy hour. The sushi-and-party sweet spot.",
+    tags: ["thursday", "sushi", "DJs", "happy hour"],
+    day: "thu",
+    maps: "https://www.google.com/maps/search/Tabu+Uluwatu+Labuansait+Pecatu+Bali"
+  },
+  {
+    name: "The Cashew Tree — Thirsty Thursday",
+    category: "music",
+    emoji: "🌳",
+    vibe: "Live music and DJs in a fairy-lit courtyard on the Bingin cliff. Barefoot, feel-good vibes. Open til midnight on Thursdays (normally closes 10pm).",
+    tags: ["thursday", "live music", "bingin", "barefoot"],
+    day: "thu",
+    maps: "https://www.google.com/maps/search/The+Cashew+Tree+Bingin+Pecatu+Bali"
+  },
+  {
+    name: "Atmos Social — Sip & Steam Sundays",
+    category: "music",
+    emoji: "♨️",
+    vibe: "15+ guided steam rounds with live music, cold plunge, and fire pits. 4-10pm. A full sensory reset for the week ahead.",
+    tags: ["sunday", "steam", "wellness", "live music", "cold plunge"],
+    day: "sun",
+    maps: "https://www.google.com/maps/search/Atmos+Social+Uluwatu+Pecatu+Bali"
+  },
+  {
+    name: "Single Fin — Sunday Sessions",
+    category: "music",
+    emoji: "🏄",
+    vibe: "THE legendary Uluwatu Sunday. Clifftop sunset with live bands and DJs til 1am. Arrive early to beat the queue. ~150k IDR cover.",
+    tags: ["sunday", "sunset", "DJs", "live music", "iconic"],
+    day: "sun",
+    maps: "https://www.google.com/maps/search/Single+Fin+Uluwatu+Suluban+Bali"
+  },
+
+  {
+    name: "Lola's — Friday Reggaeton",
+    category: "music",
+    emoji: "💃",
+    vibe: "Reggaeton scene on Friday nights. Always a vibe — come ready to dance.",
+    tags: ["friday", "reggaeton", "dancing", "scene"],
+    day: "fri",
+    maps: "https://www.google.com/maps/search/Lola's+Uluwatu+Bali"
+  },
+
+  // ---- MOTORBIKES ----
+
+];
+
+// ============================================================
+// Category config
+// ============================================================
+const categories = {
+  coffee:   { title: "Coffee",             emoji: "☕",  badge: "badge-coffee" },
+  eat:      { title: "Eat & Drink",        emoji: "🍽️",  badge: "badge-eat" },
+  steak:    { title: "Steak",              emoji: "🥩",  badge: "badge-steak" },
+  warung:   { title: "Warungs",            emoji: "🍛",  badge: "badge-warung" },
+  dinner:   { title: "Dinner",             emoji: "🍷",  badge: "badge-dinner" },
+  beach:    { title: "Beaches & Surf",     emoji: "🌊",  badge: "badge-beach" },
+  stay:     { title: "Where to Stay",      emoji: "🏠",  badge: "badge-stay" },
+  do:       { title: "Activities",         emoji: "⛰️",  badge: "badge-do" },
+  wellness: { title: "Wellness",           emoji: "🙏",  badge: "badge-wellness" },
+  juice:    { title: "Juice & Smoothies",  emoji: "🥝",  badge: "badge-juice" },
+  shop:     { title: "Shopping",           emoji: "🛍️",  badge: "badge-shop" },
+  music:    { title: "Music & Events",     emoji: "🎶",  badge: "badge-music" },
+  ride:     { title: "Motorbikes",         emoji: "🏍️",  badge: "badge-ride" },
+  other:    { title: "Other",              emoji: "✨",  badge: "badge-other" },
+};
+
+const catOrder = ["coffee","eat","steak","warung","dinner","beach","stay","do","wellness","juice","shop","music","ride","other"];
+
+// ============================================================
+// Rendering
+// ============================================================
+function render(filter, query, dayFilter) {
+  dayFilter = dayFilter || 'all';
+  const content = document.getElementById('content');
+  let html = '';
+  let totalVisible = 0;
+
+  catOrder.forEach(cat => {
+    if (filter !== 'all' && filter !== cat) return;
+    const catPlaces = places.filter(p => {
+      if (p.category !== cat) return false;
+      if (dayFilter !== 'all' && p.day && p.day !== dayFilter) return false;
+      if (dayFilter !== 'all' && !p.day) return true; // show non-event places always
+      if (query) {
+        const q = query.toLowerCase();
+        return p.name.toLowerCase().includes(q)
+          || p.vibe.toLowerCase().includes(q)
+          || (p.tags && p.tags.some(t => t.toLowerCase().includes(q)));
+      }
+      return true;
+    });
+    if (catPlaces.length === 0) return;
+    totalVisible += catPlaces.length;
+    const cfg = categories[cat];
+
+    html += `<div class="category-section">`;
+    html += `<div class="category-header">
+      <span class="category-emoji">${cfg.emoji}</span>
+      <span class="category-title">${cfg.title}</span>
+      <span class="category-count">${catPlaces.length}</span>
+    </div>`;
+
+    catPlaces.forEach(p => {
+      const mapsLink = p.maps ? `<a href="${p.maps}" target="_blank" class="place-link">Map &#8599;</a>` : '';
+      const tagsHtml = p.tags ? p.tags.map(t => `<span class="place-tag">${t}</span>`).join('') : '';
+      html += `<div class="place-card">
+        <div class="place-badge ${cfg.badge}">${p.emoji || cfg.emoji}</div>
+        <div class="place-info">
+          <div class="place-name">${p.name}</div>
+          <div class="place-vibe">${p.vibe}</div>
+          ${tagsHtml ? `<div class="place-tags">${tagsHtml}</div>` : ''}
+        </div>
+        ${mapsLink}
+      </div>`;
+    });
+
+    html += `</div>`;
+  });
+
+  if (totalVisible === 0 && places.length > 0) {
+    html = `<div class="empty-state">
+      <div class="emoji">🔍</div>
+      <p>No places match your search. Try a different filter or keyword.</p>
+    </div>`;
+  }
+
+  if (places.length === 0) {
+    html = `<div class="empty-state">
+      <div class="emoji">🌴</div>
+      <p>Places coming soon! This guide is being built.</p>
+    </div>`;
+  }
+
+  content.innerHTML = html;
+}
+
+// ============================================================
+// Event listeners
+// ============================================================
+let activeFilter = 'all';
+let activeDay = 'all';
+
+document.getElementById('filters').addEventListener('click', (e) => {
+  const pill = e.target.closest('.filter-pill');
+  if (!pill || pill.classList.contains('day-pill')) return;
+  document.querySelectorAll('#filters .filter-pill').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+  activeFilter = pill.dataset.filter;
+  render(activeFilter, document.getElementById('searchInput').value, activeDay);
+});
+
+document.getElementById('dayFilters').addEventListener('click', (e) => {
+  const pill = e.target.closest('.day-pill');
+  if (!pill) return;
+  document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+  activeDay = pill.dataset.day;
+  render(activeFilter, document.getElementById('searchInput').value, activeDay);
+});
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  render(activeFilter, e.target.value, activeDay);
+});
+
+// Initial render
+render('all', '', 'all');
+</script>
+
+</body>
+</html>

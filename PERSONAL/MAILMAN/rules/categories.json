@@ -1,0 +1,76 @@
+{
+  "categories": {
+    "thread_active": {
+      "description": "Conversation where a response is expected from you",
+      "default_priority": "P1",
+      "auto_label": "ACTION"
+    },
+    "thread_watching": {
+      "description": "Conversation you are CC'd on, no action needed",
+      "default_priority": "P2",
+      "auto_label": "WATCHING"
+    },
+    "meeting": {
+      "description": "Calendar invites, scheduling requests",
+      "default_priority": "P2",
+      "auto_label": "MEETINGS"
+    },
+    "financial": {
+      "description": "Invoices, receipts, bank notifications, payment confirmations",
+      "default_priority": "P2",
+      "auto_label": "FINANCE",
+      "protected": true
+    },
+    "legal": {
+      "description": "Contracts, agreements, compliance notices",
+      "default_priority": "P2",
+      "auto_label": "LEGAL",
+      "protected": true
+    },
+    "personal": {
+      "description": "Friends, family, non-work contacts",
+      "default_priority": "P1",
+      "auto_label": "PERSONAL",
+      "protected": true
+    },
+    "work_internal": {
+      "description": "Antidote team communications",
+      "default_priority": "P1",
+      "auto_label": "ANTIDOTE"
+    },
+    "work_client": {
+      "description": "Client-facing communications",
+      "default_priority": "P1",
+      "auto_label": "CLIENTS"
+    },
+    "newsletter_wanted": {
+      "description": "Subscriptions you actually read",
+      "default_priority": "P3",
+      "auto_label": "NEWSLETTERS"
+    },
+    "marketing_unwanted": {
+      "description": "Promotional emails to unsubscribe from",
+      "default_priority": "P4",
+      "auto_label": "JUNK",
+      "auto_archive": true
+    },
+    "automated": {
+      "description": "System notifications, alerts, confirmations",
+      "default_priority": "P3",
+      "auto_label": "AUTO",
+      "auto_archive": true
+    },
+    "security": {
+      "description": "Password resets, 2FA codes, login alerts",
+      "default_priority": "P2",
+      "auto_label": "SECURITY",
+      "protected": true
+    },
+    "suspicious": {
+      "description": "Potential phishing or BEC attempts",
+      "default_priority": "P2",
+      "auto_label": "SUSPICIOUS"
+    }
+  },
+  "gmail_label_prefix": "MAILMAN/"
+}

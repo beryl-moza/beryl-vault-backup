@@ -1,0 +1,297 @@
+{
+  "run_date": "2026-03-19",
+  "run_timestamp": "2026-03-19T07:42:51.087409",
+  "account": "beryl@antidote.group",
+  "personal_account_note": "beryljacobson@gmail.com not accessible via current MCP connector",
+  "total_emails": 30,
+  "counts": {
+    "P0": 0,
+    "P1": 5,
+    "P2": 6,
+    "P3": 1,
+    "P4": 18
+  },
+  "top_senders": [
+    {
+      "name": "Clayton Dolan",
+      "count": 4
+    },
+    {
+      "name": "GoDaddy",
+      "count": 3
+    },
+    {
+      "name": "CC Strategic AI (Skool)",
+      "count": 2
+    },
+    {
+      "name": "The Google Workspace Team",
+      "count": 2
+    },
+    {
+      "name": "Concept Global",
+      "count": 1
+    }
+  ],
+  "classified": {
+    "P0": [],
+    "P1": [
+      {
+        "id": "19d034cbd02bce51",
+        "from": "Brandon Ancier <brandon@antidote.group>",
+        "subject": "Re: Board Consent and Redemption",
+        "priority": "P1",
+        "reason": "VIP sender + financial/legal thread",
+        "date": "2026-03-18T23:34:01Z"
+      },
+      {
+        "id": "19d0324fcb2790c8",
+        "from": "Clayton Dolan <clayton@antidote.group>",
+        "subject": "Re: Expo Connect - Amazon Reimbursements for Yerba Madre",
+        "priority": "P1",
+        "reason": "VIP sender / active work thread",
+        "date": "2026-03-18T22:50:32Z"
+      },
+      {
+        "id": "19d021d3ce521c11",
+        "from": "Pedram Ghodrati <Pedram.Ghodrati@wellsfargo.com>",
+        "subject": "RE: ANTIDOTE GROUP INC. and New Entity Zyva Scientific LLC",
+        "priority": "P1",
+        "reason": "VIP sender / active work thread",
+        "date": "2026-03-18T18:00:32Z"
+      },
+      {
+        "id": "19d0209053668aa3",
+        "from": "Clayton Dolan <clayton@antidote.group>",
+        "subject": "Re: ANTIDOTE GROUP INC. and New Entity Zyva Scientific LLC",
+        "priority": "P1",
+        "reason": "VIP sender / active work thread",
+        "date": "2026-03-18T17:40:26Z"
+      },
+      {
+        "id": "19d01e81021bea8a",
+        "from": "Clayton Dolan <clayton@antidote.group>",
+        "subject": "Re: Board Consent and Redemption",
+        "priority": "P1",
+        "reason": "VIP sender + financial/legal thread",
+        "date": "2026-03-18T17:04:27Z"
+      }
+    ],
+    "P2": [
+      {
+        "id": "19d042249c498e12",
+        "from": "GoDaddy <donotreply@godaddy.com>",
+        "subject": "Your domain transfer has been successfully completed.",
+        "priority": "P2",
+        "reason": "Domain/account notification",
+        "date": "2026-03-19T03:27:25Z"
+      },
+      {
+        "id": "19d03f5885b94c40",
+        "from": "Clayton Dolan <clayton@antidote.group>",
+        "subject": "Invitation: BC Jam @ Thu Mar 19, 2026 1:30pm - 2pm (EDT)",
+        "priority": "P2",
+        "reason": "Calendar invite from colleague",
+        "date": "2026-03-19T02:38:35Z"
+      },
+      {
+        "id": "19d02f81e99d556b",
+        "from": "Amazon Solution Provider Services Team <donotreply@amazon.com>",
+        "subject": "Identity Verification Request Update",
+        "priority": "P2",
+        "reason": "Security/verification alert",
+        "date": "2026-03-18T22:01:44Z"
+      },
+      {
+        "id": "19d02a271c6ec740",
+        "from": "GoDaddy <donotreply@godaddy.com>",
+        "subject": "You have pending changes to your domain account.",
+        "priority": "P2",
+        "reason": "Domain/account notification",
+        "date": "2026-03-18T20:28:10Z"
+      },
+      {
+        "id": "19d029f5bdecc599",
+        "from": "GoDaddy <donotreply@godaddy.com>",
+        "subject": "Here's your one-time sign-in code.",
+        "priority": "P2",
+        "reason": "Security/verification alert",
+        "date": "2026-03-18T20:24:48Z"
+      },
+      {
+        "id": "19d0267dfeba50cf",
+        "from": "Docusign <docusign@mail.docusign.com>",
+        "subject": "Hi, here's your new Docusign account information",
+        "priority": "P2",
+        "reason": "Document signing notification",
+        "date": "2026-03-18T19:24:13Z"
+      }
+    ],
+    "P3": [
+      {
+        "id": "19d01ae8bb65609b",
+        "from": "Leah Herman <leah.herman@usafluxpoint.co>",
+        "subject": "Beryl, quick one",
+        "priority": "P3",
+        "reason": "Unsolicited business offer",
+        "date": "2026-03-18T16:01:44Z"
+      }
+    ],
+    "P4": [
+      {
+        "id": "19d055372c0ad1db",
+        "from": "Concept Global <support@conceptcollective.co>",
+        "subject": "Getting a sling bag this year? Read this first",
+        "priority": "P4",
+        "reason": "Promotional email",
+        "date": "2026-03-19T09:00:46Z"
+      },
+      {
+        "id": "19d044ed758b7d56",
+        "from": "OpusClip Team <no-reply@opus.pro>",
+        "subject": "All good things come to an end\u2026 or do they?",
+        "priority": "P4",
+        "reason": "Newsletter/automated notification",
+        "date": "2026-03-19T04:16:08Z"
+      },
+      {
+        "id": "19d04405356e0347",
+        "from": "Sarah Li <Sarah.Li@mail.replit.com>",
+        "subject": "March Replit Product Updates",
+        "priority": "P4",
+        "reason": "Promotional email",
+        "date": "2026-03-19T04:00:16Z"
+      },
+      {
+        "id": "19d03df2547ada81",
+        "from": "CC Strategic AI (Skool) <noreply@skool.com>",
+        "subject": "1 new notification since 6:14 pm (Mar 18, 2026)",
+        "priority": "P4",
+        "reason": "Newsletter/automated notification",
+        "date": "2026-03-19T02:14:07Z"
+      },
+      {
+        "id": "19d0365217373550",
+        "from": "Helium 10 <support@mail.helium10.com>",
+        "subject": "Stop trading time for scale",
+        "priority": "P4",
+        "reason": "Promotional email",
+        "date": "2026-03-19T00:00:48Z"
+      },
+      {
+        "id": "19d032e12daecccb",
+        "from": "Startup CPG <community@startupcpg.com>",
+        "subject": "Meet NYC's top VCs this May",
+        "priority": "P4",
+        "reason": "Promotional email",
+        "date": "2026-03-18T23:00:42Z"
+      },
+      {
+        "id": "19d02fd69d4090e1",
+        "from": "Gamma <hello@gamma.app>",
+        "subject": "Gamma Imagine launches today.",
+        "priority": "P4",
+        "reason": "Promotional email",
+        "date": "2026-03-18T22:07:34Z"
+      },
+      {
+        "id": "19d02c8cb4a649b9",
+        "from": "CC Strategic AI (Skool) <noreply@skool.com>",
+        "subject": "1 new notification since 1:10 pm (Mar 18, 2026)",
+        "priority": "P4",
+        "reason": "Newsletter/automated notification",
+        "date": "2026-03-18T21:10:06Z"
+      },
+      {
+        "id": "19d02a42f2315ae5",
+        "from": "Ollie <support@olliesmile.com>",
+        "subject": "Calling All Strawberry Lovers",
+        "priority": "P4",
+        "reason": "Promotional email",
+        "date": "2026-03-18T20:30:05Z"
+      },
+      {
+        "id": "19d0297b0ab2b818",
+        "from": "Outerknown <news@outerknown.com>",
+        "subject": "Meet the All-New Seventyseven Cord Pull Ons",
+        "priority": "P4",
+        "reason": "Promotional email",
+        "date": "2026-03-18T20:16:23Z"
+      },
+      {
+        "id": "19d02823e9cc3945",
+        "from": "CoinTracker <hello@mail.cointracker.io>",
+        "subject": "Crypto portfolio update",
+        "priority": "P4",
+        "reason": "Newsletter/automated notification",
+        "date": "2026-03-18T19:53:03Z"
+      },
+      {
+        "id": "19d02697a614dd98",
+        "from": "Netlify Team <no-reply@netlify.com>",
+        "subject": "Run code at the edge, without adding servers",
+        "priority": "P4",
+        "reason": "Promotional email",
+        "date": "2026-03-18T19:26:00Z"
+      },
+      {
+        "id": "19d025723628c7b5",
+        "from": "The Google Workspace Team <workspace-noreply@google.com>",
+        "subject": "Generate business-ready visuals in minutes",
+        "priority": "P4",
+        "reason": "Newsletter/automated notification",
+        "date": "2026-03-18T19:05:57Z"
+      },
+      {
+        "id": "19d025383ea24bd2",
+        "from": "The Google Workspace Team <workspace-noreply@google.com>",
+        "subject": "Generate business-ready visuals in minutes",
+        "priority": "P4",
+        "reason": "Newsletter/automated notification",
+        "date": "2026-03-18T19:01:30Z"
+      },
+      {
+        "id": "19d02016b1fa5fa8",
+        "from": "Runway <no-reply@comms.runwayml.com>",
+        "subject": "Two weeks. One ad. Up to $100k in prizes.",
+        "priority": "P4",
+        "reason": "Promotional email",
+        "date": "2026-03-18T17:32:19Z"
+      },
+      {
+        "id": "19d01e510d83684a",
+        "from": "Ion Layer <hello@ionlayer.com>",
+        "subject": "They're here: Pro-grade delivery is live",
+        "priority": "P4",
+        "reason": "Promotional email",
+        "date": "2026-03-18T17:01:20Z"
+      },
+      {
+        "id": "19d01e417f781746",
+        "from": "Apeiron Elementals <Store@apeiron.store>",
+        "subject": "The #1 most researched workout supplement",
+        "priority": "P4",
+        "reason": "Promotional email",
+        "date": "2026-03-18T17:00:12Z"
+      },
+      {
+        "id": "19d01ac2147a840b",
+        "from": "Whole Foods Market <wholefoodsmarket@mail.wholefoodsmarket.com>",
+        "subject": "20% Off White Shrimp for Sizzling Fajitas",
+        "priority": "P4",
+        "reason": "Promotional email",
+        "date": "2026-03-18T15:59:10Z"
+      }
+    ]
+  },
+  "labels_applied": false,
+  "labels_note": "Gmail MCP connector does not support label modification. Labels not applied this cycle.",
+  "security_alerts": [
+    "Identity Verification Request Update",
+    "Here's your one-time sign-in code."
+  ],
+  "financial_items": [
+    "Re: Board Consent and Redemption",
+    "Re: Board Consent and Redemption"
+  ]
+}

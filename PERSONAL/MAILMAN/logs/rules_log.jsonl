@@ -1,0 +1,1 @@
+{"timestamp": "2026-03-16T21:52:21.894303", "rule_id": "rule_007", "message_id": "msg_123", "sender": "newsletter@example.com", "subject": "Weekly Newsletter", "action_count": 2, "actions": ["label", "snooze"]}

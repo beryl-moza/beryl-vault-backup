@@ -1,0 +1,7 @@
+{
+  "rule_007": {
+    "name": "Snooze newsletters for batch reading (72 hours)",
+    "trigger_count": 1,
+    "last_triggered": "2026-03-16T21:52:21.894285"
+  }
+}

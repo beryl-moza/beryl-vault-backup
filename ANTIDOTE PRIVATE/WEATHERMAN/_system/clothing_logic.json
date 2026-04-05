@@ -1,0 +1,69 @@
+{
+  "version": "1.0",
+  "base_thresholds": {
+    "shorts": {
+      "min_feels_like_f": 72,
+      "with_rain_min_f": 75,
+      "wind_adjustment_f": 3,
+      "description": "Shorts are the call when feels-like temp is above threshold"
+    },
+    "longs": {
+      "max_feels_like_f": 65,
+      "description": "Longs when feels-like is below this"
+    },
+    "layers": {
+      "range_low_f": 65,
+      "range_high_f": 72,
+      "description": "The grey zone - could go either way, lean toward layers"
+    }
+  },
+  "secondary_triggers": {
+    "rain_layer": {
+      "precipitation_pct_threshold": 30,
+      "action": "Recommend waterproof layer or umbrella"
+    },
+    "sun_protection": {
+      "uv_index_threshold": 6,
+      "action": "Recommend sunscreen and hat"
+    },
+    "wind_layer": {
+      "wind_mph_threshold": 20,
+      "action": "Recommend windbreaker regardless of temp"
+    },
+    "humidity_note": {
+      "humidity_pct_threshold": 80,
+      "action": "Note lightweight breathable fabrics preferred"
+    },
+    "evening_layer": {
+      "temp_drop_threshold_f": 15,
+      "action": "Suggest bringing a layer for evening"
+    }
+  },
+  "activity_modifiers": {
+    "workout": {
+      "temp_adjustment_f": -5,
+      "note": "Running hot during exercise, lower thresholds"
+    },
+    "desk_work": {
+      "temp_adjustment_f": 0,
+      "note": "Baseline, mostly indoors"
+    },
+    "beach": {
+      "temp_adjustment_f": -3,
+      "note": "Sun + sand, shorts almost always"
+    },
+    "travel": {
+      "temp_adjustment_f": 2,
+      "note": "Comfort priority, layer for planes"
+    },
+    "formal": {
+      "override": true,
+      "note": "Dress code overrides comfort, but note the weather"
+    }
+  },
+  "confidence_levels": {
+    "high": "Clear call, no edge cases. 10F+ away from any threshold.",
+    "medium": "Within 5F of a threshold or mixed conditions.",
+    "low": "Right on the line, weather is changing, or unusual conditions."
+  }
+}

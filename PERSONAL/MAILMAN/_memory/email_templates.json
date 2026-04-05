@@ -1,0 +1,107 @@
+{
+  "templates": [
+    {
+      "id": "meeting_confirm",
+      "name": "Meeting Confirmation",
+      "category": "meetings",
+      "subject": "Re: {{original_subject}}",
+      "body": "Thanks for proposing this meeting. I have it on my calendar for {{meeting_date}} at {{meeting_time}}. Looking forward to discussing {{topic}}.",
+      "variables": [
+        "original_subject",
+        "meeting_date",
+        "meeting_time",
+        "topic"
+      ],
+      "created_at": "2026-03-16T21:58:33.252846"
+    },
+    {
+      "id": "intro_response",
+      "name": "Intro Request Response",
+      "category": "outreach",
+      "subject": "Re: Introduction to {{sender_name}}",
+      "body": "Thanks for the intro. Great to connect with {{sender_name}}. I'd love to learn more about {{company}} and explore opportunities to work together.",
+      "variables": [
+        "sender_name",
+        "company"
+      ],
+      "created_at": "2026-03-16T21:58:33.252860"
+    },
+    {
+      "id": "follow_up",
+      "name": "Gentle Follow-up",
+      "category": "follow-ups",
+      "subject": "Following up on {{original_subject}}",
+      "body": "Hi {{sender_name}},\n\nI wanted to follow up on the {{topic}} we discussed. Do you have any updates or thoughts? I'm happy to help move this forward.",
+      "variables": [
+        "original_subject",
+        "sender_name",
+        "topic"
+      ],
+      "created_at": "2026-03-16T21:58:33.252861"
+    },
+    {
+      "id": "delegate",
+      "name": "Delegate to Colleague",
+      "category": "delegation",
+      "subject": "Re: {{original_subject}}",
+      "body": "Thanks for this. I'm looping in {{colleague_name}} who is better positioned to help with {{task}}. {{colleague_name}}, can you take it from here?",
+      "variables": [
+        "original_subject",
+        "colleague_name",
+        "task"
+      ],
+      "created_at": "2026-03-16T21:58:33.252862"
+    },
+    {
+      "id": "decline_politely",
+      "name": "Polite Decline",
+      "category": "responses",
+      "subject": "Re: {{original_subject}}",
+      "body": "Thanks for reaching out about {{request}}. I appreciate the opportunity, but I'm not able to take this on at the moment due to {{reason}}. I hope you can find someone who's a good fit.",
+      "variables": [
+        "original_subject",
+        "request",
+        "reason"
+      ],
+      "created_at": "2026-03-16T21:58:33.252862"
+    },
+    {
+      "id": "acknowledge",
+      "name": "Quick Acknowledgment",
+      "category": "acknowledgments",
+      "subject": "Re: {{original_subject}}",
+      "body": "Got it. I've noted this and will handle it by {{deadline}}. Thanks for looping me in.",
+      "variables": [
+        "original_subject",
+        "deadline"
+      ],
+      "created_at": "2026-03-16T21:58:33.252863"
+    },
+    {
+      "id": "out_of_office",
+      "name": "Out of Office Auto-reply",
+      "category": "automation",
+      "subject": "Out of Office: {{original_subject}}",
+      "body": "I'm currently out of the office and will return on {{return_date}}. I will have limited email access. For urgent matters, please contact {{backup_contact}}. I'll get back to you when I return.",
+      "variables": [
+        "original_subject",
+        "return_date",
+        "backup_contact"
+      ],
+      "created_at": "2026-03-16T21:58:33.252863"
+    },
+    {
+      "id": "thank_you",
+      "name": "Thank You Note",
+      "category": "gratitude",
+      "subject": "Thank you for {{action}}",
+      "body": "{{sender_name}},\n\nI wanted to thank you for {{action}}. It really meant a lot to me. Your support and {{quality}} are much appreciated.",
+      "variables": [
+        "sender_name",
+        "action",
+        "quality"
+      ],
+      "created_at": "2026-03-16T21:58:33.252865"
+    }
+  ]
+}

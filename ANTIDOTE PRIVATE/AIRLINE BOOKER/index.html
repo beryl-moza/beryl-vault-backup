@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Airline Booker · LAX→DPS · ARC Brain</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { margin: 0; background: #030712; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #111827; }
+    ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+    input[type="number"], input[type="text"], textarea, select {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      color: white;
+      padding: 6px 10px;
+      font-size: 13px;
+      width: 100%;
+      outline: none;
+    }
+    input[type="number"]:focus, input[type="text"]:focus, textarea:focus {
+      border-color: rgba(99,102,241,0.6);
+      background: rgba(99,102,241,0.08);
+    }
+    input[type="number"] { text-align: right; }
+    .sync-pulse { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+    .save-flash { animation: flash 0.4s ease; }
+    @keyframes flash { 0%,100% { opacity:1; } 50% { opacity: 0.4; } }
+    .checkmark { cursor: pointer; user-select: none; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback } = React;
+
+    // ── localStorage helpers ──────────────────────────────────────────
+    const LS = {
+      get: (key, fallback) => {
+        try { const v = localStorage.getItem(key); return v !== null ? JSON.parse(v) : fallback; }
+        catch { return fallback; }
+      },
+      set: (key, val) => { try { localStorage.setItem(key, JSON.stringify(val)); } catch {} },
+    };
+
+    // ── Dropbox File Sync (File System Access API + IndexedDB) ────────
+    const DATA_FILE = 'booker-data.json';
+    const IDB_DB    = 'arc_airline_sync';
+    const IDB_STORE = 'handles';
+
+    const Sync = {
+      // Open IndexedDB
+      openDB: () => new Promise((res, rej) => {
+        const req = indexedDB.open(IDB_DB, 1);
+        req.onupgradeneeded = e => e.target.result.createObjectStore(IDB_STORE);
+        req.onsuccess = e => res(e.target.result);
+        req.onerror   = () => rej(new Error('IDB open failed'));
+      }),
+
+      // Retrieve stored directory handle
+      loadHandle: async () => {
+        try {
+          const db = await Sync.openDB();
+          return await new Promise((res) => {
+            const tx = db.transaction(IDB_STORE, 'readonly');
+            const req = tx.objectStore(IDB_STORE).get('dir');
+            req.onsuccess = () => res(req.result || null);
+            req.onerror   = () => res(null);
+          });
+        } catch { return null; }
+      },
+
+      // Persist directory handle
+      saveHandle: async (handle) => {
+        try {
+          const db = await Sync.openDB();
+          await new Promise((res, rej) => {
+            const tx = db.transaction(IDB_STORE, 'readwrite');
+            tx.objectStore(IDB_STORE).put(handle, 'dir');
+            tx.oncomplete = res;
+            tx.onerror    = rej;
+          });
+        } catch {}
+      },
+
+      // Ask user to pick the AIRLINE BOOKER folder
+      pickFolder: async () => {
+        try {
+          const handle = await window.showDirectoryPicker({ mode: 'readwrite', startIn: 'documents' });
+          await Sync.saveHandle(handle);
+          return handle;
+        } catch { return null; }
+      },
+
+      // Read booker-data.json from folder
+      read: async (dirHandle) => {
+        try {
+          const fh   = await dirHandle.getFileHandle(DATA_FILE, { create: false });
+          const file = await fh.getFile();
+          return JSON.parse(await file.text());
+        } catch { return null; }
+      },
+
+      // Write booker-data.json to folder
+      write: async (dirHandle, data) => {
+        try {
+          const fh       = await dirHandle.getFileHandle(DATA_FILE, { create: true });
+          const writable = await fh.createWritable();
+          await writable.write(JSON.stringify(data, null, 2));
+          await writable.close();
+          return true;
+        } catch { return false; }
+      },
+
+      // Verify we still have permission (needed after page reload)
+      verify: async (handle) => {
+        try {
+          const perm = await handle.queryPermission({ mode: 'readwrite' });
+          if (perm === 'granted') return true;
+          const req = await handle.requestPermission({ mode: 'readwrite' });
+          return req === 'granted';
+        } catch { return false; }
+      },
+    };
+
+    const TABS = ["👤 My Data", "🚨 5-Day Brief", "🎲 Hedge Portfolio", "📡 Availability Intel", "🔀 Hybrid Packages", "📋 Cancel Policies", "✅ Checklist"];
+
+    // ── DATA ──────────────────────────────────────────────────────────
+    const PROGRAMS = [
+      { key: "amex_mr",    label: "Amex Membership Rewards",  partners: "ANA, KrisFlyer, Aeroplan, BA Avios, Delta",  color: "text-blue-300" },
+      { key: "chase_ur",   label: "Chase Ultimate Rewards",   partners: "KrisFlyer, Aeroplan, United, BA Avios",      color: "text-indigo-300" },
+      { key: "ana",        label: "ANA Mileage Club",         partners: "LAX→NRT Business: 65K OW",                   color: "text-sky-300" },
+      { key: "krisflyer",  label: "Singapore KrisFlyer",      partners: "LAX→SIN PE: 78.5K OW",                       color: "text-yellow-300" },
+      { key: "aa_adv",     label: "AA AAdvantage",            partners: "oneworld partners via myIDtravel",            color: "text-red-300" },
+      { key: "atmos",      label: "ATMOS (Alaska + Hawaiian unified)", partners: "Log in via alaska.com or hawaiianairlines.com — Cathay Pacific biz LAX→HKG: 50K OW", color: "text-purple-300" },
+      { key: "united",      label: "United MileagePlus",          partners: "Star Alliance: ANA, Singapore, Lufthansa, Air Canada",              color: "text-sky-400" },
+    ];
+
+    const THRESHOLDS = {
+      amex_mr:   { enough: 80000,  label: "80K = ANA or KrisFlyer biz OW" },
+      chase_ur:  { enough: 78500,  label: "78.5K = KrisFlyer PE OW" },
+      ana:       { enough: 65000,  label: "65K = ANA biz OW LAX→NRT" },
+      krisflyer: { enough: 78500,  label: "78.5K = KrisFlyer PE OW" },
+      aa_adv:    { enough: 30000,  label: "30K+ = oneworld partner options" },
+      atmos:     { enough: 50000,  label: "50K = Cathay Pacific biz OW LAX→HKG (then HKG→DPS cheap)" },
+      united:    { enough: 80000,  label: "80K = United Polaris biz (dynamic pricing)" },
+    };
+
+    const POSITION_DEFAULTS = [
+      { id: 1, label: "AA Standby Registration", type: "staff",  dates: "", status: "pending", notes: "", cancelDeadline: "" },
+      { id: 2, label: "ANA Award Booking",        type: "points", dates: "", status: "pending", notes: "", cancelDeadline: "" },
+      { id: 3, label: "KrisFlyer Award Booking",  type: "points", dates: "", status: "pending", notes: "", cancelDeadline: "" },
+      { id: 4, label: "Cash Refundable Booking",  type: "cash",   dates: "", status: "pending", notes: "", cancelDeadline: "" },
+    ];
+
+    const STATUS_OPTIONS = ["pending","registered","booked","cancelled","flew"];
+    const STATUS_STYLE = {
+      pending:    "bg-gray-800 text-gray-400 border-gray-600",
+      registered: "bg-blue-900/60 text-blue-200 border-blue-600",
+      booked:     "bg-emerald-900/60 text-emerald-200 border-emerald-600",
+      cancelled:  "bg-red-900/40 text-red-300 border-red-700 line-through",
+      flew:       "bg-violet-900/60 text-violet-200 border-violet-600",
+    };
+
+    const PORTFOLIO_STRATEGIES = [
+      { id:"ps1", label:"🏆 Full Hedge", tagline:"Hold all three positions simultaneously", cardBg:"bg-indigo-950/40 border-indigo-500/40", badge:"bg-indigo-600", riskLevel:"Lowest risk", riskColor:"text-emerald-400", totalExposure:"~$150–400 + 65K miles at risk (all recoverable)",
+        positions:[
+          { slot:"A", color:"bg-amber-600", label:"AA Staff Standby", type:"staff", route:"LAX → NRT → DPS", dates:"April 5–9 (best load factor)", cabin:"D1 Business (if clears)", cost:"~$30–60 taxes", cancelPolicy:"No booking = no cancel. Free.", cancelFee:"$0", bookWhere:"AA Jetnet staff portal", priority:"Check FIRST — costs nothing" },
+          { slot:"B", color:"bg-blue-600", label:"ANA Mileage Club Award", type:"points", route:"LAX → NRT/HND → DPS", dates:"April 5–9", cabin:"Business Class (The Room)", cost:"65,000 ANA miles + ~$40 taxes", cancelPolicy:"Cancel up to 24hr before — miles redeposited.", cancelFee:"~$75–150, miles returned", bookWhere:"ana.co.jp → Mileage Award", priority:"Book as INSURANCE — guaranteed lay-flat" },
+          { slot:"C", color:"bg-emerald-600", label:"KrisFlyer PE — Spontaneous Escapes", type:"points", route:"LAX → SIN → DPS", dates:"April 6–10", cabin:"Premium Economy (near lay-flat)", cost:"78,500 KrisFlyer miles + ~$50", cancelPolicy:"Cancel before departure — $75 fee.", cancelFee:"$75, miles returned", bookWhere:"singaporeair.com → Spontaneous Escapes", priority:"BACKUP to B. Different route = diversified." },
+        ],
+        collapseLogic:[
+          { trigger:"AA standby clears D1 with good seat", action:"Board. Cancel B and C. Recover miles. Net cost ~$150.", emoji:"🎉" },
+          { trigger:"AA standby clears but seat is middle", action:"Decline. Take B (ANA biz) or C (KrisFlyer PE). Cancel the other.", emoji:"🤔" },
+          { trigger:"AA standby doesn't clear", action:"Take B (ANA business). Cancel C. Lay-flat guaranteed.", emoji:"✈️" },
+          { trigger:"ANA shows better availability later", action:"Shift B date. Keep C as backup on different date.", emoji:"📅" },
+        ],
+      },
+      { id:"ps2", label:"💰 Cash Hedge", tagline:"Refundable cash fare as anchor, standby as wildcard", cardBg:"bg-slate-800/40 border-slate-600/40", badge:"bg-slate-600", riskLevel:"Zero financial risk (fully refundable)", riskColor:"text-emerald-400", totalExposure:"Cash refundable = $0 at risk; preserves all points",
+        positions:[
+          { slot:"A", color:"bg-amber-600", label:"AA Staff Standby", type:"staff", route:"LAX → NRT → DPS", dates:"April 5–9", cabin:"D1 if lucky", cost:"$30–60", cancelPolicy:"Free.", cancelFee:"$0", bookWhere:"AA Jetnet", priority:"Always register — costs nothing." },
+          { slot:"B", color:"bg-rose-600", label:"Refundable Cash — Business", type:"cash", route:"LAX → NRT or SIN → DPS", dates:"April 5–9", cabin:"Business (EVA, Korean Air, ANA)", cost:"$2,700–3,500 RT fully refundable", cancelPolicy:"100% refund to card. MUST select 'Fully Refundable' fare.", cancelFee:"$0 — full refund", bookWhere:"Airline direct — select 'Flexible/Fully Refundable'", priority:"Guaranteed anchor. If everything else fails — you fly." },
+        ],
+        collapseLogic:[
+          { trigger:"Standby clears with great seat", action:"Board free. Cancel cash booking. Full refund to card.", emoji:"🎉" },
+          { trigger:"Award space opens (ANA or KrisFlyer)", action:"Transfer points, book award. Cancel cash. Refund received.", emoji:"⚡" },
+          { trigger:"Nothing works — trip is tomorrow", action:"Use the refundable cash flight. Great product. Travel happens.", emoji:"✈️" },
+        ],
+      },
+    ];
+
+    const AVAIL_WINDOWS = [
+      { dates:"Apr 1–3", businessLoad:"HIGH",    peLoad:"HIGH",   loadColor:"text-red-400",    dotColor:"bg-red-500",    reason:"End of spring break + Easter — busiest period", recommendation:"Avoid if possible.", staffChance:"Low" },
+      { dates:"Apr 5–7", businessLoad:"MEDIUM",  peLoad:"MEDIUM", loadColor:"text-yellow-400", dotColor:"bg-yellow-500", reason:"Post-Easter, mid-week. Business picks up slightly.", recommendation:"Good window. Sunday/Monday departures have more D1.", staffChance:"Medium" },
+      { dates:"Apr 8–10",businessLoad:"LOW-MED", peLoad:"LOW",    loadColor:"text-emerald-400",dotColor:"bg-emerald-500",reason:"Mid-month mid-week — lightest transpacific load. Best window.", recommendation:"⭐ Best window. Check standby Apr 8 or 9.", staffChance:"Highest" },
+      { dates:"Apr 11–12",businessLoad:"MEDIUM", peLoad:"HIGH",   loadColor:"text-yellow-400", dotColor:"bg-yellow-500", reason:"Weekend — leisure travelers book PE heavily.", recommendation:"Business may have space, PE books up. Go biz.", staffChance:"Medium" },
+      { dates:"Apr 13–14",businessLoad:"LOW",    peLoad:"MEDIUM", loadColor:"text-emerald-400",dotColor:"bg-emerald-400",reason:"Late window. Monday/Tuesday always lighter.", recommendation:"Second best if Apr 8–10 is missed.", staffChance:"High" },
+    ];
+
+    const SEAT_TIPS = [
+      { title:"Odd departure times = open cabins", detail:"Flights departing 8–11am LAX are the sweet spot. Red-eyes and 5–7pm departures are packed. Mid-morning gets the most upgrades cleared.", icon:"🕐" },
+      { title:"Check seat maps, not just availability", detail:"'Available' business class means at least one seat — not that the cabin is empty. Check the actual seat map on flightradar24 or ExpertFlyer. 6+ open = standby paradise.", icon:"🗺️" },
+      { title:"Award space spikes 2 weeks out", detail:"Airlines release unsold premium cabin seats as award inventory 14–21 days before departure. You're in this window now. Check daily — new space often appears Tue–Thu.", icon:"📈" },
+      { title:"ExpertFlyer = secret weapon", detail:"expertflyer.com ($9.99/mo) shows real-time award availability, seat maps, and can alert you when specific space opens. Pays for itself immediately for a trip like this.", icon:"🔍" },
+      { title:"Seats.aero for award inventory", detail:"seats.aero is free — shows current award inventory across ANA, United, Air Canada, Singapore in one search. Check daily for LAX→NRT and LAX→SIN business openings.", icon:"🌐" },
+      { title:"Standby: arrive 3 hrs early", detail:"For D1 standby, arriving early puts you higher on the list. Other staff compete for same seats. Check in via app first, then introduce yourself to the gate agent.", icon:"⏰" },
+    ];
+
+    const CANCEL_POLICIES = [
+      { program:"ANA Mileage Club Awards",              type:"points", icon:"✈️", cancelCost:"~$75–150 + miles returned",   changeAllowed:"Yes — reissue for fee", deadline:"24 hrs before",        refundMethod:"Miles back 3–5 days", hedgeFriendly:true, notes:"Best cancellation policy of all award programs. Miles come back. Change fees small vs redemption value.", rating:5 },
+      { program:"KrisFlyer (Spontaneous Escapes)",      type:"points", icon:"🇸🇬",cancelCost:"$75 + miles returned",         changeAllowed:"Yes — rebook required", deadline:"24+ hrs before",       refundMethod:"Miles back 5–7 days", hedgeFriendly:true, notes:"Spontaneous Escapes designed for last-minute flexible travel. $75 is reasonable hedge insurance.", rating:5 },
+      { program:"Air Canada Aeroplan Awards",           type:"points", icon:"🍁", cancelCost:"$150 + miles returned",        changeAllowed:"Yes",                   deadline:"Up to 2 hrs before",   refundMethod:"Miles back 7–10 days",hedgeFriendly:true, notes:"Pricier cancel fee but extremely generous deadline. Can cancel literally 2 hours before.", rating:4 },
+      { program:"United MileagePlus Awards",            type:"points", icon:"🔵", cancelCost:"Free 31+ days. $125 closer.",  changeAllowed:"Yes",                   deadline:"Before departure",     refundMethod:"Miles back 3 days",   hedgeFriendly:false,notes:"Dynamic pricing makes rebooking risky. Less ideal for hedging.", rating:3 },
+      { program:"Cash — Fully Refundable Fare",         type:"cash",   icon:"💳", cancelCost:"$0 — 100% refund",             changeAllowed:"Unlimited",             deadline:"Usually 24 hrs before",refundMethod:"Full refund 7–10 biz days",hedgeFriendly:true,notes:"Gold standard for hedging. 40–80% premium upfront, zero exit cost. Book 'Flexible' or 'Fully Refundable' fare class explicitly.", rating:5 },
+      { program:"Cash — 24-Hour Rule (any airline)",    type:"cash",   icon:"⏱️", cancelCost:"$0 within 24 hrs of booking", changeAllowed:"Cancel only in window", deadline:"24 hrs of booking",   refundMethod:"Full refund",         hedgeFriendly:true, notes:"US law: free cancellation within 24 hrs of booking if departure is 7+ days away. Use to test-book before committing.", rating:4 },
+      { program:"AA Staff Standby (Jetnet)",            type:"staff",  icon:"👤", cancelCost:"$0 — no booking to cancel",   changeAllowed:"N/A — just show up",    deadline:"Register to departure",refundMethod:"Nothing to refund",   hedgeFriendly:true, notes:"Ultimate hedge option. No commitment until you board. Register multiple dates simultaneously.", rating:5 },
+    ];
+
+    const DAILY_CHECKS = [
+      { day:"TODAY (Day 0)", urgency:"🚨", urgencyColor:"bg-red-900/60 border-red-600/40",
+        tasks:[
+          { task:"Register AA standby on Jetnet for March 31, April 1, April 2 (all three dates)", tool:"Jetnet" },
+          { task:"Check ANA Mileage Club LAX→NRT business award — MUST book by tomorrow for Mar 31", tool:"ana.co.jp" },
+          { task:"Search seats.aero for LAX→NRT and LAX→SIN business class award space", tool:"seats.aero (free)" },
+          { task:"Check KrisFlyer Spontaneous Escapes for LAX→SIN→DPS PE or Business", tool:"singaporeair.com" },
+          { task:"Apply for Indonesia e-VOA ($35, ~1 day processing)", tool:"evisa.imigrasi.go.id" },
+          { task:"If doing Sydney: download 'Australian ETA' app and apply (AUD $20, 10 min)", tool:"App Store / Google Play" },
+        ],
+      },
+      { day:"Days 1–3 (Daily)", urgency:"📅", urgencyColor:"bg-blue-900/60 border-blue-600/40",
+        tasks:[
+          { task:"Check seats.aero for new business class space LAX→NRT/SIN/HKG", tool:"seats.aero" },
+          { task:"Check AA Jetnet load factors on registered standby dates", tool:"Jetnet" },
+          { task:"If ANA space appears — transfer Amex MR immediately (usually instant)", tool:"amextravel.com → Transfer" },
+          { task:"Check Google Flights price alerts for business fare drops", tool:"Google Flights" },
+        ],
+      },
+      { day:"3–5 Days Before", urgency:"⚡", urgencyColor:"bg-violet-900/60 border-violet-600/40",
+        tasks:[
+          { task:"Full sweep of all award programs — airlines release last-minute premium seats now", tool:"seats.aero + programs" },
+          { task:"Check seat maps on booked/registered flights — how many D1 seats open?", tool:"ExpertFlyer or FR24" },
+          { task:"Decide: hold all positions, cancel weakest one, or double down?", tool:"Your judgment" },
+        ],
+      },
+      { day:"Day Before / Day Of", urgency:"🎯", urgencyColor:"bg-emerald-900/60 border-emerald-600/40",
+        tasks:[
+          { task:"Check in online if you have a confirmed booking (points or cash)", tool:"Airline app" },
+          { task:"For standby: do NOT check in online — go to airport 3+ hrs early", tool:"AA Gate Agent" },
+          { task:"Cancel any positions you're NOT taking — recover miles/cash", tool:"Each program portal" },
+          { task:"If standby seat offered: check window/aisle vs middle before accepting", tool:"Gate agent" },
+        ],
+      },
+    ];
+
+    // ── ROUTE HUB MATRIX ──────────────────────────────────────────────
+    // All viable long-haul hubs from LAX to Bali, with realistic time data
+    const HUB_MATRIX = [
+      {
+        hub: "Tokyo", code: "NRT/HND", flag: "🇯🇵",
+        laxToHub: "11.5 hrs", layover: "1.5–3 hrs", hubToDps: "7.5 hrs",
+        totalFlying: "19 hrs", doorToDoor: "~22–24 hrs",
+        longHaulQuality: "⭐⭐⭐⭐⭐ Best in class", shortHopNote: "7.5 hrs — longer hop, still manageable in economy",
+        airlines: "ANA (The Room), JAL (Sky Suite)",
+        points: "ANA: 65K OW biz via Amex MR · JAL: 60K OW biz via AA AAdvantage",
+        visa: "✅ Visa-free 90 days",
+        highlight: true,
+        highlightNote: "ANA/JAL = world's best business class products. Short hop is longer but worth it.",
+      },
+      {
+        hub: "Singapore", code: "SIN", flag: "🇸🇬",
+        laxToHub: "17.5 hrs", layover: "1.5–3 hrs", hubToDps: "2.5 hrs",
+        totalFlying: "20 hrs", doorToDoor: "~22–24 hrs",
+        longHaulQuality: "⭐⭐⭐⭐⭐ Excellent", shortHopNote: "2.5 hrs — shortest possible hop to DPS. Easy economy.",
+        airlines: "Singapore Airlines (Business/PE), Scoot (budget)",
+        points: "KrisFlyer: 78.5K PE or ~95K biz OW via Amex MR or Chase UR",
+        visa: "✅ Visa-free 30 days",
+        highlight: true,
+        highlightNote: "Shortest final leg to Bali of any hub. Singapore Changi is the best airport in the world — layover is a pleasure.",
+      },
+      {
+        hub: "Hong Kong", code: "HKG", flag: "🇭🇰",
+        laxToHub: "14.5 hrs", layover: "1.5–3 hrs", hubToDps: "4 hrs",
+        totalFlying: "18.5 hrs", doorToDoor: "~21–23 hrs",
+        longHaulQuality: "⭐⭐⭐⭐⭐ Excellent (Cathay)", shortHopNote: "4 hrs — borderline. Economy fine if rested from biz on long haul.",
+        airlines: "Cathay Pacific (Business), Cathay Dragon",
+        points: "ATMOS: 50K OW biz via Alaska Mileage Plan — best use of your ATMOS miles",
+        visa: "✅ Visa-free 90 days",
+        highlight: true,
+        highlightNote: "Shortest total flying time of all hubs. Cathay Pacific business class is exceptional. Best use of your 110K ATMOS miles.",
+      },
+      {
+        hub: "Sydney", code: "SYD", flag: "🇦🇺",
+        laxToHub: "15 hrs", layover: "Overnight (12–24 hrs)", hubToDps: "6.5 hrs",
+        totalFlying: "21.5 hrs", doorToDoor: "~38+ hrs with overnight",
+        longHaulQuality: "⭐⭐⭐⭐ Very good (Qantas)", shortHopNote: "6.5 hrs — longer hop, but you've slept in Sydney. Fine in economy.",
+        airlines: "Qantas (Business/PE), Virgin Australia",
+        points: "Qantas Points or cash — not optimal with your current points mix",
+        visa: "⚠️ ETA required — AUD $20, 10 min on app",
+        highlight: false,
+        highlightNote: "Only makes sense if you want the Sydney experience. Adds a full day but Beryl has never been — could be a feature.",
+      },
+      {
+        hub: "Kuala Lumpur", code: "KUL", flag: "🇲🇾",
+        laxToHub: "No direct LAX→KUL", layover: "Via SIN or NRT (double connect)", hubToDps: "2.5 hrs",
+        totalFlying: "22–25 hrs", doorToDoor: "~27–30 hrs",
+        longHaulQuality: "⚠️ No direct — requires double connection", shortHopNote: "2.5 hrs from KUL to DPS — short hop. But getting there is complex.",
+        airlines: "Malaysia Airlines, AirAsia",
+        points: "Not a direct long-haul option from LAX — better as a return routing DPS→KUL→NRT→LAX",
+        visa: "✅ Visa-free 90 days",
+        highlight: false,
+        highlightNote: "KUL is better as a return hub than outbound — DPS→KUL is 2.5 hrs, then KUL→NRT→LAX or KUL→SIN→LAX. Not ideal outbound.",
+      },
+      {
+        hub: "Jakarta", code: "CGK", flag: "🇮🇩",
+        laxToHub: "No direct LAX→CGK", layover: "Via NRT, SIN, or HKG (double connect)", hubToDps: "1.5 hrs",
+        totalFlying: "22–26 hrs", doorToDoor: "~27–32 hrs",
+        longHaulQuality: "⚠️ No direct — requires double connection", shortHopNote: "1.5 hrs DPS→CGK — shortest possible hop. But routing in is complex.",
+        airlines: "Garuda Indonesia, Lion Air",
+        points: "Not a direct long-haul option from LAX",
+        visa: "✅ Same e-VOA as Bali (both Indonesia)",
+        highlight: false,
+        highlightNote: "CGK is better for return: DPS→CGK (1.5 hrs) then connect to Garuda codeshare or onward. Not a good outbound hub from LAX.",
+      },
+    ];
+
+    const HYBRID_PACKAGES = [
+      {
+        rank:1, label:"🏆 ATMOS → Cathay Pacific → HKG → Bali", badge:"bg-purple-600",
+        cardBg:"bg-purple-950/30 border-purple-600/30", staffOnly:false,
+        hub:"HKG · Hong Kong",
+        leg1:{route:"LAX → HKG", hours:"14.5 hrs flight", layover:"1.5–3 hr layover HKG", cabin:"Business Class (Cathay)", cost:"50K ATMOS miles", type:"points"},
+        leg2:{route:"HKG → DPS", hours:"4 hrs flight", layover:"", cabin:"Economy", cost:"$80–160 cash", type:"cash"},
+        totalFlying:"18.5 hrs flying", doorToDoor:"~21–23 hrs total",
+        total:"50K ATMOS miles + $100–180", risk:"LOW", refundable:"Cathay: cancel for ~$75–100, miles returned",
+        why:"Best use of your ATMOS balance. Cathay business is world-class. Shortest total flying time of all hubs.",
+      },
+      {
+        rank:2, label:"⚡ ANA Miles → Tokyo → Bali", badge:"bg-blue-600",
+        cardBg:"bg-blue-950/30 border-blue-600/30", staffOnly:false,
+        hub:"NRT/HND · Tokyo",
+        leg1:{route:"LAX → NRT", hours:"11.5 hrs flight", layover:"1.5–3 hr layover NRT/HND", cabin:"Business (The Room)", cost:"65K ANA miles", type:"points"},
+        leg2:{route:"NRT → DPS", hours:"7.5 hrs flight", layover:"", cabin:"Economy", cost:"$130–260 cash", type:"cash"},
+        totalFlying:"19 hrs flying", doorToDoor:"~22–24 hrs total",
+        total:"65K ANA miles + $150–300", risk:"LOW", refundable:"Cancel for ~$100, miles returned",
+        why:"ANA 'The Room' is one of the best business class products alive. Must book by tomorrow (4-day rule).",
+      },
+      {
+        rank:3, label:"🇯🇵 AA Miles → JAL → Tokyo → Bali", badge:"bg-red-700",
+        cardBg:"bg-red-950/30 border-red-700/30", staffOnly:false,
+        hub:"NRT/HND · Tokyo",
+        leg1:{route:"LAX → NRT", hours:"11.5 hrs flight", layover:"1.5–3 hr layover NRT", cabin:"Business (JAL Sky Suite)", cost:"60K AA AAdvantage miles", type:"points"},
+        leg2:{route:"NRT → DPS", hours:"7.5 hrs flight", layover:"", cabin:"Economy", cost:"$130–260 cash", type:"cash"},
+        totalFlying:"19 hrs flying", doorToDoor:"~22–24 hrs total",
+        total:"60K AA miles + $150–300", risk:"LOW", refundable:"Cancel for ~$75–125, miles returned",
+        why:"You have 63K AA miles — just enough for JAL off-peak. JAL Sky Suite is exceptional. Separate points pool from Amex/Chase.",
+      },
+      {
+        rank:4, label:"🇸🇬 KrisFlyer PE → Singapore → Bali", badge:"bg-emerald-600",
+        cardBg:"bg-emerald-950/30 border-emerald-600/30", staffOnly:false,
+        hub:"SIN · Singapore",
+        leg1:{route:"LAX → SIN", hours:"17.5 hrs flight", layover:"1.5–3 hr layover SIN", cabin:"Premium Economy (near lay-flat)", cost:"78.5K KrisFlyer miles", type:"points"},
+        leg2:{route:"SIN → DPS", hours:"2.5 hrs flight", layover:"", cabin:"Economy/Scoot", cost:"$30–80 cash", type:"cash"},
+        totalFlying:"20 hrs flying", doorToDoor:"~22–24 hrs total",
+        total:"78.5K KF miles + $50–100", risk:"VERY LOW", refundable:"Cancel for $75, miles returned",
+        why:"Shortest final leg to Bali (2.5 hrs). Changi airport is a joy. Spontaneous Escapes = most flexible for close-in booking.",
+      },
+      {
+        rank:5, label:"🌟 AA Standby → Tokyo → Bali", badge:"bg-amber-600",
+        cardBg:"bg-amber-950/30 border-amber-600/30", staffOnly:true,
+        hub:"NRT · Tokyo",
+        leg1:{route:"LAX → NRT", hours:"11.5 hrs flight", layover:"1.5–3 hr layover NRT", cabin:"D1 standby (if clears)", cost:"~$50 taxes", type:"staff"},
+        leg2:{route:"NRT → DPS", hours:"7.5 hrs flight", layover:"", cabin:"Economy", cost:"$130–260 cash", type:"cash"},
+        totalFlying:"19 hrs flying", doorToDoor:"~22–24 hrs total",
+        total:"~$180–310 if standby clears", risk:"HIGH — not guaranteed", refundable:"N/A — no commitment until boarding",
+        why:"Free if D1 clears. Register Jetnet now for multiple dates. Zero-cost wildcard — hold alongside any other option.",
+      },
+      {
+        rank:6, label:"🇦🇺 Qantas → Sydney (overnight) → Bali", badge:"bg-red-500",
+        cardBg:"bg-red-950/20 border-red-700/20", staffOnly:false,
+        hub:"SYD · Sydney",
+        leg1:{route:"LAX → SYD", hours:"15 hrs flight", layover:"Overnight in Sydney (12–20 hrs)", cabin:"Business or PE", cost:"Points or cash", type:"cash"},
+        leg2:{route:"SYD → DPS", hours:"6.5 hrs flight", layover:"", cabin:"Economy", cost:"$150–300 cash", type:"cash"},
+        totalFlying:"21.5 hrs flying", doorToDoor:"~38+ hrs (incl. overnight)",
+        total:"Varies + hotel night", risk:"LOW — flexible booking", refundable:"Depends on fare class",
+        why:"Only viable if you want the Sydney experience. First time for Beryl. Adds a full day but turns transit into a destination.",
+      },
+    ];
+
+    // ── MAIN COMPONENT ────────────────────────────────────────────────
+    function AirlineBooker() {
+      const [activeTab, setActiveTab] = useState(0);
+      const [expandedPS, setExpandedPS] = useState("ps1");
+      const [savedFlash, setSavedFlash] = useState(false);
+
+      // ── Sync state ──
+      const [syncStatus, setSyncStatus] = useState('loading'); // loading | unlinked | linked | syncing | error
+      const [syncMsg, setSyncMsg]       = useState('');
+      const dirHandleRef = useRef(null);
+      const saveTimerRef = useRef(null);
+
+      // ── Persisted state ──
+      const [points, setPoints] = useState(() =>
+        LS.get("arc_points", { amex_mr:"152184", chase_ur:"202033", ana:"", krisflyer:"", aa_adv:"63075", atmos:"110942", united:"17472", hawaiian:"" })
+      );
+      const [positions, setPositions] = useState(() =>
+        LS.get("arc_positions", POSITION_DEFAULTS)
+      );
+      const [checks, setChecks] = useState(() =>
+        LS.get("arc_checks", {})
+      );
+      const [visaStatus, setVisaStatus] = useState(() =>
+        LS.get("arc_visas", { indonesia: false, australia: false })
+      );
+      const [notes, setNotes] = useState(() =>
+        LS.get("arc_notes", "")
+      );
+
+      // ── Build data bundle ──
+      const buildBundle = useCallback((p, pos, c, v, n) => ({
+        version: 1, updatedAt: new Date().toISOString(),
+        points: p, positions: pos, checks: c, visaStatus: v, notes: n,
+      }), []);
+
+      // ── Apply loaded bundle to state ──
+      const applyBundle = (bundle) => {
+        if (!bundle) return;
+        if (bundle.points)     setPoints(bundle.points);
+        if (bundle.positions)  setPositions(bundle.positions);
+        if (bundle.checks)     setChecks(bundle.checks);
+        if (bundle.visaStatus) setVisaStatus(bundle.visaStatus);
+        if (bundle.notes !== undefined) setNotes(bundle.notes);
+      };
+
+      // ── Save to Dropbox (debounced) ──
+      const scheduleDropboxSave = useCallback((p, pos, c, v, n) => {
+        if (!dirHandleRef.current) return;
+        clearTimeout(saveTimerRef.current);
+        saveTimerRef.current = setTimeout(async () => {
+          setSyncStatus('syncing');
+          const ok = await Sync.write(dirHandleRef.current, buildBundle(p, pos, c, v, n));
+          setSyncStatus(ok ? 'linked' : 'error');
+          setSyncMsg(ok ? `Saved ${new Date().toLocaleTimeString()}` : 'Write failed');
+        }, 800);
+      }, [buildBundle]);
+
+      // ── On mount: try to reconnect stored handle ──
+      useEffect(() => {
+        (async () => {
+          const handle = await Sync.loadHandle();
+          if (!handle) { setSyncStatus('unlinked'); return; }
+          const ok = await Sync.verify(handle);
+          if (!ok) { setSyncStatus('unlinked'); setSyncMsg('Permission needed — click Link Folder'); return; }
+          dirHandleRef.current = handle;
+          const bundle = await Sync.read(handle);
+          if (bundle) {
+            applyBundle(bundle);
+            setSyncMsg(`Loaded from Dropbox · ${new Date(bundle.updatedAt).toLocaleString()}`);
+          }
+          setSyncStatus('linked');
+        })();
+      }, []);
+
+      // ── Auto-save: localStorage always, Dropbox if linked ──
+      useEffect(() => { LS.set("arc_points", points);     scheduleDropboxSave(points, positions, checks, visaStatus, notes); }, [points]);
+      useEffect(() => { LS.set("arc_positions", positions); scheduleDropboxSave(points, positions, checks, visaStatus, notes); }, [positions]);
+      useEffect(() => { LS.set("arc_checks", checks);      scheduleDropboxSave(points, positions, checks, visaStatus, notes); }, [checks]);
+      useEffect(() => { LS.set("arc_visas", visaStatus);   scheduleDropboxSave(points, positions, checks, visaStatus, notes); }, [visaStatus]);
+      useEffect(() => { LS.set("arc_notes", notes);        scheduleDropboxSave(points, positions, checks, visaStatus, notes); }, [notes]);
+
+      // ── Link folder ──
+      const handleLinkFolder = async () => {
+        setSyncStatus('syncing'); setSyncMsg('Pick your AIRLINE BOOKER folder in Dropbox…');
+        const handle = await Sync.pickFolder();
+        if (!handle) { setSyncStatus('unlinked'); setSyncMsg('Cancelled'); return; }
+        dirHandleRef.current = handle;
+        // Try to load existing data first
+        const bundle = await Sync.read(handle);
+        if (bundle) {
+          applyBundle(bundle);
+          setSyncMsg(`Loaded existing data · ${new Date(bundle.updatedAt).toLocaleString()}`);
+        } else {
+          // Write current state as initial file
+          await Sync.write(handle, buildBundle(points, positions, checks, visaStatus, notes));
+          setSyncMsg('Dropbox folder linked · data file created');
+        }
+        setSyncStatus('linked');
+      };
+
+      const updatePoints = (key, val) => setPoints(p => ({ ...p, [key]: val }));
+      const updatePosition = (id, field, val) =>
+        setPositions(ps => ps.map(p => p.id === id ? { ...p, [field]: val } : p));
+      const toggleCheck = (key) => setChecks(c => ({ ...c, [key]: !c[key] }));
+      const toggleVisa  = (key) => setVisaStatus(v => ({ ...v, [key]: !v[key] }));
+
+      const flashSaved = () => {
+        setSavedFlash(true);
+        setTimeout(() => setSavedFlash(false), 600);
+      };
+
+      const syncBadge = () => {
+        const styles = {
+          loading:  'bg-gray-800 text-gray-400',
+          unlinked: 'bg-amber-900/60 text-amber-300 border border-amber-600/40',
+          linked:   'bg-emerald-900/60 text-emerald-300 border border-emerald-600/40',
+          syncing:  'bg-blue-900/60 text-blue-300 border border-blue-600/40 sync-pulse',
+          error:    'bg-red-900/60 text-red-300 border border-red-600/40',
+        };
+        const icons = { loading:'⏳', unlinked:'🔗', linked:'☁️', syncing:'⟳', error:'⚠️' };
+        return (
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${styles[syncStatus]}`}>
+              {icons[syncStatus]} {syncStatus === 'unlinked' ? 'Not synced' : syncStatus === 'linked' ? 'Dropbox synced' : syncStatus === 'syncing' ? 'Saving…' : syncStatus === 'error' ? 'Sync error' : 'Loading…'}
+            </span>
+            {syncMsg && <span className="text-xs text-gray-500">{syncMsg}</span>}
+            {syncStatus === 'unlinked' && (
+              <button onClick={handleLinkFolder}
+                className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-full font-semibold transition-colors">
+                Link Dropbox Folder
+              </button>
+            )}
+          </div>
+        );
+      };
+
+      // Helper: does Beryl have enough points for a given program?
+      const hasEnough = (key) => {
+        const val = parseInt(points[key]) || 0;
+        return val >= THRESHOLDS[key].enough;
+      };
+
+      const totalTransferableToANA = () =>
+        (parseInt(points.amex_mr) || 0);
+      const totalTransferableToKF = () =>
+        (parseInt(points.amex_mr) || 0) + (parseInt(points.chase_ur) || 0);
+
+      const typeBadge = (type) => {
+        const map = { staff:"bg-amber-900/60 border-amber-600/40 text-amber-200", points:"bg-indigo-900/60 border-indigo-600/40 text-indigo-200", cash:"bg-emerald-900/60 border-emerald-600/40 text-emerald-200" };
+        const label = { staff:"Staff Travel", points:"Points", cash:"Cash" };
+        return <span className={`text-xs border px-2 py-0.5 rounded-full font-semibold ${map[type]}`}>{label[type]}</span>;
+      };
+
+      const stars = (n) => Array.from({ length: 5 }, (_, i) =>
+        <span key={i} className={i < n ? "text-yellow-400" : "text-gray-700"}>★</span>
+      );
+
+      const posTypeColor = { staff:"bg-amber-600", points:"bg-blue-600", cash:"bg-rose-600" };
+
+      return (
+        <div className="min-h-screen bg-gray-950 text-gray-100 font-sans">
+
+          {/* HEADER */}
+          <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-violet-950 px-6 pt-8 pb-0 border-b border-white/10">
+            <div className="max-w-5xl mx-auto">
+              <div className="flex items-start justify-between flex-wrap gap-4 mb-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <span className="text-lg">✈️</span>
+                    <span className="text-xs font-bold tracking-widest text-indigo-400 uppercase">Airline Booker · ARC Brain</span>
+                    {savedFlash && <span className="text-xs text-emerald-400 font-semibold ml-2 save-flash">✓ Saved</span>}
+                  </div>
+                  <h1 className="text-2xl font-bold text-white tracking-tight">LAX → Denpasar, Bali · April 1–14</h1>
+                  <p className="text-indigo-300 mt-0.5 text-sm">Hedge Portfolio Engine · Availability Scanner · Beryl Jacobson</p>
+                  <div className="mt-2">{syncBadge()}</div>
+                </div>
+                <div className="flex flex-wrap gap-1.5 justify-end items-start pt-1">
+                  {["AA Staff","myIDtravel","Amex MR","Chase UR","ATMOS"].map(p => (
+                    <span key={p} className="bg-white/10 border border-white/20 text-gray-200 text-xs px-2.5 py-1 rounded-full">{p}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 mb-4 text-xs">
+                <div className="bg-amber-950/50 border border-amber-700/40 rounded-xl p-3">
+                  <div className="text-amber-300 font-bold mb-1">📌 Position, Don't Commit</div>
+                  <div className="text-amber-200/70">Hold 2–3 refundable/cancelable positions. Collapse to the best as you approach.</div>
+                </div>
+                <div className="bg-indigo-950/50 border border-indigo-700/40 rounded-xl p-3">
+                  <div className="text-indigo-300 font-bold mb-1">📡 Check Daily</div>
+                  <div className="text-indigo-200/70">Premium seats release rolling. New award inventory appears 14–2 days out. Tue–Thu best.</div>
+                </div>
+                <div className="bg-emerald-950/50 border border-emerald-700/40 rounded-xl p-3">
+                  <div className="text-emerald-300 font-bold mb-1">🔀 Hybrid-First</div>
+                  <div className="text-emerald-200/70">Lay-flat &gt;8 hrs. Economy &lt;4 hrs. Split the legs. Save 20–40K miles vs booking through.</div>
+                </div>
+              </div>
+
+              <div className="flex overflow-x-auto -mb-px gap-0.5">
+                {TABS.map((tab, i) => (
+                  <button key={i} onClick={() => setActiveTab(i)}
+                    className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-all ${
+                      activeTab === i ? "border-indigo-400 text-indigo-300 bg-white/5 rounded-t-lg" : "border-transparent text-gray-400 hover:text-gray-200"
+                    }`}>
+                    {tab}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="max-w-5xl mx-auto px-4 py-6">
+
+            {/* ═══ TAB 0: MY DATA ═══ */}
+            {activeTab === 0 && (
+              <div className="space-y-6">
+
+                {/* Points Balances */}
+                <div className="bg-gray-900/60 border border-white/10 rounded-2xl p-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-white font-bold text-base">💳 Points Balances</h3>
+                    <span className="text-xs text-gray-500">Auto-saved to this browser · updates instantly</span>
+                  </div>
+
+                  {/* Transfer potential */}
+                  <div className="grid grid-cols-2 gap-2 mb-4 text-xs">
+                    <div className={`rounded-xl border p-3 ${totalTransferableToANA() >= 65000 ? "bg-emerald-950/40 border-emerald-700/40" : "bg-gray-800/50 border-white/5"}`}>
+                      <div className="text-gray-400 mb-0.5">Transferable to ANA (Amex MR)</div>
+                      <div className={`font-bold text-sm ${totalTransferableToANA() >= 65000 ? "text-emerald-300" : "text-gray-300"}`}>
+                        {totalTransferableToANA().toLocaleString()} pts
+                        {totalTransferableToANA() >= 65000 ? " ✓ Enough for biz OW" : totalTransferableToANA() > 0 ? ` (need ${(65000 - totalTransferableToANA()).toLocaleString()} more)` : " — enter balance above"}
+                      </div>
+                    </div>
+                    <div className={`rounded-xl border p-3 ${totalTransferableToKF() >= 78500 ? "bg-emerald-950/40 border-emerald-700/40" : "bg-gray-800/50 border-white/5"}`}>
+                      <div className="text-gray-400 mb-0.5">Transferable to KrisFlyer (Amex + Chase)</div>
+                      <div className={`font-bold text-sm ${totalTransferableToKF() >= 78500 ? "text-emerald-300" : "text-gray-300"}`}>
+                        {totalTransferableToKF().toLocaleString()} pts
+                        {totalTransferableToKF() >= 78500 ? " ✓ Enough for PE OW" : totalTransferableToKF() > 0 ? ` (need ${(78500 - totalTransferableToKF()).toLocaleString()} more)` : " — enter balance above"}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    {PROGRAMS.map(prog => {
+                      const val = parseInt(points[prog.key]) || 0;
+                      const enough = val >= THRESHOLDS[prog.key].enough;
+                      return (
+                        <div key={prog.key} className="grid grid-cols-12 gap-3 items-center">
+                          <div className="col-span-5">
+                            <div className={`text-sm font-medium ${prog.color}`}>{prog.label}</div>
+                            <div className="text-xs text-gray-500">{prog.partners}</div>
+                          </div>
+                          <div className="col-span-3">
+                            <input
+                              type="number"
+                              placeholder="0"
+                              value={points[prog.key]}
+                              onChange={e => updatePoints(prog.key, e.target.value)}
+                            />
+                          </div>
+                          <div className="col-span-4">
+                            {val > 0 ? (
+                              <div className={`text-xs px-2 py-1 rounded-lg border ${enough ? "bg-emerald-950/50 border-emerald-700/40 text-emerald-300" : "bg-gray-800/50 border-white/5 text-gray-400"}`}>
+                                {enough ? `✓ ${THRESHOLDS[prog.key].label}` : `Need ${(THRESHOLDS[prog.key].enough - val).toLocaleString()} more`}
+                              </div>
+                            ) : (
+                              <div className="text-xs text-gray-600 italic">{THRESHOLDS[prog.key].label}</div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Active Hedge Positions */}
+                <div className="bg-gray-900/60 border border-white/10 rounded-2xl p-5">
+                  <h3 className="text-white font-bold text-base mb-4">🎲 Active Hedge Positions</h3>
+                  <div className="space-y-3">
+                    {positions.map(pos => (
+                      <div key={pos.id} className={`rounded-xl border p-4 ${STATUS_STYLE[pos.status]}`}>
+                        <div className="flex items-center gap-2 mb-2 flex-wrap">
+                          <span className={`${posTypeColor[pos.type]} text-white text-xs font-bold px-2 py-0.5 rounded-full`}>{pos.type}</span>
+                          <span className="text-white font-semibold text-sm">{pos.label}</span>
+                          <select
+                            className="ml-auto text-xs bg-black/30 border border-white/20 rounded-lg px-2 py-1 text-white"
+                            value={pos.status}
+                            onChange={e => updatePosition(pos.id, "status", e.target.value)}
+                            style={{width:"auto"}}
+                          >
+                            {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+                          </select>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <div className="text-gray-500 mb-1">Dates / Flight</div>
+                            <input type="text" placeholder="e.g. Apr 8 LAX→NRT NH106"
+                              value={pos.dates}
+                              onChange={e => updatePosition(pos.id, "dates", e.target.value)} />
+                          </div>
+                          <div>
+                            <div className="text-gray-500 mb-1">Cancel Deadline</div>
+                            <input type="text" placeholder="e.g. Apr 7 before midnight"
+                              value={pos.cancelDeadline}
+                              onChange={e => updatePosition(pos.id, "cancelDeadline", e.target.value)} />
+                          </div>
+                        </div>
+                        <div className="mt-2 text-xs">
+                          <div className="text-gray-500 mb-1">Notes (cost, booking ref, etc.)</div>
+                          <input type="text" placeholder="e.g. 65K ANA miles, conf# ABC123, cancel via ana.co.jp"
+                            value={pos.notes}
+                            onChange={e => updatePosition(pos.id, "notes", e.target.value)} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Visa Status */}
+                <div className="bg-gray-900/60 border border-white/10 rounded-2xl p-5">
+                  <h3 className="text-white font-bold text-base mb-3">🛂 Visa Status</h3>
+                  <div className="space-y-2">
+                    {[
+                      { key:"indonesia", label:"🇮🇩 Indonesia e-VOA", detail:"$35 · evisa.imigrasi.go.id · ~1 day approval" },
+                      { key:"australia", label:"🇦🇺 Australia ETA", detail:"AUD $20 · 'Australian ETA' app · minutes" },
+                    ].map(v => (
+                      <div key={v.key}
+                        className={`flex items-center gap-3 rounded-xl border p-3 cursor-pointer transition-all ${visaStatus[v.key] ? "bg-emerald-950/40 border-emerald-700/40" : "bg-gray-800/40 border-white/10 hover:border-white/20"}`}
+                        onClick={() => toggleVisa(v.key)}>
+                        <div className={`w-5 h-5 rounded flex items-center justify-center border flex-shrink-0 ${visaStatus[v.key] ? "bg-emerald-500 border-emerald-400" : "border-gray-500"}`}>
+                          {visaStatus[v.key] && <span className="text-white text-xs font-bold">✓</span>}
+                        </div>
+                        <div>
+                          <div className="text-white text-sm font-medium">{v.label}</div>
+                          <div className="text-gray-400 text-xs">{v.detail}</div>
+                        </div>
+                        {visaStatus[v.key] && <span className="ml-auto text-emerald-400 text-xs font-semibold">Applied ✓</span>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Notes */}
+                <div className="bg-gray-900/60 border border-white/10 rounded-2xl p-5">
+                  <h3 className="text-white font-bold text-base mb-3">📝 Notes</h3>
+                  <textarea
+                    rows={4}
+                    placeholder="Anything you want to remember across sessions — flights you checked, ideas, contacts, price points..."
+                    value={notes}
+                    onChange={e => setNotes(e.target.value)}
+                    style={{ resize:"vertical", lineHeight:"1.5" }}
+                  />
+                  <p className="text-xs text-gray-600 mt-2">Saved automatically. Persists every time you open this file in Chrome.</p>
+                </div>
+
+              </div>
+            )}
+
+            {/* ═══ TAB 1: 5-DAY BRIEF ═══ */}
+            {activeTab === 1 && (
+              <div className="space-y-4">
+                <div className="bg-red-950/60 border-2 border-red-500/60 rounded-2xl p-5">
+                  <div className="flex gap-3 items-start">
+                    <span className="text-2xl">⏱️</span>
+                    <div>
+                      <h3 className="text-red-200 font-bold text-base mb-1">5 Days Out — Hard Deadlines Active</h3>
+                      <div className="space-y-1.5 text-sm">
+                        <div className="flex gap-2"><span className="text-red-400 font-bold w-32 flex-shrink-0">ANA Awards:</span><span className="text-red-200">4-day minimum rule. Must book by <strong>tomorrow March 27</strong> for March 31 departure. March 28 for April 1.</span></div>
+                        <div className="flex gap-2"><span className="text-red-400 font-bold w-32 flex-shrink-0">KrisFlyer:</span><span className="text-red-200">Spontaneous Escapes can book 24–48 hrs out. Still check today.</span></div>
+                        <div className="flex gap-2"><span className="text-red-400 font-bold w-32 flex-shrink-0">AA Standby:</span><span className="text-red-200">Register on Jetnet anytime up to departure. Freest option.</span></div>
+                        <div className="flex gap-2"><span className="text-red-400 font-bold w-32 flex-shrink-0">Cash fares:</span><span className="text-red-200">Available anytime — last-minute biz runs $4,000–5,500 RT.</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-amber-950/40 border border-amber-600/40 rounded-2xl p-5">
+                  <h3 className="text-amber-200 font-bold mb-3">🛂 Visas</h3>
+                  <div className="space-y-2 text-sm">
+                    {[
+                      { country:"🇮🇩 Indonesia (Bali)", status:"Required", urgency:"bg-red-900/60 text-red-200 border-red-600/40", detail:"e-VOA online — $35 USD, 30 days. evisa.imigrasi.go.id — upload passport photo. ~1 day." },
+                      { country:"🇦🇺 Australia (Sydney stopover)", status:"Required if via SYD", urgency:"bg-yellow-900/60 text-yellow-200 border-yellow-600/40", detail:"ETA subclass 601 — AUD $20. Download 'Australian ETA' app. Scan passport. Approved in minutes." },
+                      { country:"🇯🇵 Japan (Tokyo)", status:"✅ Visa-free 90 days", urgency:"bg-emerald-900/60 text-emerald-200 border-emerald-600/40", detail:"US passport — no visa needed." },
+                      { country:"🇸🇬 Singapore", status:"✅ Visa-free 30 days", urgency:"bg-emerald-900/60 text-emerald-200 border-emerald-600/40", detail:"US passport — no visa needed for transit or stays." },
+                      { country:"🇭🇰 Hong Kong", status:"✅ Visa-free 90 days", urgency:"bg-emerald-900/60 text-emerald-200 border-emerald-600/40", detail:"No visa required." },
+                      { country:"🇹🇼 Taiwan", status:"✅ Visa-free 90 days", urgency:"bg-emerald-900/60 text-emerald-200 border-emerald-600/40", detail:"No visa required." },
+                    ].map((v, i) => (
+                      <div key={i} className={`rounded-xl border p-3 ${v.urgency}`}>
+                        <div className="flex justify-between gap-2 mb-1 flex-wrap">
+                          <span className="font-bold">{v.country}</span>
+                          <span className="text-xs font-semibold">{v.status}</span>
+                        </div>
+                        <p className="text-xs opacity-80">{v.detail}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-indigo-950/40 border border-indigo-600/40 rounded-2xl p-5">
+                  <h3 className="text-indigo-200 font-bold mb-3">🗺️ All Hub Options — Ranked for Right Now</h3>
+                  <p className="text-gray-500 text-xs mb-3">Times shown = flight hours only. Add 1.5–3 hrs for layover at hub.</p>
+                  <div className="space-y-2 text-sm">
+                    {[
+                      { rank:"1", flag:"🇭🇰", route:"LAX → HKG → DPS via Cathay Pacific", time:"14.5 + 4 hrs", layover:"~2 hr HKG", total:"~21–23 hrs", why:"50K ATMOS miles OW biz. Shortest total flying time. HKG is excellent hub. No booking deadline pressure.", tags:["ATMOS","Cathay","best time"], urgent:false },
+                      { rank:"2", flag:"🇯🇵", route:"LAX → NRT → DPS via ANA", time:"11.5 + 7.5 hrs", layover:"~2 hr NRT", total:"~22–24 hrs", why:"65K Amex MR → ANA biz. The Room = world's best. Must book by TOMORROW for Mar 31.", tags:["Amex MR","ANA","⚠️ deadline"], urgent:true },
+                      { rank:"3", flag:"🇯🇵", route:"LAX → NRT → DPS via JAL", time:"11.5 + 7.5 hrs", layover:"~2 hr NRT", total:"~22–24 hrs", why:"60K AA AAdvantage OW biz (off-peak). JAL Sky Suite. Uses your AA miles — different pool from Amex/Chase.", tags:["AA miles","JAL"], urgent:false },
+                      { rank:"4", flag:"🇸🇬", route:"LAX → SIN → DPS via Singapore Airlines", time:"17.5 + 2.5 hrs", layover:"~2 hr SIN", total:"~22–24 hrs", why:"78.5K KrisFlyer PE OW. Shortest final hop to Bali (2.5 hrs). Changi = best airport. Spontaneous Escapes = flexible.", tags:["Amex MR","Chase UR","KrisFlyer"], urgent:false },
+                      { rank:"5", flag:"🇦🇺", route:"LAX → SYD → DPS — Sydney overnight", time:"15 + 6.5 hrs", layover:"Overnight SYD", total:"~38+ hrs + 1 night", why:"Qantas lie-flat LAX→SYD. First time in Sydney for Beryl — turns a hub into a destination. Need Australia ETA.", tags:["Qantas","stopover","first time SYD"], urgent:false },
+                      { rank:"~", flag:"🇲🇾", route:"via KUL (Kuala Lumpur)", time:"No direct LAX→KUL", layover:"Double connect", total:"27–30+ hrs", why:"No direct long-haul from LAX. Better as a return routing (DPS→KUL→onward). Not recommended outbound.", tags:["return only"], urgent:false },
+                      { rank:"~", flag:"🇮🇩", route:"via CGK (Jakarta)", time:"No direct LAX→CGK", layover:"Double connect", total:"27–32+ hrs", why:"No direct long-haul from LAX. Jakarta is only 1.5 hrs from Bali — useful for the return leg.", tags:["return only"], urgent:false },
+                      { rank:"✕", flag:"🇺🇸", route:"LAX → JFK → Asia", time:"5+ hrs added", layover:"Wrong direction", total:"+5 hrs wasted", why:"Going east to go west. Only valid if an insane eastbound deal appears. Skip.", tags:["skip"], urgent:false },
+                    ].map((r, i) => {
+                      const isSkip = r.rank === "✕";
+                      const isSub  = r.rank === "~";
+                      return (
+                        <div key={i} className={`rounded-xl p-3 flex gap-3 ${isSkip ? "bg-red-950/30 border border-red-800/30 opacity-50" : isSub ? "bg-gray-900/40 border border-white/5 opacity-70" : r.urgent ? "bg-amber-950/30 border border-amber-600/30" : "bg-white/5 border border-white/10"}`}>
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5 ${isSkip ? "bg-red-800 text-red-200" : isSub ? "bg-gray-700 text-gray-400" : r.urgent ? "bg-amber-600 text-white" : "bg-indigo-700 text-white"}`}>{r.rank}</div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span>{r.flag}</span>
+                              <span className="text-white font-semibold text-sm">{r.route}</span>
+                            </div>
+                            {!isSkip && !isSub && (
+                              <div className="flex items-center gap-3 mt-1 text-xs flex-wrap">
+                                <span className="text-indigo-300 font-mono font-bold">{r.time} flying</span>
+                                <span className="text-gray-500">+ {r.layover}</span>
+                                <span className="text-white font-semibold">= {r.total}</span>
+                              </div>
+                            )}
+                            <div className="text-gray-400 text-xs mt-1">{r.why}</div>
+                            <div className="flex gap-1.5 mt-1.5 flex-wrap">
+                              {r.tags.map(t => <span key={t} className={`text-xs px-2 py-0.5 rounded-full ${t.includes("deadline") || t === "skip" ? "bg-red-900/60 text-red-300" : "bg-white/10 text-gray-300"}`}>{t}</span>)}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="bg-emerald-950/40 border border-emerald-600/40 rounded-2xl p-5">
+                  <h3 className="text-emerald-200 font-bold mb-3">✅ Do These Right Now (in order)</h3>
+                  <div className="space-y-2">
+                    {[
+                      { n:1, action:"Apply for Indonesia e-VOA", detail:"evisa.imigrasi.go.id — $35, ~1 day. Do FIRST regardless of route.", time:"10 min" },
+                      { n:2, action:"Check ANA Mileage Club LAX→NRT business", detail:"ana.co.jp → Mileage Award. If available, transfer Amex MR → ANA now. Cutoff TOMORROW for Mar 31.", time:"15 min" },
+                      { n:3, action:"Register AA standby on Jetnet Mar 31, Apr 1, Apr 2", detail:"All three dates simultaneously. Free. D1 if it clears.", time:"5 min" },
+                      { n:4, action:"Check KrisFlyer Spontaneous Escapes", detail:"singaporeair.com → Spontaneous Escapes. LAX→SIN→DPS.", time:"10 min" },
+                      { n:5, action:"If Sydney: apply Australia ETA", detail:"'Australian ETA' app. AUD $20. Minutes to approve.", time:"5 min" },
+                      { n:6, action:"Book NRT→DPS or SIN→DPS short hop", detail:"This leg only gets more expensive. Book once you know your hub.", time:"5 min" },
+                    ].map(a => (
+                      <div key={a.n} className="flex gap-3 bg-black/20 rounded-lg p-3">
+                        <div className="bg-emerald-700 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">{a.n}</div>
+                        <div className="flex-1">
+                          <div className="text-white text-sm font-semibold">{a.action}</div>
+                          <div className="text-gray-400 text-xs mt-0.5">{a.detail}</div>
+                        </div>
+                        <div className="text-gray-500 text-xs flex-shrink-0 mt-1">{a.time}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ═══ TAB 2: HEDGE PORTFOLIO ═══ */}
+            {activeTab === 2 && (
+              <div className="space-y-6">
+                {PORTFOLIO_STRATEGIES.map((ps) => (
+                  <div key={ps.id} className={`rounded-2xl border ${ps.cardBg} overflow-hidden`}>
+                    <button className="w-full text-left p-5 pb-3" onClick={() => setExpandedPS(expandedPS === ps.id ? null : ps.id)}>
+                      <div className="flex items-start justify-between flex-wrap gap-2">
+                        <div className="flex items-center gap-2"><span className={`${ps.badge} text-white text-xs font-bold px-3 py-1 rounded-full`}>{ps.label}</span><span className={`text-xs font-semibold ${ps.riskColor}`}>{ps.riskLevel}</span></div>
+                        <span className="text-gray-400 text-lg">{expandedPS === ps.id ? "▲" : "▼"}</span>
+                      </div>
+                      <p className="text-white font-bold text-base mt-2">{ps.tagline}</p>
+                      <p className="text-gray-400 text-xs mt-0.5">{ps.totalExposure}</p>
+                    </button>
+                    {expandedPS === ps.id && (
+                      <div className="px-5 pb-5">
+                        <div className="space-y-3 mb-4">
+                          <div className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Your open positions</div>
+                          {ps.positions.map((pos) => (
+                            <div key={pos.slot} className="bg-black/30 rounded-xl p-4 border border-white/5">
+                              <div className="flex items-start justify-between gap-2 mb-2 flex-wrap">
+                                <div className="flex items-center gap-2">
+                                  <span className={`${pos.color} text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center`}>{pos.slot}</span>
+                                  <span className="text-white font-semibold text-sm">{pos.label}</span>
+                                  {typeBadge(pos.type)}
+                                </div>
+                                <div className="text-white font-bold text-sm">{pos.cost}</div>
+                              </div>
+                              <div className="text-gray-300 text-xs mb-2">{pos.route} · {pos.dates} · <span className="text-indigo-300">{pos.cabin}</span></div>
+                              <div className="grid grid-cols-2 gap-2 text-xs mb-2">
+                                <div className="bg-white/5 rounded-lg p-2"><div className="text-gray-500 mb-0.5">Cancel</div><div className="text-gray-200">{pos.cancelPolicy}</div><div className="text-emerald-400 font-bold mt-0.5">{pos.cancelFee}</div></div>
+                                <div className="bg-white/5 rounded-lg p-2"><div className="text-gray-500 mb-0.5">Book at</div><div className="font-mono text-indigo-300 text-xs">{pos.bookWhere}</div></div>
+                              </div>
+                              <div className="bg-indigo-950/50 border border-indigo-700/30 rounded px-2 py-1.5 text-xs text-indigo-200"><span className="text-indigo-400 font-bold">Priority: </span>{pos.priority}</div>
+                            </div>
+                          ))}
+                        </div>
+                        <div>
+                          <div className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">When to collapse → what to do</div>
+                          <div className="space-y-2">
+                            {ps.collapseLogic.map((cl, i) => (
+                              <div key={i} className="bg-white/5 rounded-lg p-3 flex gap-3">
+                                <span className="text-lg flex-shrink-0 mt-0.5">{cl.emoji}</span>
+                                <div><div className="text-white text-xs font-semibold mb-0.5">If: {cl.trigger}</div><div className="text-gray-300 text-xs">→ {cl.action}</div></div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* ═══ TAB 3: AVAILABILITY INTEL ═══ */}
+            {activeTab === 3 && (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-white font-bold mb-3">📅 Best Date Windows</h3>
+                  <div className="space-y-2">
+                    {AVAIL_WINDOWS.map((w, i) => (
+                      <div key={i} className="bg-gray-800/50 rounded-xl border border-white/10 p-4">
+                        <div className="flex items-start justify-between flex-wrap gap-2 mb-2">
+                          <div className="flex items-center gap-3"><div className={`w-3 h-3 rounded-full ${w.dotColor} flex-shrink-0`} /><span className="text-white font-bold text-sm">{w.dates}</span></div>
+                          <div className="flex gap-2 text-xs"><span className={`font-semibold ${w.loadColor}`}>Biz: {w.businessLoad}</span><span className="text-gray-500">|</span><span className={`font-semibold ${w.loadColor}`}>PE: {w.peLoad}</span></div>
+                        </div>
+                        <p className="text-gray-400 text-xs mb-1">{w.reason}</p>
+                        <p className="text-gray-200 text-xs">{w.recommendation}</p>
+                        <div className="mt-1 text-xs"><span className="text-gray-500">Standby chance: </span><span className="text-amber-300 font-semibold">{w.staffChance}</span></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-white font-bold mb-3">🛠️ Availability Hacks</h3>
+                  <div className="grid md:grid-cols-2 gap-3">
+                    {SEAT_TIPS.map((tip, i) => (
+                      <div key={i} className="bg-gray-800/50 rounded-xl border border-white/10 p-4">
+                        <div className="flex items-start gap-2 mb-1.5"><span className="text-xl flex-shrink-0">{tip.icon}</span><h4 className="text-white text-sm font-bold">{tip.title}</h4></div>
+                        <p className="text-gray-400 text-xs leading-relaxed">{tip.detail}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ═══ TAB 4: HYBRID PACKAGES ═══ */}
+            {activeTab === 4 && (
+              <div className="space-y-6">
+
+                {/* Hub Matrix */}
+                <div>
+                  <h3 className="text-white font-bold mb-1">🌏 Hub Route Matrix — All Options from LAX to Bali</h3>
+                  <p className="text-gray-500 text-xs mb-3">Every viable long-haul hub with exact flight times and layover. Mix and match outbound/return independently.</p>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs border-collapse">
+                      <thead>
+                        <tr className="border-b border-white/10">
+                          <th className="text-left text-gray-400 font-semibold py-2 pr-3 whitespace-nowrap">Hub</th>
+                          <th className="text-center text-gray-400 font-semibold py-2 px-2 whitespace-nowrap">LAX→Hub</th>
+                          <th className="text-center text-gray-400 font-semibold py-2 px-2 whitespace-nowrap">Layover</th>
+                          <th className="text-center text-gray-400 font-semibold py-2 px-2 whitespace-nowrap">Hub→DPS</th>
+                          <th className="text-center text-gray-400 font-semibold py-2 px-2 whitespace-nowrap">Total Flying</th>
+                          <th className="text-left text-gray-400 font-semibold py-2 px-2 whitespace-nowrap">Best Points Option</th>
+                          <th className="text-center text-gray-400 font-semibold py-2 px-2 whitespace-nowrap">Visa</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {HUB_MATRIX.map((h, i) => (
+                          <tr key={i} className={`border-b border-white/5 ${h.highlight ? "bg-white/3" : "opacity-70"}`}>
+                            <td className="py-2.5 pr-3">
+                              <div className="flex items-center gap-1.5">
+                                <span>{h.flag}</span>
+                                <div>
+                                  <div className={`font-bold ${h.highlight ? "text-white" : "text-gray-400"}`}>{h.hub}</div>
+                                  <div className="text-gray-600">{h.code}</div>
+                                </div>
+                                {h.highlight && <span className="ml-1 text-emerald-400 text-xs">✓</span>}
+                              </div>
+                            </td>
+                            <td className="py-2.5 px-2 text-center">
+                              <span className={`font-mono font-bold ${h.highlight ? "text-indigo-300" : "text-gray-500"}`}>{h.laxToHub}</span>
+                            </td>
+                            <td className="py-2.5 px-2 text-center text-gray-400">{h.layover}</td>
+                            <td className="py-2.5 px-2 text-center">
+                              <span className={`font-mono font-bold ${h.highlight ? "text-emerald-300" : "text-gray-500"}`}>{h.hubToDps}</span>
+                            </td>
+                            <td className="py-2.5 px-2 text-center">
+                              <span className={`font-semibold ${h.highlight ? "text-white" : "text-gray-500"}`}>{h.totalFlying}</span>
+                            </td>
+                            <td className="py-2.5 px-2 text-gray-300 max-w-xs">
+                              <div className={h.highlight ? "text-gray-200" : "text-gray-500"}>{h.points}</div>
+                            </td>
+                            <td className="py-2.5 px-2 text-center whitespace-nowrap">{h.visa}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Packages */}
+                <div>
+                  <h3 className="text-white font-bold mb-1">🎫 Bookable Packages — Ranked by Value</h3>
+                  <p className="text-gray-500 text-xs mb-3">Lay-flat on the long haul. Economy on the short hop. Each leg is independently bookable and cancelable.</p>
+                  <div className="space-y-3">
+                    {HYBRID_PACKAGES.map((pkg) => (
+                      <div key={pkg.rank} className={`rounded-2xl border ${pkg.cardBg} p-5`}>
+                        <div className="flex items-start justify-between flex-wrap gap-2 mb-2">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className={`${pkg.badge} text-white text-xs font-bold px-3 py-1 rounded-full`}>{pkg.label}</span>
+                            {pkg.staffOnly && <span className="bg-amber-700/60 text-amber-200 text-xs px-2 py-0.5 rounded-full border border-amber-600/40 font-semibold">👤 Staff</span>}
+                          </div>
+                          <div className="text-right">
+                            <div className="text-white font-bold text-sm">{pkg.total}</div>
+                            <div className="text-xs text-gray-400 mt-0.5">Risk: <span className={pkg.risk.startsWith("HIGH") ? "text-red-400" : (pkg.risk.startsWith("NONE") || pkg.risk.startsWith("VERY")) ? "text-emerald-400" : "text-yellow-400"}>{pkg.risk}</span></div>
+                          </div>
+                        </div>
+
+                        {/* Time summary bar */}
+                        <div className="flex items-center gap-3 bg-black/20 rounded-lg px-3 py-2 mb-3 text-xs flex-wrap">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-gray-500">Hub:</span>
+                            <span className="text-white font-semibold">{pkg.hub}</span>
+                          </div>
+                          <span className="text-gray-700">·</span>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-gray-500">Total flying:</span>
+                            <span className="text-indigo-300 font-bold">{pkg.totalFlying}</span>
+                          </div>
+                          <span className="text-gray-700">·</span>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-gray-500">Door-to-door:</span>
+                            <span className="text-white font-semibold">{pkg.doorToDoor}</span>
+                          </div>
+                        </div>
+
+                        {/* Legs */}
+                        <div className="space-y-2 mb-3">
+                          {[pkg.leg1, pkg.leg2].map((leg, i) => (
+                            <div key={i} className="bg-black/20 rounded-lg p-3">
+                              <div className="flex items-start justify-between gap-3 flex-wrap">
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className="bg-gray-700 text-gray-300 text-xs font-bold px-1.5 py-0.5 rounded">LEG {i+1}</span>
+                                    {typeBadge(leg.type)}
+                                  </div>
+                                  <div className="text-white text-sm font-medium">{leg.route}</div>
+                                  <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                                    <span className="text-indigo-300 text-xs font-bold">{leg.hours}</span>
+                                    {leg.layover && <span className="text-amber-300/70 text-xs">→ {leg.layover}</span>}
+                                    <span className="text-gray-400 text-xs">{leg.cabin}</span>
+                                  </div>
+                                </div>
+                                <div className="text-white font-bold text-sm text-right">{leg.cost}</div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="flex gap-2 flex-wrap text-xs">
+                          <div className="bg-white/5 rounded-lg px-3 py-1.5 flex-1">
+                            <span className="text-gray-400">Why: </span>
+                            <span className="text-gray-200">{pkg.why}</span>
+                          </div>
+                          <div className="bg-white/5 rounded-lg px-3 py-1.5 whitespace-nowrap">
+                            <span className="text-gray-400">Cancel: </span>
+                            <span className="text-emerald-300">{pkg.refundable}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ═══ TAB 5: CANCEL POLICIES ═══ */}
+            {activeTab === 5 && (
+              <div className="space-y-4">
+                <p className="text-gray-400 text-sm">Know exactly what each position costs to exit before you enter it.</p>
+                {CANCEL_POLICIES.map((p, i) => (
+                  <div key={i} className={`bg-gray-800/50 rounded-2xl border ${p.hedgeFriendly ? "border-emerald-700/30" : "border-white/10"} p-5`}>
+                    <div className="flex items-start justify-between flex-wrap gap-2 mb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">{p.icon}</span>
+                        <div>
+                          <h3 className="text-white font-bold text-sm">{p.program}</h3>
+                          <div className="flex items-center gap-2 mt-0.5">{typeBadge(p.type)}{p.hedgeFriendly && <span className="text-xs text-emerald-400 font-semibold">✓ Hedge-friendly</span>}</div>
+                        </div>
+                      </div>
+                      <div className="text-right"><div className="text-emerald-400 font-bold text-sm">{p.cancelCost}</div><div className="mt-0.5">{stars(p.rating)}</div></div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-xs mb-3">
+                      <div className="bg-white/5 rounded-lg p-2"><div className="text-gray-500 mb-0.5">Changes</div><div className="text-gray-200">{p.changeAllowed}</div></div>
+                      <div className="bg-white/5 rounded-lg p-2"><div className="text-gray-500 mb-0.5">Deadline</div><div className="text-gray-200">{p.deadline}</div></div>
+                      <div className="bg-white/5 rounded-lg p-2"><div className="text-gray-500 mb-0.5">Refund</div><div className="text-gray-200">{p.refundMethod}</div></div>
+                    </div>
+                    <p className="text-gray-400 text-xs leading-relaxed">{p.notes}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* ═══ TAB 6: CHECKLIST ═══ */}
+            {activeTab === 6 && (
+              <div className="space-y-5">
+                <p className="text-gray-400 text-sm">Checkboxes save automatically — they'll remember their state every time you open this file.</p>
+                {DAILY_CHECKS.map((phase, pi) => (
+                  <div key={pi} className={`rounded-2xl border ${phase.urgencyColor} p-5`}>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-base">{phase.urgency}</span>
+                      <h3 className="text-white font-bold text-sm">{phase.day}</h3>
+                      <span className="ml-auto text-xs text-gray-500">
+                        {phase.tasks.filter((_, ti) => checks[`${pi}-${ti}`]).length}/{phase.tasks.length} done
+                      </span>
+                    </div>
+                    <div className="space-y-2">
+                      {phase.tasks.map((t, ti) => {
+                        const key = `${pi}-${ti}`;
+                        const done = !!checks[key];
+                        return (
+                          <div key={ti}
+                            className={`bg-black/20 rounded-lg p-3 flex items-start gap-3 cursor-pointer transition-all checkmark ${done ? "opacity-50" : "hover:bg-black/30"}`}
+                            onClick={() => toggleCheck(key)}>
+                            <div className={`w-5 h-5 rounded border flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${done ? "bg-emerald-500 border-emerald-400" : "border-gray-600 bg-black/20"}`}>
+                              {done && <span className="text-white text-xs font-bold">✓</span>}
+                            </div>
+                            <div className="flex-1">
+                              <div className={`text-sm ${done ? "line-through text-gray-500" : "text-gray-200"}`}>{t.task}</div>
+                              <div className="text-indigo-400 font-mono text-xs mt-1">{t.tool}</div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+
+                <div className="bg-gradient-to-r from-indigo-950/60 to-violet-950/60 border border-indigo-600/30 rounded-2xl p-5">
+                  <h4 className="text-indigo-200 font-bold mb-2">💡 The Hedge Mindset</h4>
+                  <p className="text-indigo-200/70 text-sm leading-relaxed">
+                    You're not trying to predict the future — you're buying options. Register standby (free). Book an award (cancelable ~$100). If cash refundable, book that too (zero exit cost). Worst outcome: one small cancel fee. Best outcome: D1 to Tokyo for $50, Bali from there on $150. The system works because you act before you commit.
+                  </p>
+                </div>
+              </div>
+            )}
+
+          </div>
+
+          <div className="border-t border-white/5 bg-gray-900 px-6 py-3">
+            <div className="max-w-5xl mx-auto flex justify-between flex-wrap gap-2 text-xs text-gray-600">
+              <span>Airline Booker · ARC Brain · March 2026</span>
+              <span>{syncStatus === 'linked' ? '☁️ Syncing to Dropbox · ' : '💾 Local only · '} Hedge Portfolio Engine v1</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(React.createElement(AirlineBooker));
+  </script>
+</body>
+</html>

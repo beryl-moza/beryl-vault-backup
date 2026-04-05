@@ -1,0 +1,632 @@
+{
+  "run_timestamp": "2026-04-03T23:10:32Z",
+  "date": "2026-04-03",
+  "results": {
+    "antidote_work": {
+      "account_id": "antidote_work",
+      "email_count": 30,
+      "prio_counts": {
+        "P0": 0,
+        "P1": 1,
+        "P2": 1,
+        "P3": 14,
+        "P4": 14
+      },
+      "top_senders": [
+        [
+          "\"CC Strategic AI (Skool)\" <noreply@skool.com>",
+          3
+        ],
+        [
+          "TripleWhale <reports@triplewhale.com>",
+          2
+        ],
+        [
+          "Wise <noreply@wise.com>",
+          2
+        ],
+        [
+          "Startup CPG <community@startupcpg.com>",
+          1
+        ],
+        [
+          "franny.wang@innovanutra.com",
+          1
+        ]
+      ],
+      "emails": [
+        {
+          "id": "19d55937e26e886a",
+          "thread_id": "19d55937e26e886a",
+          "subject": "Final Stop - Founders & Funders: Roadshow!!",
+          "from": "Startup CPG <community@startupcpg.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "date": "Fri, 03 Apr 2026 23:00:22 +0000 (UTC)",
+          "snippet": "See us in SF on August 17! \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f",
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://manage.kmail-lists.com/subscriptions/unsubscribe?a=WdUZt6&c=01HXFNC45WS7ZS62F4TT35H1RE&k=207057b5e68deea3efda31cea8c43a88&m=01KN2R6AZEZRWBTJAS7EZ7Y95V&r=01KNARB3BTDXEZNFNKF4JBJM81>",
+          "x_mailer": "",
+          "priority": "P4",
+          "classify_reason": "Gmail categorized as promotions + has unsubscribe",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d55855a4753afa",
+          "thread_id": "19d4acab935e91fb",
+          "subject": "Re:  Capsule Size & Label Update Confirmation",
+          "from": "franny.wang@innovanutra.com",
+          "to": "beryl@antidote.group",
+          "date": "Sat, 4 Apr 2026 06:44:48 +0800 (CST)",
+          "snippet": "Hello, Due to the nature of liposomal technology, encapsulation is required, which means the raw NMN content is 50%. To achieve 500mg of active NMN, we would need to add 1000mg of liposomal NMN into",
+          "label_ids": [
+            "UNREAD",
+            "IMPORTANT",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d555e37e7b6db4",
+          "thread_id": "19d555e37e7b6db4",
+          "subject": "easter sale is live",
+          "from": "NovaMane <info@novamane.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "date": "Fri, 03 Apr 2026 22:01:50 +0000",
+          "snippet": "code EASTEREGG gets you 15% off everything and it ends Saturday night \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f ",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://manage.kmail-lists.com/subscriptions/unsubscribe?a=V4Z9vF&c=01KBCYWEREVDZDA0QJ29W0VRZZ&k=1585ca83c4a6294c4b36008d3198977c&m=01KN9MZF6WG9WTQC7WXHPGPPA5&r=01KNAMX62KRGNSE8TMSRC3Y7Q3>, <mailto:unsub1-01KBCYWEREVDZDA0QJ29W0VRZZ-KY2FUOLWIY======@shared.klaviyomail.com?subject=request%20unsubscribe%20ME6VMNC2HF3EMJTDHUYDCS2CINMVORKSIVLEIWSEIEYFCSRSHFLTAVSSLJNCM2Z5GE2TQNLDME4DGYZUME3DEOJUMM2GEMZWGAYDQZBTGE4TQOJXG5RSM3J5GAYUWTRZJVNEMNSXI44VOVCRIM3VOWCIKBDVAUCBGUTHEPJQGFFU4QKNLA3DES2SI5HFGRJYKRGVGUSDGNMTOUJT>",
+          "x_mailer": "",
+          "priority": "P4",
+          "classify_reason": "Has List-Unsubscribe + marketing pattern",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d553c62d720c36",
+          "thread_id": "19d553c62d720c36",
+          "subject": "Skip rebuilds, guardrails, better CLI",
+          "from": "Railway <hello@news.railway.app>",
+          "to": "beryl@antidote.group",
+          "date": "Fri, 03 Apr 2026 21:25:12 +0000",
+          "snippet": "It&#39;s Friday and you know what that means! Here&#39;s a summary of the stuff we shipped this week \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "Customer.io (dgSF4AcCAKL_wAGh_8ABAZ1VFX-1SsPISizBqzdeSg==; +https://whatis.customeriomail.com)",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d5509288bbfa6d",
+          "thread_id": "19d539cf4f3c0f23",
+          "subject": "Re: Payroll Processed & Upcoming Reminders",
+          "from": "Clayton Dolan <clayton@antidote.group>",
+          "to": "Payroll <payroll@atxtaxadvisors.com>",
+          "date": "Fri, 3 Apr 2026 13:29:02 -0700",
+          "snippet": "Hello, making sure this was a mistake and that you didn&#39;t run any payroll -- we mentioned to hold off on any until further notice. And at this point, we have fully moved payroll into Gusto so we d",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P1",
+          "classify_reason": "VIP domain: antidote.group",
+          "label_applied": "MAILMAN/P1-Important"
+        },
+        {
+          "id": "19d55010c6a62031",
+          "thread_id": "19d55010c6a62031",
+          "subject": "Crypto portfolio update",
+          "from": "CoinTracker <hello@mail.cointracker.io>",
+          "to": "beryl@antidote.group",
+          "date": "Fri, 03 Apr 2026 20:20:24 +0000",
+          "snippet": "Crypto portfolio update Portfolio value: $31752.47 Past day return: $373.85 (+1.19%) View portfolio \ud83d\udea8 Don&#39;t wait \u2014 get your crypto tax report by April 15 \u2192 X Reddit Linkedin Apple App Store Google",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P2",
+          "classify_reason": "Financial/legal keywords (not marketing)",
+          "label_applied": "MAILMAN/P2-Security"
+        },
+        {
+          "id": "19d54f741d4bbd35",
+          "thread_id": "19d54f741d4bbd35",
+          "subject": "1 new notification since 12:09 pm (Apr 3, 2026)",
+          "from": "\"CC Strategic AI (Skool)\" <noreply@skool.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "date": "Fri, 03 Apr 2026 20:09:42 +0000 (UTC)",
+          "snippet": "CC Strategic AI skool logo 1 new notification Since 12:09 pm (Apr 3, 2026) Here&#39;s what you missed: Charles Dove (following) posted: \ud83c\udfa5 Episode 3 : CARL &amp; BASE (Claude Isn&#39;t Dumb Anymore) \ud83c\udfa5",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d54f203e793725",
+          "thread_id": "19d54f203e793725",
+          "subject": "Finish setting up your business",
+          "from": "LegalZoom <noreply@email.legalzoom.com>",
+          "to": "insights@antidote.group",
+          "date": "Fri, 03 Apr 2026 20:03:56 +0000 (UTC)",
+          "snippet": "Sign in Set CD Growth Services LLC up for success Hi Clayton, Getting your new business compliant in Texas doesn&#39;t have to be overwhelming. We&#39;ve created a quick checklist to help businesses",
+          "label_ids": [
+            "UNREAD",
+            "IMPORTANT",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://u37365688.ct.sendgrid.net/lu/unsubscribe?oc=u001.ACMFr44w1xztH4gxDrCqZXY0XGsf0KVdEsihRmplXXN1z_0FC-Q6YHDqryLt5F61aPCogXl4Y3nb847Ca9EcvjoKu0UJOpTTQWYuNF_o-YcNWczAyWqHfDJzWQ7kLM6Lz1xw2_qyNka6bek8kq5LBFS6ngxpnotZ7OdAERE0EyjtdzRphbQUKnX_1ZIAkwmTSsP62ruOyvRLDVf0AlmMvnBAJmvvLsrxQNWcs8yOhbLGYIhtF9vmad2_fNrTzTwjN4_PFqWMq6mYioJva8yaIUYqJ3tFSoVih3RispnhZNqrxj4jv95Qqst_XXCZov_YPetDB-V08k66i9WRiaKWeo3kLmRs78FdDK0mKdAKTpZ0KQDJhXG798O7nrwKroy-FsuLrAQDYtnTVPiTG-SZVJPE-LBhuBhdRvi0WgmRYnubzBrxyD5_jDKdA6Gt3UARag_tbMd_JXDsxWlsiXAVWjin_yJy02yMrIQPptfpy9RBGytKhmteudk9-Hs5C9xmX1dfCcjSeOav5FAYqDIQyyrNHB_4RJaf98CZ63bR44sGmML5NaM8tmiF2PsYPVQDXSZlLSDPJwrW7-VDJv-LC2_j1GnWGL2R-pl1mjula_5QqtkSSno3v565QyLOifZyuRhue6zjihyTv4NS3-Z3NfFbPaNIvkR54PamxH5zQfsn7iGPDnaIBWlnOVhRhRUuEUay1vtPhH1pnd2vxRj8gA>,<mailto:unsubscribe@em3042.email.legalzoom.com?subject=https://u37365688.ct.sendgrid.net/mt/u/u001.Y6n9HEB-5Ui08IldSCC57FUpkFXoigWeEOQVNNHSMl8/4ph/u001._jzKAZ2D/u001.BEzbnLFOtknE4t-2B1RFBx0hWUdq930fkeRzyg-2BT1daw3nwC5i126kyNDXRSof1kkzqWyk2q4HYhMogBbg7YiV7qjxpXLuiYxpYP-2Bvq8utRYLpN5uND-2BkC5VWIJSHl4AU7oP3gkQL2WfJ4yszlvnKAWOZqEpSQ-2Fqplfrl3XgIY-2FCS0plRdxZ0CbUbLOZKKqUFDsq35A5j3-2BxXmnh99-2FQwmVoesF6Q9eWsqHbhJ-2BhkKA1HXjHHXxv78ii4ZNQfsw2g1x-2BXv3k9kX5i2N7v0doFxFtCc0Tq3IKbW9wD7nikyClEBEuLyD6p2mJUnkXwGtLs8wYS-2FAJPGw7sRbLyqhDZH-2Fh-2B5Wz23l-2BJgMq0us29g5-2B-2FNRW8ELukWnNbGA0Dtt0DfUv21oC2VctJZlvPVdcJmaYdRsuAA03kV8e6Sv7it2q12Hjn4uWQLUcGD7Jzogm0O/u001.w2rLDLVM>",
+          "x_mailer": "",
+          "priority": "P4",
+          "classify_reason": "Has List-Unsubscribe + marketing pattern",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d54cdab1556306",
+          "thread_id": "19d54cdab1556306",
+          "subject": "Join us for Docusign 101",
+          "from": "Docusign <docusign@mail.docusign.com>",
+          "to": "beryl@antidote.group",
+          "date": "Fri, 03 Apr 2026 19:24:16 +0000",
+          "snippet": "Our weekly webinar includes a live demo showcasing some of our most popular features. \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f ",
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://links.iterable.com/s/uh/w3HW1iUe8OTpLd96rILAGTR4sIwbpodmFoRWC5TQ0aSjuob2TzTCfBoRjB9Hp5csKzKsiorXEbM3mTf8tSylX1kIgi1WH0Vp_idn6xO_TzMtyNoyZlHTfL3SWrJwv2m0Q8KmIDx0kSJEaWurkJURJ4uI2d9PVypuA0-6M4xiXepItBNgMKWGOydTR2WttTCuV8VZNeN9eNAQk_i3/PMw29V6r1VGvX2OrcsWhVrI9R42Z6mnk/19>,<mailto:unsubscribe+15465478+20127661@unsubscribe.iterable.com>",
+          "x_mailer": "",
+          "priority": "P4",
+          "classify_reason": "Gmail categorized as promotions + has unsubscribe",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d54c895798e89a",
+          "thread_id": "19d54c895798e89a",
+          "subject": "Document shared with you: \"ARS_Services_Agreement_TEMPLATE_v2.docx\"",
+          "from": "\"Clayton Dolan (via Google Docs)\" <drive-shares-dm-noreply@google.com>",
+          "to": "beryl@antidote.group",
+          "date": "Fri, 03 Apr 2026 19:18:43 +0000",
+          "snippet": "Clayton Dolan shared a document Clayton Dolan (clayton@antidote.group) has invited you to edit the following document: ARS_Services_Agreement_TEMPLATE_v2.docx Open Google LLC, 1600 Amphitheatre Parkwa",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d54870f4599ffc",
+          "thread_id": "19d54870f4599ffc",
+          "subject": "Save on Last-Minute Easter Essentials",
+          "from": "Whole Foods Market <wholefoodsmarket@mail.wholefoodsmarket.com>",
+          "to": "beryl@antidote.group",
+          "date": "Fri, 3 Apr 2026 18:07:09 +0000",
+          "snippet": "30% Off Bone-In Spiral-Cut Ham and More &gt; \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c Whole Foods Market. Spring in Bloom. Sale. No antibiotics, ever. Bone-In Spiral-Cut Hams 30% off with",
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://r.wholefoodsmarket.com/gp/r.html?C=1H6ME5XPZZE2R&K=1WAZUIYTU58TZ&M=urn:rtn:msg:202604031807091caa10ea15ee48f3bb0d4b22dac0p0na&R=1LU7UK8GUCYAV&T=X&U=https%3A%2F%2Fwww.wholefoodsmarket.com%2Fwfm_email_opt_out%2F1i2x5TS6wjiRpAAkAAHio7Wt.HU5wdSVA5zYQlHlHwHcjoqLdSlA2ezLsmH78M62d&H=ZFDDHW9SGAYWCULGYEEMVOSANIUA>",
+          "x_mailer": "",
+          "priority": "P4",
+          "classify_reason": "Gmail categorized as promotions + has unsubscribe",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d5473d548ec435",
+          "thread_id": "19d5473d548ec435",
+          "subject": "1 event happening tomorrow",
+          "from": "\"CC Strategic AI (Skool)\" <noreply@skool.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "date": "Fri, 03 Apr 2026 17:46:09 +0000 (UTC)",
+          "snippet": "CC Strategic AI skool logo 1 event happening tomorrow AI Automation Lab \ud83e\uddea\ud83e\udd16 Saturday, April 4th \u2022 11 :00am - 12 :00pm (Los Angeles time) Private strategy call . Personalized coaching, build reviews, an",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d5460d44bca75d",
+          "thread_id": "19d5460d44bca75d",
+          "subject": "1 new notification since 9:25 am (Apr 3, 2026)",
+          "from": "\"CC Strategic AI (Skool)\" <noreply@skool.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "date": "Fri, 03 Apr 2026 17:25:24 +0000 (UTC)",
+          "snippet": "CC Strategic AI skool logo 1 new notification Since 9:25 am (Apr 3, 2026) Here&#39;s what you missed: Charles Dove (following) posted: \u23f3 Episode 3 Agentic Operators : Fix Claude&#39;s Stupidity CARL",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d545ed1a76e717",
+          "thread_id": "19d545ecd5070a60",
+          "subject": "TripleWhale Daily Reports",
+          "from": "TripleWhale <reports@triplewhale.com>",
+          "to": "insights@antidote.group",
+          "date": "Fri, 03 Apr 2026 17:23:09 +0000 (UTC)",
+          "snippet": "ICONIC Daily DTC Report Metrics for iconic-protein.myshopify.com Comparison between Yesterday and Apr 1, 2026 Gross Sales: $1025 ($1432) \u2b07\ufe0e 28.42% True AOV: $68 ($63) \u2b06\ufe0e 6.85% New Customer Revenue:",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d545ecd5070a60",
+          "thread_id": "19d545ecd5070a60",
+          "subject": "TripleWhale Daily Reports",
+          "from": "TripleWhale <reports@triplewhale.com>",
+          "to": "insights@antidote.group",
+          "date": "Fri, 03 Apr 2026 17:23:08 +0000 (UTC)",
+          "snippet": "ICONIC Daily Amazon Report Metrics for iconic-protein.myshopify.com Comparison between Yesterday and Apr 1, 2026 Amazon Product Sales: $7442 ($9916) \u2b07\ufe0e 24.94% Amazon Orders: 143 (178) \u2b07\ufe0e 19.66%",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d544a1a46887b9",
+          "thread_id": "19d544a1a46887b9",
+          "subject": "\ud83d\udcb2 NEW Slayyyter Case $tudy",
+          "from": "Venice Music <info@venicemusic.la>",
+          "to": "beryl@antidote.group",
+          "date": "Fri, 03 Apr 2026 17:00:33 +0000",
+          "snippet": "Months before &quot;WOR$T GIRL IN AMERICA&quot; dropped, Slayyyter swapped her profile picture to a red dollar sign across every platform. No explanation. No announcement. Just the symbol. By the time",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<mailto:32.MRTVIQLTM5XUIQKOMF2UC5CXOVAWOR3EKZCW24DNGVFDI4LNGVRUKVKOMZUGOOB5@unsubscribe2.customer.io>, <https://e.customeriomail.com/unsubscribe/dgTAsgoDANauAtWuAgGdVEmpm5J4qm5cEUNfhg8=>",
+          "x_mailer": "Customer.io (dgTAsgoDANauAtWuAgGdVEmpm5J4qm5cEUNfhg8=; +https://whatis.customeriomail.com)",
+          "priority": "P4",
+          "classify_reason": "Gmail categorized as promotions + has unsubscribe",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d54484106cded3",
+          "thread_id": "19d54484106cded3",
+          "subject": "Transfer sent (#2057906076)",
+          "from": "Wise <noreply@wise.com>",
+          "to": "insights@antidote.group",
+          "date": "Fri, 3 Apr 2026 16:58:31 +0000",
+          "snippet": "Wise. Your account for the world&#39;s money This notification is for the business account of Antidote Group Inc.. Hello Brandon Tyler, 24511.20 PHP is now in Alec Kirstein Beltrano&#39;s account. You",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d542ba250cefdb",
+          "thread_id": "19d542ba250cefdb",
+          "subject": "Transfer sent (#2057862000)",
+          "from": "Wise <noreply@wise.com>",
+          "to": "insights@antidote.group",
+          "date": "Fri, 3 Apr 2026 16:27:15 +0000",
+          "snippet": "Wise. Your account for the world&#39;s money This notification is for the business account of Antidote Group Inc.. Hello Brandon Tyler, 40000 PHP is now in Eddy M&#39;hrry Ziga&#39;s account. Your",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d5425e9cf54b97",
+          "thread_id": "19d5425e9cf54b97",
+          "subject": "Introducing Emblems: a landmark collection of luxury hotels",
+          "from": "ALL Accor <news.all@mail.all.com>",
+          "to": "<beryl@antidote.group>",
+          "date": "Fri, 03 Apr 2026 10:21:02 -0600",
+          "snippet": "Destinations of character, defined by soul View in browser ALL - ACCOR LIVE LIMITLESS Curating addresses of exceptional character It&#39;s the Soul that makes Emblems We are proud to unveil Emblems",
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://click.mail.all.com/subscription_center.aspx?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtaWQiOiI1MTAwMDgwMTEiLCJzIjoiNDIzOTUwNzcwIiwibGlkIjoiMTQiLCJqIjoiNTUwNTg0IiwiamIiOiIzMjc2IiwiZCI6IjUwMDAyMyJ9.Cdbs7nDNaAU_is5fhYx-IQZbQBaoYP3n2bAa3sRgng8>, <mailto:leave-KQYAQGTYWXZERPTBMDK7KLNSIA.500023@leave.mail.all.com>",
+          "x_mailer": "",
+          "priority": "P4",
+          "classify_reason": "Gmail categorized as promotions + has unsubscribe",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d541fdb00c19af",
+          "thread_id": "19d541fdb00c19af",
+          "subject": "These best sellers are calling your name \ud83d\udcf8",
+          "from": "KEH Camera <kehcamera@e.keh.com>",
+          "to": "beryl@antidote.group",
+          "date": "Fri, 03 Apr 2026 16:14:25 +0000",
+          "snippet": "Shop KEH Certified\u2122 favorites from top brands like Canon, Nikon, Fuji, Leica, &amp; more! \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f ",
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://us3-cdn.eng.bloomreach.com/keh-inc-production/unsub/CgxoCoJaDjt3ikKwGCISICEhrl-1zRSv3OF9P-5yyR0of3sAL9GSy6EtP84p5-jY.fdWaM_CVDRvBOA>,<mailto:unsubscribe-US3@us3-cdn.eng.bloomreach.com?subject=keh-inc-production/unsub/CgxoCoJaDjt3ikKwGCISICEhrl-1zRSv3OF9P-5yyR0of3sAL9GSy6EtP84p5-jY.fdWaM_CVDRvBOA>",
+          "x_mailer": "",
+          "priority": "P4",
+          "classify_reason": "Gmail categorized as promotions + has unsubscribe",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d5417b20f6a1da",
+          "thread_id": "19d5417b20f6a1da",
+          "subject": "\ud83d\udcb3 This is your \u201cI\u2019ve got it together\u201d era",
+          "from": "\"AquaVault Inc.\" <info@theaquavault.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "date": "Fri, 03 Apr 2026 16:05:30 +0000",
+          "snippet": "No digging. No panic. Just smooth.\u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c ",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://api.listmember.co/api/v1/email/unsub/aTFKKy96MGk1MHpIQmhkSy9TYmEyUEVxQUJ3a0hneVU1ZGJFSEUrV0hkTWJaLzlZblg0R1dEUGIvZDRsejM2ajl6UUJmeTZ6VUd5WFM5UFYxYjU2U2lIeUJFWUZnV2J5OWxpSjhJOHZINjg9>",
+          "x_mailer": "",
+          "priority": "P4",
+          "classify_reason": "Gmail categorized as promotions + has unsubscribe",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d5416813ca86cd",
+          "thread_id": "19d5416813ca86cd",
+          "subject": "We astroturfed our marketing...",
+          "from": "dbrand <robots@dbrand.com>",
+          "to": "beryl@antidote.group",
+          "date": "Fri, 03 Apr 2026 16:04:13 +0000 (UTC)",
+          "snippet": "It&#39;s not what you think. Open the email. \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f",
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://manage.kmail-lists.com/subscriptions/unsubscribe?a=LtH6ct&c=01JF73WNBNBAJ9WEY7YZG801FK&k=fe1d2ef424ca31be2f90237c7c10ab7a&m=01KN34PXZEBW2R63J9MW05RV09&r=01KNA171Z6NS5EA066VSJW4XZ7>",
+          "x_mailer": "",
+          "priority": "P4",
+          "classify_reason": "Has List-Unsubscribe + marketing pattern",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d54133ee4cc921",
+          "thread_id": "19d54133ee4cc921",
+          "subject": "4 Years, One Mission \u2014 20% Off Everything to Celebrate \ud83c\udf89",
+          "from": "Rho Nutrition <team@rhonutrition.com>",
+          "to": "Brandon Ancier <beryl@antidote.group>",
+          "date": "Fri, 03 Apr 2026 16:00:38 +0000 (UTC)",
+          "snippet": "Hi Brandon, Four years ago, Rho started as just an idea in our heads: supplements should actually work, and you should be able to feel them. To celebrate how far we&#39;ve come (and where we&#39;re",
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://manage.kmail-lists.com/subscriptions/unsubscribe?a=QPXG8c&c=01JAG6PC36W2PW0R6JJ0BBA50A&k=0f309eb514c030d53c0e948f1bde46cd&m=01KN4QKNJHBNZRKPXW5J1ZDWXH&r=01KNA09VCS6AHPD4B1K5EC9H5E>",
+          "x_mailer": "",
+          "priority": "P4",
+          "classify_reason": "Gmail categorized as promotions + has unsubscribe",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d53f8a99dc6283",
+          "thread_id": "19d53f8a99dc6283",
+          "subject": "Cherry. Blue Raspberry. Say Less.",
+          "from": "Instant Hydration <info@instanthydration.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "date": "Fri, 03 Apr 2026 15:31:11 +0000",
+          "snippet": "Iconic taste, premium hydration. Up to 50% off. \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f ",
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://manage.kmail-lists.com/subscriptions/unsubscribe?a=YvDDtj&c=01KB60NHS80B2QC03MMSVVRBK2&k=b95a22e65e58e55da4aa046c321a79a2&m=01KN8JS3WKZB6BMW55SHSMF5EM&r=01KN9YJRE05ND06DH09SQ3XVGY>, <mailto:unsub1-01KB60NHS80B2QC03MMSVVRBK2-LF3EIRDUNI======@shared.klaviyomail.com?subject=request%20unsubscribe%20ME6VS5SEIR2GUJTDHUYDCS2CGYYE4SCTHAYEEMSRIMYDGTKNKNLFMUSCJMZCM2Z5MI4TKYJSGJSTMNLFGU4GKNJVMRQTIYLBGA2DMYZTGIYWCNZZMEZCM3J5GAYUWTRYJJJTGV2LLJBDMQSNK42TKU2IKNGUMNKFJUTHEPJQGFFU4OKZJJJEKMBVJZCDANSEJAYDSU2RGNMFMR2Z>",
+          "x_mailer": "",
+          "priority": "P4",
+          "classify_reason": "Gmail categorized as promotions + has unsubscribe",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d53ed2bfa272b4",
+          "thread_id": "19d53ed2bfa272b4",
+          "subject": "April 03 | The Daily Fast 5",
+          "from": "Keychain <hello@keychain.com>",
+          "to": "beryl@antidote.group",
+          "date": "Fri, 03 Apr 2026 15:19:04 +0000 (UTC)",
+          "snippet": "The Latest CPG &amp; Manufacturing News \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f ",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<mailto:32.MRTVI3DWO5VUIQKNGZ4VK4ZSPFKWOR3EKUWTAZ3IPBYVO5CEIZREGNTJPEYUC4Z5@unsubscribe2.customer.io>, <https://trackcio.keychain.com/unsubscribe/dgTlvwkDAM6yUs2yUgGdU-0ghxqWtDFbC6iy1As=>",
+          "x_mailer": "Customer.io (dgTlvwkDAM6yUs2yUgGdU-0ghxqWtDFbC6iy1As=; +https://whatis.customeriomail.com)",
+          "priority": "P4",
+          "classify_reason": "Gmail categorized as promotions + has unsubscribe",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d53ec6d9f3068a",
+          "thread_id": "19d53ec6d9f3068a",
+          "subject": "Open Canva Soft Launch - Beta User DISCOUNT",
+          "from": "\"Colton & Rahul\" <founders@opencanva.co>",
+          "to": "Eddy Athena <eddy@antidote.group>",
+          "date": "Fri, 3 Apr 2026 10:18:03 -0500",
+          "snippet": "Hey Beryl, Hope you&#39;ve had a great week! We just officially launched Open Canva and would love to hear how you were using the tool on the beta. There are some pretty significant updates so excited",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d53ea9275a38b1",
+          "thread_id": "19d53ea9275a38b1",
+          "subject": "You never clicked this \ud83d\ude15",
+          "from": "\"support@tryholo.ai\" <support@tryholo.ai>",
+          "to": "<beryl@antidote.group>",
+          "date": "Fri, 03 Apr 2026 15:16:13 +0000",
+          "snippet": "\u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c \u200c ",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://manage.kmail-lists.com/subscriptions/unsubscribe?a=Sf8tjt&c=01K80JDPAAXDJ2ZRG6YN0R3SQY&k=06edfb4bfacca42502c5ea53c3b5f5c6&m=TJJrMT&r=01KN9YMSY0BVNFR8QSVRJTGCEB&e=000007MZ9>, <mailto:unsub1-01K80JDPAAXDJ2ZRG6YN0R3SQY-KNTDQ5DKOQ======@shared.klaviyomail.com?subject=request%20unsubscribe%20ME6VGZRYORVHIJTDHUYDCSZYGBFEIUCBIFMEISRSLJJEONSZJYYFEM2TKFMSM2Z5GA3GKZDGMI2GEZTBMNRWCNBSGUYDEYZVMVQTKM3DGNRDKZRVMM3CM3J5KRFEU4SNKQTHEPJQGFFU4OKZJVJVSMCCKZHEMURYKFJVMUSKKRDUGRKCEZST2MBQGAYDAN2NLI4Q====>",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d53e10fa543644",
+          "thread_id": "19d53e10fa543644",
+          "subject": "Easter Came Early \ud83d\udc23",
+          "from": "Simple Peptide <support@simplepeptide.com>",
+          "to": "beryl@antidote.group",
+          "date": "Fri, 03 Apr 2026 15:05:45 +0000",
+          "snippet": "BUY 1, GET 1 FREE SAVINGS INSIDE \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f",
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "list_unsubscribe": "<https://ptv.soundestlink.com/contactsPreferences/v2/unsubscribe/?b=68405b213a5771675694ea59&c=6840644957da83256d85adf8&payload=npJFLrdcgmdamuLDZ23DoYnEdaZ0sSofxD78uGkwVIsKaRIAYs88v69p3AML2VohaQAYjw1Bmcmtn2yAspt8eosxaGDgT91Cc7TwgixtvUhDqh5dXfmjoP_nKd9_bs_P5BgQ&headerUnsub=true>",
+          "x_mailer": "",
+          "priority": "P4",
+          "classify_reason": "Gmail categorized as promotions + has unsubscribe",
+          "label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "id": "19d53d47e81c931c",
+          "thread_id": "19d53d47e81c931c",
+          "subject": "Your balance is at or below zero",
+          "from": "Wells Fargo <alerts@notify.wellsfargo.com>",
+          "to": "beryl@antidote.group",
+          "date": "Fri, 3 Apr 2026 07:52:06 -0700 (PDT)",
+          "snippet": "Wells Fargo home page Your available balance 1 is -$466.15 for account PERSONAL CHECKING ...6329 As of 04/03/2026 at 07:06 am, Pacific Time. See your latest balance in the app. Add money 2 With Extra",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "id": "19d539cf4f3c0f23",
+          "thread_id": "19d539cf4f3c0f23",
+          "subject": "Payroll Processed & Upcoming Reminders",
+          "from": "Payroll <payroll@atxtaxadvisors.com>",
+          "to": "\"insights@antidote.group\" <insights@antidote.group>",
+          "date": "Fri, 3 Apr 2026 13:51:21 +0000",
+          "snippet": "Hello Antidote Group Inc, We&#39;ve completed processing your April payroll. All related documents have been uploaded to your client portal under the Payroll - 2026 folder. As we move forward, please",
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "list_unsubscribe": "",
+          "x_mailer": "",
+          "priority": "P3",
+          "classify_reason": "Default classification",
+          "label_applied": "MAILMAN/P3-Standard"
+        }
+      ],
+      "email_address": "beryl@antidote.group"
+    },
+    "gmail_personal": {
+      "account_id": "gmail_personal",
+      "email_address": "beryljacobson@gmail.com",
+      "error": "Token refresh failed for gmail_personal: 400 {\n  \"error\": \"invalid_grant\",\n  \"error_description\": \"Token has been expired or revoked.\"\n}",
+      "email_count": 0,
+      "prio_counts": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 0,
+        "P3": 0,
+        "P4": 0
+      },
+      "top_senders": [],
+      "emails": []
+    }
+  },
+  "errors": [
+    "Token refresh failed for gmail_personal: 400 {\n  \"error\": \"invalid_grant\",\n  \"error_description\": \"Token has been expired or revoked.\"\n}"
+  ]
+}

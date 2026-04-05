@@ -1,0 +1,38 @@
+{
+  "users": {
+    "beryl@antidote.group": {
+      "name": "Beryl",
+      "role": "admin",
+      "initial": "B",
+      "views": ["command", "services", "agents", "projects", "connectors", "blockers", "team", "client"],
+      "zones": ["shared", "private", "personal"]
+    },
+    "brandon@antidote.group": {
+      "name": "Brandon",
+      "role": "team",
+      "initial": "B",
+      "views": ["command", "services", "agents", "projects", "blockers"],
+      "zones": ["shared", "private", "personal"]
+    },
+    "clayton@antidote.group": {
+      "name": "Clayton",
+      "role": "team",
+      "initial": "C",
+      "views": ["command", "services", "agents", "projects", "blockers"],
+      "zones": ["shared"]
+    },
+    "eddy@antidote.group": {
+      "name": "Eddy",
+      "role": "team",
+      "initial": "E",
+      "views": ["command", "services", "agents", "projects", "blockers"],
+      "zones": ["shared"]
+    }
+  },
+  "roles": {
+    "admin": { "color": "#E8732A", "label": "Admin" },
+    "team": { "color": "#3b82f6", "label": "Team" },
+    "client": { "color": "#06b6d4", "label": "Client" }
+  },
+  "updated": "2026-03-14"
+}

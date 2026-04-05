@@ -1,0 +1,87 @@
+{
+  "user_id": "beryl",
+  "display_name": "Beryl Jacobson",
+  "email": "beryl@antidote.group",
+  "home_airports": ["LAX", "SBA", "BUR"],
+  "preferred_airlines": [],
+  "airline_loyalty_programs": [
+    {
+      "program_name": "American Airlines AAdvantage",
+      "program_code": "AA",
+      "airline_code": "AA",
+      "current_balance": null,
+      "elite_status": "none",
+      "notes": "Active account"
+    },
+    {
+      "program_name": "Hawaiian Airlines HawaiianMiles",
+      "program_code": "HA",
+      "airline_code": "HA",
+      "current_balance": null,
+      "elite_status": "none",
+      "notes": "Now part of Alaska Mileage Plan ecosystem post-merger; miles can be merged to Alaska"
+    }
+  ],
+  "credit_card_points": [
+    {
+      "program_name": "Amex Membership Rewards",
+      "current_balance": null,
+      "transfer_partners": [
+        "Singapore KrisFlyer (1:1)",
+        "ANA Mileage Club (1:1)",
+        "Air Canada Aeroplan (1:1)",
+        "Air France/KLM Flying Blue (1:1)",
+        "British Airways Avios (1:1)",
+        "Cathay Pacific Asia Miles (1:1)",
+        "Avianca LifeMiles (1:1)",
+        "Emirates Skywards (1:1)",
+        "Delta SkyMiles (1:1)"
+      ],
+      "last_updated": "2026-03-25",
+      "notes": "Primary points currency. Best transfers for LAX-Bali: Singapore KrisFlyer, ANA Mileage Club, Aeroplan"
+    },
+    {
+      "program_name": "Chase Ultimate Rewards",
+      "current_balance": null,
+      "transfer_partners": [
+        "United MileagePlus (1:1)",
+        "Singapore KrisFlyer (1:1)",
+        "Air Canada Aeroplan (1:1)",
+        "Air France/KLM Flying Blue (1:1)",
+        "British Airways Avios (1:1)",
+        "Turkish Airlines Miles&Smiles (1:1)",
+        "Iberia Plus (1:1)",
+        "Southwest Rapid Rewards (1:1)",
+        "JetBlue TrueBlue (1:1)"
+      ],
+      "last_updated": "2026-03-25",
+      "notes": "Best transfers for LAX-Bali: United MileagePlus, Singapore KrisFlyer, Aeroplan"
+    }
+  ],
+  "staff_travel": {
+    "has_aa_staff_access": true,
+    "staff_travel_type": "AA employee standby (D1 eligible)",
+    "myidtravel_access": true,
+    "myidtravel_partners": ["JAL (JL)", "Cathay Pacific (CX)", "Qantas (QF)", "British Airways (BA)", "Malaysia Airlines (MH)"],
+    "notes": "AA staff standby — can fly D1 business if space available. Not guaranteed. myIDtravel for oneworld partners at heavily discounted rates. Both options viable for hybrid bookings on long-haul legs.",
+    "jetnet_note": "Check load factors on Jetnet before banking on standby for any specific date."
+  },
+  "travel_preferences": {
+    "seat_class": "hybrid_optimized",
+    "cabin_philosophy": "Lay-flat on legs over 8hrs. Economy acceptable for short hops under 4hrs.",
+    "max_stops": 2,
+    "preferred_times": "flexible",
+    "baggage_needs": "carry_on",
+    "notes": "Prefers to use points for premium cabins. Open to routing via SIN, NRT, ICN, SYD, HKG, TPE, KUL."
+  },
+  "frequent_destinations": ["DPS", "SIN", "SYD"],
+  "travelers": [
+    {
+      "name": "Beryl Jacobson",
+      "relationship": "self",
+      "age_group": "adult"
+    }
+  ],
+  "created": "2026-03-16",
+  "last_updated": "2026-03-25"
+}

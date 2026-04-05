@@ -1,0 +1,630 @@
+{
+  "run_at": "2026-03-29T14:10:28.100935+00:00",
+  "date": "2026-03-29",
+  "accounts": {
+    "antidote_work": {
+      "email": "beryl@antidote.group",
+      "status": "success",
+      "emails": [
+        {
+          "msg_id": "19d39ae52e44d91e",
+          "thread_id": "19d39ae52e44d91e",
+          "from": "NovaMane <info@novamane.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "subject": "march ends in 2 days",
+          "date": "Sun, 29 Mar 2026 13:00:14 +0000",
+          "snippet": "Same email. Different month. How long are you going to stay in the loop? \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f",
+          "priority": "P3",
+          "category": "BULK",
+          "reason": "Has List-Unsubscribe header",
+          "has_list_unsub": true,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d39418bc9584e0",
+          "thread_id": "19d39418bc9584e0",
+          "from": "ChatGPT <noreply@email.openai.com>",
+          "to": "beryl@antidote.group",
+          "subject": "Get updates about ChatGPT",
+          "date": "Sun, 29 Mar 2026 11:01:29 +0000 (UTC)",
+          "snippet": "Choose how you&#39;d like to stay in the loop. Get updates about ChatGPT Choose how you&#39;d like to stay in the loop. Manage email settings We recently updated our email settings. Moving forward, we",
+          "priority": "P4",
+          "category": "NEWSLETTER",
+          "reason": "Newsletter domain pattern + List-Unsubscribe",
+          "has_list_unsub": true,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "msg_id": "19d37d7d3bfaabdd",
+          "thread_id": "19d37d7d3bfaabdd",
+          "from": "Airbnb <automated@airbnb.com>",
+          "to": "beryl@antidote.group",
+          "subject": "Account activity: New login from Chrome using OS X 10.15.7",
+          "date": "Sun, 29 Mar 2026 04:26:23 +0000 (UTC)",
+          "snippet": "Airbnb Did you log in from a new device? We noticed your Airbnb account was logged into from a new device. If you didn&#39;t do this, review your account now. If this was you, you can safely disregard",
+          "priority": "P1",
+          "category": "ACTION",
+          "reason": "Action/question signal: '?'",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P1-Important"
+        },
+        {
+          "msg_id": "19d3761584216283",
+          "thread_id": "19d3761584216283",
+          "from": "LinkedIn <notifications-noreply@linkedin.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "subject": "You have 2 new messages",
+          "date": "Sun, 29 Mar 2026 02:16:55 +0000 (UTC)",
+          "snippet": "You have 2 new messages \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f ",
+          "priority": "P3",
+          "category": "BULK",
+          "reason": "Has List-Unsubscribe header",
+          "has_list_unsub": true,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_SOCIAL",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d374296d3db890",
+          "thread_id": "19d374296d3db890",
+          "from": "Whole Foods Market <wholefoodsmarket@mail.wholefoodsmarket.com>",
+          "to": "beryl@antidote.group",
+          "subject": "Your Whole Foods Market Receipt",
+          "date": "Sun, 29 Mar 2026 01:43:23 +0000",
+          "snippet": "Whole Foods Market Whole Foods Market March 28, 2026 Whole Foods Market - Woodland Hills Order # 113-1068945-9669833 Transaction Id FTHH82USVG Payment Method(s) Mastercard *2784 $12.42 Subtotal $12.31",
+          "priority": "P2",
+          "category": "CALENDAR",
+          "reason": "Calendar/meeting related",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P2-Security"
+        },
+        {
+          "msg_id": "19d363602a701198",
+          "thread_id": "19d363602a701198",
+          "from": "\"CC Strategic AI (Skool)\" <noreply@skool.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "subject": "1 new notification since 12:49 pm (Mar 28, 2026)",
+          "date": "Sat, 28 Mar 2026 20:50:01 +0000 (UTC)",
+          "snippet": "CC Strategic AI skool logo 1 new notification Since 12:49 pm (Mar 28, 2026) Here&#39;s what you missed: Charles Dove (following) posted: Episode 1 : Cait&#39;s Bridal Shower \ud83d\udc8d This is the reason we ha",
+          "priority": "P2",
+          "category": "CALENDAR",
+          "reason": "Calendar/meeting related",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P2-Security"
+        },
+        {
+          "msg_id": "19d3635b85637161",
+          "thread_id": "19d3635b85637161",
+          "from": "GitHub <noreply@github.com>",
+          "to": "beryl-moza <beryl@antidote.group>",
+          "subject": "[GitHub] A personal access token (classic) has been added to your account",
+          "date": "Sat, 28 Mar 2026 13:49:43 -0700",
+          "snippet": "Hey beryl-moza! A personal access token (classic) &quot;Brandon Mac Setup&quot; with repo scope was recently added to your account. Visit https://github.com/settings/tokens for more information. To se",
+          "priority": "P2",
+          "category": "CALENDAR",
+          "reason": "Calendar/meeting related",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P2-Security"
+        },
+        {
+          "msg_id": "19d362b979c1f70e",
+          "thread_id": "19d362b979c1f70e",
+          "from": "Slack <notification@slack-mail.com>",
+          "to": "beryl@antidote.group",
+          "subject": "Your invitation from Niall expires in 11 days",
+          "date": "Sat, 28 Mar 2026 20:38:38 +0000",
+          "snippet": "This invitation expires in 11 days FB Niall from Fulfilled By Experts has invited you to work together 6 unread messages in #antidote-niall Invited by niall@fulfilledbyexperts.com from fulfilled-by-",
+          "priority": "P2",
+          "category": "CALENDAR",
+          "reason": "Calendar/meeting related",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P2-Security"
+        },
+        {
+          "msg_id": "19d360b4bd7581f7",
+          "thread_id": "19d360b4bd7581f7",
+          "from": "Airbnb <discover@airbnb.com>",
+          "to": "beryl@antidote.group",
+          "subject": "Uluwatu, Pecatu homes you should see",
+          "date": "Sat, 28 Mar 2026 20:03:22 +0000 (UTC)",
+          "snippet": "Your next getaway might be in here \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f",
+          "priority": "P3",
+          "category": "BULK",
+          "reason": "Has List-Unsubscribe header",
+          "has_list_unsub": true,
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d3609225416069",
+          "thread_id": "19d3609225416069",
+          "from": "Startup CPG <community@startupcpg.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "subject": "Meet the newest brands in the Slack community!",
+          "date": "Sat, 28 Mar 2026 20:01:00 +0000 (UTC)",
+          "snippet": "be sure to post your intro for a future email shoutout! \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f ",
+          "priority": "P3",
+          "category": "BULK",
+          "reason": "Has List-Unsubscribe header",
+          "has_list_unsub": true,
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d35fb2b9a265d8",
+          "thread_id": "19d35fb2b9a265d8",
+          "from": "\"Ferdinand @ Pletor\" <ferdinand@send.pletor.ai>",
+          "to": "beryl@antidote.group",
+          "subject": "Thanks for upgrading",
+          "date": "Sat, 28 Mar 2026 19:45:45 +0000",
+          "snippet": "Hi Beryl, Thanks for upgrading to an Individual plan. You now have unlimited agents and the ability to top up credits whenever you need them. No more hitting limits when you&#39;re in the middle of",
+          "priority": "P3",
+          "category": "BULK",
+          "reason": "Has List-Unsubscribe header",
+          "has_list_unsub": true,
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "IMPORTANT",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d35ce5d6fc8e66",
+          "thread_id": "19d35ce5d6fc8e66",
+          "from": "Ferdinand from Pletor <ferdinand@send.pletor.ai>",
+          "to": "beryl@antidote.group",
+          "subject": "Welcome to Pletor!",
+          "date": "Sat, 28 Mar 2026 18:56:49 +0000",
+          "snippet": "Hey Beryl, \ud83d\udc4b I&#39;m Ferdinand, CEO &amp; cofounder of Pletor and I&#39;m super excited that you joined us. Pletor is the simplest way to build your AI marketing team. Think Zapier for visual content,",
+          "priority": "P3",
+          "category": "BULK",
+          "reason": "Has List-Unsubscribe header",
+          "has_list_unsub": true,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d35b57d8365b44",
+          "thread_id": "19d35b57d8365b44",
+          "from": "\"n8n (via Paddle.com)\" <help@paddle.com>",
+          "to": "beryl@antidote.group",
+          "subject": "Your n8n receipt",
+          "date": "Sat, 28 Mar 2026 18:29:38 +0000",
+          "snippet": "Your n8n subscription receipt Receipt # 79292923-161486830 Amount Paid $24.00 Receipt Date 28th March 2026 Payment Method ending in 1011 Cloud Starter $24.00 Sales Tax (0%) $0.00 Amount Paid $24.00",
+          "priority": "P2",
+          "category": "CALENDAR",
+          "reason": "Calendar/meeting related",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P2-Security"
+        },
+        {
+          "msg_id": "19d35adc82563b0d",
+          "thread_id": "19d35adc82563b0d",
+          "from": "Max from n8n <onboarding@info.n8n.io>",
+          "to": "beryl@antidote.group",
+          "subject": "Welcome to n8n!",
+          "date": "Sat, 28 Mar 2026 18:21:14 +0000",
+          "snippet": "The world&#39;s most popular workflow automation platform for technical teams \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f ",
+          "priority": "P4",
+          "category": "NEWSLETTER",
+          "reason": "Newsletter domain pattern + List-Unsubscribe",
+          "has_list_unsub": true,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "msg_id": "19d3589cd1ea17cd",
+          "thread_id": "19d3589cd1ea17cd",
+          "from": "\"CC Strategic AI (Skool)\" <noreply@skool.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "subject": "1 new notification since 9:41 am (Mar 28, 2026)",
+          "date": "Sat, 28 Mar 2026 17:41:55 +0000 (UTC)",
+          "snippet": "CC Strategic AI skool logo 1 new notification Since 9:41 am (Mar 28, 2026) Here&#39;s what you missed: Charles Dove (following) posted: Your expertise is worth more as content than as labor . I&#39;ve",
+          "priority": "P2",
+          "category": "CALENDAR",
+          "reason": "Calendar/meeting related",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P2-Security"
+        },
+        {
+          "msg_id": "19d3580edb719c2e",
+          "thread_id": "19d35119a24b0ec1",
+          "from": "Railway <hello@notify.railway.app>",
+          "to": "beryl@antidote.group",
+          "subject": "Build failed for Edge Trader",
+          "date": "Sat, 28 Mar 2026 17:32:14 +0000",
+          "snippet": "Build failed for project: Edge Trader Build failed! This is awkward. One of your builds failed to leave the wheelhouse. Details: Project: Edge Trader Service: web Environment: production View build",
+          "priority": "P3",
+          "category": "STANDARD",
+          "reason": "No specific signals",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d35735e49d891a",
+          "thread_id": "19d35735b9518245",
+          "from": "TripleWhale <reports@triplewhale.com>",
+          "to": "insights@antidote.group",
+          "subject": "TripleWhale Daily Reports",
+          "date": "Sat, 28 Mar 2026 17:17:21 +0000 (UTC)",
+          "snippet": "ICONIC Daily Amazon Report Metrics for iconic-protein.myshopify.com Comparison between Yesterday and Mar 26, 2026 Amazon Product Sales: $7756 ($7006) \u2b06\ufe0e 10.70% Amazon Orders: 136 (142) \u2b07\ufe0e 4.23%",
+          "priority": "P2",
+          "category": "CALENDAR",
+          "reason": "Calendar/meeting related",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P2-Security"
+        },
+        {
+          "msg_id": "19d35735b9518245",
+          "thread_id": "19d35735b9518245",
+          "from": "TripleWhale <reports@triplewhale.com>",
+          "to": "insights@antidote.group",
+          "subject": "TripleWhale Daily Reports",
+          "date": "Sat, 28 Mar 2026 17:17:22 +0000 (UTC)",
+          "snippet": "ICONIC Daily DTC Report Metrics for iconic-protein.myshopify.com Comparison between Yesterday and Mar 26, 2026 Gross Sales: $1640 ($823) \u2b06\ufe0e 99.20% True AOV: $105 ($71) \u2b06\ufe0e 48.06% New Customer Revenue:",
+          "priority": "P2",
+          "category": "CALENDAR",
+          "reason": "Calendar/meeting related",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P2-Security"
+        },
+        {
+          "msg_id": "19d3571840c49afb",
+          "thread_id": "19d3571840c49afb",
+          "from": "\"Audible.com\" <noreply@mail.audible.com>",
+          "to": "beryl@antidote.group",
+          "subject": "Recommended titles for Beryl",
+          "date": "Sat, 28 Mar 2026 17:15:24 +0000",
+          "snippet": "Find top picks for you \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c \ufeff \u034f \u200c",
+          "priority": "P4",
+          "category": "NEWSLETTER",
+          "reason": "Newsletter domain pattern + List-Unsubscribe",
+          "has_list_unsub": true,
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P4-Newsletter"
+        },
+        {
+          "msg_id": "19d35669a4db3d25",
+          "thread_id": "19d35669a4db3d25",
+          "from": "CoinTracker <hello@mail.cointracker.io>",
+          "to": "beryl@antidote.group",
+          "subject": "Crypto portfolio update",
+          "date": "Sat, 28 Mar 2026 17:03:29 +0000",
+          "snippet": "Crypto portfolio update Portfolio value: $32853.79 Past day return: $986.93 (+3.10%) View portfolio \ud83d\udea8 Don&#39;t wait \u2014 get your crypto tax report by April 15 \u2192 X Reddit Linkedin Apple App Store Google",
+          "priority": "P2",
+          "category": "CALENDAR",
+          "reason": "Calendar/meeting related",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P2-Security"
+        },
+        {
+          "msg_id": "19d356284330fbc9",
+          "thread_id": "19d35119a24b0ec1",
+          "from": "Railway <hello@notify.railway.app>",
+          "to": "beryl@antidote.group",
+          "subject": "Build failed for Edge Trader",
+          "date": "Sat, 28 Mar 2026 16:59:02 +0000",
+          "snippet": "Build failed for project: Edge Trader Build failed! This is awkward. One of your builds failed to leave the wheelhouse. Details: Project: Edge Trader Service: web Environment: production View build",
+          "priority": "P3",
+          "category": "STANDARD",
+          "reason": "No specific signals",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d355be206f6cb8",
+          "thread_id": "19d35119a24b0ec1",
+          "from": "Railway <hello@notify.railway.app>",
+          "to": "beryl@antidote.group",
+          "subject": "Build failed for Edge Trader",
+          "date": "Sat, 28 Mar 2026 16:51:47 +0000",
+          "snippet": "Build failed for project: Edge Trader Build failed! This is awkward. One of your builds failed to leave the wheelhouse. Details: Project: Edge Trader Service: web Environment: production View build",
+          "priority": "P3",
+          "category": "STANDARD",
+          "reason": "No specific signals",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d3559ee9a3dde5",
+          "thread_id": "19d35119a24b0ec1",
+          "from": "Railway <hello@notify.railway.app>",
+          "to": "beryl@antidote.group",
+          "subject": "Build failed for Edge Trader",
+          "date": "Sat, 28 Mar 2026 16:49:39 +0000",
+          "snippet": "Build failed for project: Edge Trader Build failed! This is awkward. One of your builds failed to leave the wheelhouse. Details: Project: Edge Trader Service: web Environment: production View build",
+          "priority": "P3",
+          "category": "STANDARD",
+          "reason": "No specific signals",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d354a6aaa8d779",
+          "thread_id": "19d35119a24b0ec1",
+          "from": "Railway <hello@notify.railway.app>",
+          "to": "beryl@antidote.group",
+          "subject": "Build failed for Edge Trader",
+          "date": "Sat, 28 Mar 2026 16:32:42 +0000",
+          "snippet": "Build failed for project: Edge Trader Build failed! This is awkward. One of your builds failed to leave the wheelhouse. Details: Project: Edge Trader Service: web Environment: production View build",
+          "priority": "P3",
+          "category": "STANDARD",
+          "reason": "No specific signals",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d353df6fcfde92",
+          "thread_id": "19d353df6fcfde92",
+          "from": "Outerknown <news@outerknown.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "subject": "It\u2019s Big Heavy Tee Time",
+          "date": "Sat, 28 Mar 2026 16:19:04 +0000",
+          "snippet": "Our modern take on the timeless beefy tee. \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f",
+          "priority": "P3",
+          "category": "BULK",
+          "reason": "Has List-Unsubscribe header",
+          "has_list_unsub": true,
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d3532212df6a96",
+          "thread_id": "19d3532212df6a96",
+          "from": "dbrand <robots@dbrand.com>",
+          "to": "beryl@antidote.group",
+          "subject": "Kevin needs to touch grass.",
+          "date": "Sat, 28 Mar 2026 16:05:39 +0000 (UTC)",
+          "snippet": "On April 1st, you can too. \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f",
+          "priority": "P3",
+          "category": "BULK",
+          "reason": "Has List-Unsubscribe header",
+          "has_list_unsub": true,
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d352e40dba1830",
+          "thread_id": "19d352e40dba1830",
+          "from": "Rho Nutrition <team@rhonutrition.com>",
+          "to": "Brandon Ancier <beryl@antidote.group>",
+          "subject": "How Creatine Fuels Both Body And Brain Power",
+          "date": "Sat, 28 Mar 2026 16:01:56 +0000 (UTC)",
+          "snippet": "One molecule, two areas of daily support. \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f ",
+          "priority": "P3",
+          "category": "BULK",
+          "reason": "Has List-Unsubscribe header",
+          "has_list_unsub": true,
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d352dee5582a59",
+          "thread_id": "19d352dee5582a59",
+          "from": "\"Amazon.com\" <order-update@amazon.com>",
+          "to": "beryl@antidote.group",
+          "subject": "Delivered: \"Liato Inflatable Travel...\"",
+          "date": "Sat, 28 Mar 2026 16:01:35 +0000",
+          "snippet": "Delivered: &quot;Liato Inflatable Travel...&quot;\u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c \u034f \u200c",
+          "priority": "P2",
+          "category": "CALENDAR",
+          "reason": "Calendar/meeting related",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_UPDATES",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P2-Security"
+        },
+        {
+          "msg_id": "19d3515b97abc4b1",
+          "thread_id": "19d35119a24b0ec1",
+          "from": "Railway <hello@notify.railway.app>",
+          "to": "beryl@antidote.group",
+          "subject": "Build failed for Edge Trader",
+          "date": "Sat, 28 Mar 2026 15:35:08 +0000",
+          "snippet": "Build failed for project: Edge Trader Build failed! This is awkward. One of your builds failed to leave the wheelhouse. Details: Project: Edge Trader Service: web Environment: production View build",
+          "priority": "P3",
+          "category": "STANDARD",
+          "reason": "No specific signals",
+          "has_list_unsub": false,
+          "label_ids": [
+            "UNREAD",
+            "CATEGORY_PERSONAL",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        },
+        {
+          "msg_id": "19d3511a8ab1f592",
+          "thread_id": "19d3511a8ab1f592",
+          "from": "Instant Hydration <info@instanthydration.com>",
+          "to": "Beryl Jacobson <beryl@antidote.group>",
+          "subject": "Hungover = Dehydrated \ud83d\ude35\u200d\ud83d\udcab",
+          "date": "Sat, 28 Mar 2026 15:30:37 +0000",
+          "snippet": "Hydrate, recover, save up to 50% \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f \u034f",
+          "priority": "P3",
+          "category": "BULK",
+          "reason": "Has List-Unsubscribe header",
+          "has_list_unsub": true,
+          "label_ids": [
+            "CATEGORY_PROMOTIONS",
+            "UNREAD",
+            "INBOX"
+          ],
+          "mailman_label_applied": "MAILMAN/P3-Standard"
+        }
+      ],
+      "stats": {
+        "total": 30,
+        "distribution": {
+          "P0": 0,
+          "P1": 1,
+          "P2": 10,
+          "P3": 16,
+          "P4": 3
+        },
+        "top_senders": [
+          [
+            "hello@notify.railway.app",
+            6
+          ],
+          [
+            "noreply@skool.com",
+            2
+          ],
+          [
+            "ferdinand@send.pletor.ai",
+            2
+          ],
+          [
+            "reports@triplewhale.com",
+            2
+          ],
+          [
+            "info@novamane.com",
+            1
+          ]
+        ],
+        "security_count": 0,
+        "financial_count": 0,
+        "security_items": [],
+        "financial_items": []
+      }
+    },
+    "gmail_personal": {
+      "email": "beryljacobson@gmail.com",
+      "status": "error",
+      "error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})",
+      "emails": [],
+      "stats": null
+    }
+  },
+  "errors": [
+    "gmail_personal: ('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})\nTraceback (most recent call last):\n  File \"/sessions/stoic-busy-feynman/mailman_triage.py\", line 449, in run_triage\n    classified = fetch_and_classify_emails(account_id, service, max_results=30)\n  File \"/sessions/stoic-busy-feynman/mailman_triage.py\", line 305, in fetch_and_classify_emails\n    ).execute()\n  File \"/sessions/stoic-busy-feynman/.local/lib/python3.10/site-packages/googleapiclient/_helpers.py\", line 130, in positional_wrapper\n    return wrapped(*args, **kwargs)\n  File \"/sessions/stoic-busy-feynman/.local/lib/python3.10/site-packages/googleapiclient/http.py\", line 923, in execute\n    resp, content = _retry_request(\n  File \"/sessions/stoic-busy-feynman/.local/lib/python3.10/site-packages/googleapiclient/http.py\", line 191, in _retry_request\n    resp, content = http.request(uri, method, *args, **kwargs)\n  File \"/sessions/stoic-busy-feynman/.local/lib/python3.10/site-packages/google_auth_httplib2.py\", line 242, in request\n    self.credentials.refresh(self._request)\n  File \"/sessions/stoic-busy-feynman/.local/lib/python3.10/site-packages/google/oauth2/credentials.py\", line 412, in refresh\n    ) = reauth.refresh_grant(\n  File \"/sessions/stoic-busy-feynman/.local/lib/python3.10/site-packages/google/oauth2/reauth.py\", line 370, in refresh_grant\n    _client._handle_error_response(response_data, retryable_error)\n  File \"/sessions/stoic-busy-feynman/.local/lib/python3.10/site-packages/google/oauth2/_client.py\", line 69, in _handle_error_response\n    raise exceptions.RefreshError(\ngoogle.auth.exceptions.RefreshError: ('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})\n"
+  ],
+  "slack_message": "\ud83d\udcec *MAILMAN Daily Triage* \u2014 Sunday, March 29, 2026 \u2014 2:10 PM UTC\n\n\ud83d\udd35 *beryl@antidote.group* \u2014 30 emails processed\n  \ud83d\udd34 P0 Urgent: 0  |  \ud83d\udfe0 P1 Important: 1  |  \ud83d\udfe1 P2 Security: 10  |  \u26aa P3 Standard: 16  |  \ud83d\uddd1\ufe0f P4 Newsletter: 3\n  \ud83d\udcca Top senders: hello (6), noreply (2), ferdinand (2)\n\n\u274c *beryljacobson@gmail.com* \u2014 ERROR: ('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})\n*Total emails triaged: 30*\n\n\u26a0\ufe0f *1 error(s) occurred \u2014 check logs for details*\n\n_Labels applied: MAILMAN/P0-Urgent through MAILMAN/P4-Newsletter_"
+}

@@ -1,0 +1,47 @@
+# BERYL_VAULT .gitignore
+.DS_Store
+*.swp
+*~
+*conflicted copy*
+*.lock
+Thumbs.db
+.env
+.env.*
+*.pem
+*.key
+*.p12
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Secrets / credentials / tokens (added 2026-04-05)
+credentials.json
+credentials.*.json
+client_secret*.json
+*-credentials.json
+token.json
+token.pickle
+*.token
+service-account*.json
+*-key.json
+*_key.json
+api_keys.*
+.credentials/
+credentials/
+
+# Secrets / credentials / tokens (added 2026-04-05)
+credentials.json
+credentials.*.json
+client_secret*.json
+*-credentials.json
+token.json
+token.pickle
+*.token
+service-account*.json
+*-key.json
+*_key.json
+api_keys.*
+.credentials/
+credentials/

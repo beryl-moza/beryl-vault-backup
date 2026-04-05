@@ -1,0 +1,222 @@
+{
+  "rules": [
+    {
+      "id": "rule_001",
+      "name": "Auto-archive P4 junk with unsubscribe headers",
+      "enabled": true,
+      "priority": 100,
+      "conditions": {
+        "match": "all",
+        "checks": [
+          {
+            "field": "priority",
+            "op": "eq",
+            "value": "P4"
+          },
+          {
+            "field": "body_contains",
+            "op": "contains",
+            "value": "unsubscribe"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "label",
+          "value": "MAILMAN/Auto-archived"
+        },
+        {
+          "type": "archive"
+        },
+        {
+          "type": "mark_read"
+        }
+      ],
+      "cooldown_minutes": 0
+    },
+    {
+      "id": "rule_002",
+      "name": "Label and Slack alert for P0 FIRE emails",
+      "enabled": true,
+      "priority": 200,
+      "conditions": {
+        "match": "all",
+        "checks": [
+          {
+            "field": "priority",
+            "op": "eq",
+            "value": "P0"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "label",
+          "value": "MAILMAN/P0-FIRE"
+        },
+        {
+          "type": "star"
+        },
+        {
+          "type": "slack_notify",
+          "channel": "#inbox-fire",
+          "template": "P0_FIRE"
+        }
+      ],
+      "cooldown_minutes": 0
+    },
+    {
+      "id": "rule_003",
+      "name": "Auto-label financial emails",
+      "enabled": true,
+      "priority": 30,
+      "conditions": {
+        "match": "any",
+        "checks": [
+          {
+            "field": "category",
+            "op": "eq",
+            "value": "financial"
+          },
+          {
+            "field": "subject",
+            "op": "contains",
+            "value": "invoice"
+          },
+          {
+            "field": "subject",
+            "op": "contains",
+            "value": "payment"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "label",
+          "value": "MAILMAN/Financial"
+        },
+        {
+          "type": "star"
+        }
+      ],
+      "cooldown_minutes": 0
+    },
+    {
+      "id": "rule_004",
+      "name": "Flag security emails with high priority",
+      "enabled": true,
+      "priority": 150,
+      "conditions": {
+        "match": "all",
+        "checks": [
+          {
+            "field": "category",
+            "op": "eq",
+            "value": "security"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "label",
+          "value": "MAILMAN/Security"
+        },
+        {
+          "type": "star"
+        }
+      ],
+      "cooldown_minutes": 0
+    },
+    {
+      "id": "rule_005",
+      "name": "Star all VIP sender emails",
+      "enabled": true,
+      "priority": 50,
+      "conditions": {
+        "match": "all",
+        "checks": [
+          {
+            "field": "is_vip",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "star"
+        },
+        {
+          "type": "label",
+          "value": "MAILMAN/VIP"
+        }
+      ],
+      "cooldown_minutes": 0
+    },
+    {
+      "id": "rule_006",
+      "name": "Label and archive automated/notification emails",
+      "enabled": true,
+      "priority": 20,
+      "conditions": {
+        "match": "all",
+        "checks": [
+          {
+            "field": "category",
+            "op": "eq",
+            "value": "automated"
+          },
+          {
+            "field": "priority",
+            "op": "in",
+            "value": [
+              "P3",
+              "P4"
+            ]
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "label",
+          "value": "MAILMAN/Automated"
+        },
+        {
+          "type": "archive"
+        },
+        {
+          "type": "mark_read"
+        }
+      ],
+      "cooldown_minutes": 0
+    },
+    {
+      "id": "rule_007",
+      "name": "Snooze newsletters for batch reading (72 hours)",
+      "enabled": true,
+      "priority": 15,
+      "conditions": {
+        "match": "all",
+        "checks": [
+          {
+            "field": "category",
+            "op": "eq",
+            "value": "newsletter_wanted"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "label",
+          "value": "MAILMAN/Newsletters"
+        },
+        {
+          "type": "snooze",
+          "hours": 72
+        }
+      ],
+      "cooldown_minutes": 0
+    }
+  ],
+  "updated_at": "2026-03-16T21:52:13.179423"
+}

@@ -1,0 +1,376 @@
+{
+  "run_date": "2026-03-26",
+  "run_timestamp": "2026-03-26T14:30:00Z",
+  "accounts": {
+    "antidote_work": {
+      "email": "beryl@antidote.group",
+      "status": "success",
+      "total_unread_fetched": 30,
+      "label_application": "SKIPPED — no gmail_modify_message in MCP connector; Python unavailable (session disk full)"
+    },
+    "gmail_personal": {
+      "email": "beryljacobson@gmail.com",
+      "status": "SKIPPED — no MCP connector for personal account available in this session",
+      "total_unread_fetched": 0
+    }
+  },
+  "summary": {
+    "total_processed": 30,
+    "P0": 0,
+    "P1": 8,
+    "P2": 3,
+    "P3": 4,
+    "P4": 15
+  },
+  "emails": [
+    {
+      "messageId": "19d2a6db516f1d28",
+      "account": "antidote_work",
+      "date": "2026-03-26T09:55:25-04:00",
+      "from": "EAS Consulting Group <eas-e-news@easconsultinggroup.com>",
+      "subject": "Dietary Supplement Finished Product Testing and Specifications",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "CATEGORY_PROMOTIONS; newsletter sender"
+    },
+    {
+      "messageId": "19d2a3f858581e37",
+      "account": "antidote_work",
+      "date": "2026-03-26T08:04:58-05:00",
+      "from": "Iarnród Éireann Irish Rail <newsletter@irishrail.ie>",
+      "subject": "Shackleton Experience Athy - Going to the Airport?",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "CATEGORY_PROMOTIONS; newsletter sender"
+    },
+    {
+      "messageId": "19d2a3d9be98ec55",
+      "account": "antidote_work",
+      "date": "2026-03-26T13:02:51+00:00",
+      "from": "NovaMane <info@novamane.com>",
+      "subject": "your shampoo is sabotaging you",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "CATEGORY_UPDATES; marketing/promotional sender"
+    },
+    {
+      "messageId": "19d2a1fd87eed5d8",
+      "account": "antidote_work",
+      "date": "2026-03-26T12:30:21+00:00",
+      "from": "Concept Global <support@conceptcollective.co>",
+      "subject": "Most-wanted styles this month",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "CATEGORY_PROMOTIONS; marketing/promotional"
+    },
+    {
+      "messageId": "19d2a0c55dc60cb6",
+      "account": "antidote_work",
+      "date": "2026-03-26T11:02:53+00:00",
+      "from": "Nick Norwitz MD PhD from StayCurious Metabolism <staycuriousmetabolism@substack.com>",
+      "subject": "Low-Dose Colchicine for Cardiovascular Disease?",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "Substack newsletter"
+    },
+    {
+      "messageId": "19d2a04c0500a125",
+      "account": "antidote_work",
+      "date": "2026-03-26T08:00:45-04:00",
+      "from": "Dr. Bitly <hello@e.bitly.com>",
+      "subject": "Ask your doctor if Bitly is right for you.",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "CATEGORY_PROMOTIONS; marketing email from Bitly"
+    },
+    {
+      "messageId": "19d2a03179563202",
+      "account": "antidote_work",
+      "date": "2026-03-26T11:58:56+00:00",
+      "from": "CC Strategic AI (Skool) <noreply@skool.com>",
+      "subject": "1 new notification since 3:58 am (Mar 26, 2026)",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "Automated platform notification"
+    },
+    {
+      "messageId": "19d29b40defe3e62",
+      "account": "antidote_work",
+      "date": "2026-03-26T10:32:22+00:00",
+      "from": "Jonah Graham <jonah.graham@huel.com>",
+      "subject": "Re: Huel x Amazon Reimbursement Strategy",
+      "priority": "P1",
+      "label": "MAILMAN/P1-Important",
+      "reason": "Active client prospect thread; Jonah says open to 8% rate (vs 10% current agency). Needs Clayton follow-up with counter-offer.",
+      "action": "Clayton to respond to Jonah with 8% offer confirmation"
+    },
+    {
+      "messageId": "19d292b7e5bd2e05",
+      "account": "antidote_work",
+      "date": "2026-03-26T08:03:28+00:00",
+      "from": "Amazon.com <shipment-tracking@amazon.com>",
+      "subject": "Shipped: \"MANSCAPED® The Lawn Mower®...\"",
+      "priority": "P3",
+      "label": "MAILMAN/P3-Standard",
+      "reason": "Shipping notification; informational only"
+    },
+    {
+      "messageId": "19d28c0de7748c3a",
+      "account": "antidote_work",
+      "date": "2026-03-26T06:07:00+00:00",
+      "from": "KEH Camera <kehcamera@e.keh.com>",
+      "subject": "⚡ Flash Sale⚡ Save on select mirrorless bodies",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "CATEGORY_PROMOTIONS; flash sale marketing"
+    },
+    {
+      "messageId": "19d2820962073467",
+      "account": "antidote_work",
+      "date": "2026-03-26T03:11:56+00:00",
+      "from": "CC Strategic AI (Skool) <noreply@skool.com>",
+      "subject": "1 new notification since 7:11 pm (Mar 25, 2026)",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "Automated platform notification"
+    },
+    {
+      "messageId": "19d279eeb291c434",
+      "account": "antidote_work",
+      "date": "2026-03-26T00:50:18+00:00",
+      "from": "Amazon.com <shipment-tracking@amazon.com>",
+      "subject": "Shipped: \"INIU Portable Charger,...\"",
+      "priority": "P3",
+      "label": "MAILMAN/P3-Standard",
+      "reason": "Shipping notification; informational only"
+    },
+    {
+      "messageId": "19d2771bd9131448",
+      "account": "antidote_work",
+      "date": "2026-03-26T00:00:53+00:00",
+      "from": "Helium 10 <support@mail.helium10.com>",
+      "subject": "Save 15% and scale smarter",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "CATEGORY_PROMOTIONS; marketing/upsell email"
+    },
+    {
+      "messageId": "19d273dfdbfc139c",
+      "account": "antidote_work",
+      "date": "2026-03-25T23:04:25+00:00",
+      "from": "Pexels <news@community.pexels.com>",
+      "subject": "Pexels API Welcome Kit",
+      "priority": "P3",
+      "label": "MAILMAN/P3-Standard",
+      "reason": "Onboarding/welcome email; no immediate action required"
+    },
+    {
+      "messageId": "19d273bc17ef4ee0",
+      "account": "antidote_work",
+      "date": "2026-03-25T23:01:59+00:00",
+      "from": "Startup CPG <community@startupcpg.com>",
+      "subject": "Why CA Walnuts keep showing up in innovative products",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "CATEGORY_PROMOTIONS; newsletter"
+    },
+    {
+      "messageId": "19d273a274f46b24",
+      "account": "antidote_work",
+      "date": "2026-03-25T23:00:13+00:00",
+      "from": "Brandon Ancier <brandon@antidote.group>",
+      "subject": "Invitation: BB Apx Jam @ Wed Mar 25, 2026 4pm - 5pm (PDT) (Beryl Jacobson)",
+      "priority": "P2",
+      "label": "MAILMAN/P2-Security",
+      "reason": "Calendar invite from internal colleague (already passed)",
+      "flag": "calendar_invite"
+    },
+    {
+      "messageId": "19d2731c0ad537f1",
+      "account": "antidote_work",
+      "date": "2026-03-25T22:51:03+00:00",
+      "from": "Gamma <hello@gamma.app>",
+      "subject": "Meet Gamma Imagine, our most creative tool yet",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "CATEGORY_PROMOTIONS; product marketing email"
+    },
+    {
+      "messageId": "19d26f0d8bfe0453",
+      "account": "antidote_work",
+      "date": "2026-03-25T14:39:56-07:00",
+      "from": "Clayton Dolan <clayton@antidote.group>",
+      "subject": "Re: Expo Connect - Amazon Reimbursements for That's it",
+      "priority": "P1",
+      "label": "MAILMAN/P1-Important",
+      "reason": "Active client prospect thread; Clayton asking Christina (That's it) to send Seller Central User Invite",
+      "action": "Monitor for Christina's response / follow up if no reply"
+    },
+    {
+      "messageId": "19d26ef34786d1b2",
+      "account": "antidote_work",
+      "date": "2026-03-25T14:38:05-07:00",
+      "from": "Clayton Dolan <clayton@antidote.group>",
+      "subject": "Re: Expo Connect - Amazon Reimbursements for Yerba Madre",
+      "priority": "P1",
+      "label": "MAILMAN/P1-Important",
+      "reason": "Active client thread; team waiting on Seller Central permissions from Caitlin Sweeney (Yerba Madre)",
+      "action": "Follow up with Caitlin if permissions not granted"
+    },
+    {
+      "messageId": "19d26e7d33c01e82",
+      "account": "antidote_work",
+      "date": "2026-03-25T21:30:13+00:00",
+      "from": "DTC Mode <hello@email.dtcmode.com>",
+      "subject": "Open this if you're a real man...",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "CATEGORY_PROMOTIONS; marketing email"
+    },
+    {
+      "messageId": "19d26d6855ba8799",
+      "account": "antidote_work",
+      "date": "2026-03-25T21:11:25+00:00",
+      "from": "CC Strategic AI (Skool) <noreply@skool.com>",
+      "subject": "1 new notification since 1:10 pm (Mar 25, 2026)",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "Automated platform notification"
+    },
+    {
+      "messageId": "19d26cc247a7291e",
+      "account": "antidote_work",
+      "date": "2026-03-25T14:00:03-07:00",
+      "from": "Wells Fargo <alerts@notify.wellsfargo.com>",
+      "subject": "We've got your mobile deposit",
+      "priority": "P2",
+      "label": "MAILMAN/P2-Security",
+      "reason": "Financial notification: $630 check deposit to account ...6419 on 03/25/2026",
+      "flag": "financial"
+    },
+    {
+      "messageId": "19d26b87f7d0e036",
+      "account": "antidote_work",
+      "date": "2026-03-25T20:38:37+00:00",
+      "from": "Slack <notification@slack-mail.com>",
+      "subject": "Niall invited you to work together in Slack",
+      "priority": "P1",
+      "label": "MAILMAN/P1-Important",
+      "reason": "Slack Connect invite from Niall @ Fulfilled By Experts requiring acceptance decision",
+      "action": "Accept or decline Slack Connect invite from niall@fulfilledbyexperts.com"
+    },
+    {
+      "messageId": "19d26b8719a996fb",
+      "account": "antidote_work",
+      "date": "2026-03-25T13:38:21-07:00",
+      "from": "Clayton Dolan <clayton@antidote.group>",
+      "subject": "Re: ANTIDOTE GROUP INC.",
+      "priority": "P1",
+      "label": "MAILMAN/P1-Important",
+      "reason": "Active business banking thread; Wells Fargo account opening for Antidote Group — Beryl CC'd",
+      "flag": "financial_legal"
+    },
+    {
+      "messageId": "19d26ad31c0266ca",
+      "account": "antidote_work",
+      "date": "2026-03-25T20:24:09+00:00",
+      "from": "Ghodrati, Pedram <Pedram.Ghodrati@wellsfargo.com>",
+      "subject": "RE: ANTIDOTE GROUP INC.",
+      "priority": "P1",
+      "label": "MAILMAN/P1-Important",
+      "reason": "Wells Fargo banker confirming account opening steps; account expected to open 'later today or tomorrow'",
+      "flag": "financial_legal",
+      "action": "Confirm account opened once WF contacts"
+    },
+    {
+      "messageId": "19d26ababe39a7cc",
+      "account": "antidote_work",
+      "date": "2026-03-25T20:24:36+00:00",
+      "from": "Whole Foods Market <wholefoodsmarket@mail.wholefoodsmarket.com>",
+      "subject": "30% Off Select Annie's Favorites Starts Now",
+      "priority": "P4",
+      "label": "MAILMAN/P4-Newsletter",
+      "reason": "CATEGORY_PROMOTIONS; retail marketing"
+    },
+    {
+      "messageId": "19d269975f189773",
+      "account": "antidote_work",
+      "date": "2026-03-25T20:04:43+00:00",
+      "from": "Slack <feedback@slack.com>",
+      "subject": "Slack account sign in from a new device",
+      "priority": "P2",
+      "label": "MAILMAN/P2-Security",
+      "reason": "SECURITY ALERT: Chrome login to Antidote Slack from IP 47.143.203.178 on 3/25/26",
+      "flag": "security_alert"
+    },
+    {
+      "messageId": "19d26940a081df01",
+      "account": "antidote_work",
+      "date": "2026-03-25T12:58:36-07:00",
+      "from": "Clayton Dolan <clayton@antidote.group>",
+      "subject": "Re: ANTIDOTE GROUP INC.",
+      "priority": "P1",
+      "label": "MAILMAN/P1-Important",
+      "reason": "Active banking thread; Clayton confirming DocuSign completed for Antidote Group WF account",
+      "flag": "financial_legal"
+    },
+    {
+      "messageId": "19d2691756022db3",
+      "account": "antidote_work",
+      "date": "2026-03-25T12:55:58-07:00",
+      "from": "Wells Fargo eSignature <esignature@mail10.wellsfargo.com>",
+      "subject": "Completed: ZYVA SCIENTIFIC LLC - DISCLOSURES AND REQUIRED DOCUMENTS FOR SIGNATURE - NEW ACCOUNT",
+      "priority": "P1",
+      "label": "MAILMAN/P1-Important",
+      "reason": "DocuSign completion confirmation for ZYVA SCIENTIFIC LLC new business account at Wells Fargo",
+      "flag": "financial_legal",
+      "action": "Review signed documents; save to records"
+    },
+    {
+      "messageId": "19d260967d3f626b",
+      "account": "antidote_work",
+      "date": "2026-03-25T17:27:21+00:00",
+      "from": "Sympl <hello@symplofficial.com>",
+      "subject": "A shipment from order #10797 is on the way",
+      "priority": "P3",
+      "label": "MAILMAN/P3-Standard",
+      "reason": "Shipping notification; informational only"
+    }
+  ],
+  "top_senders": [
+    {"sender": "CC Strategic AI (Skool)", "count": 3},
+    {"sender": "Clayton Dolan (antidote.group)", "count": 3},
+    {"sender": "Amazon.com", "count": 2},
+    {"sender": "Wells Fargo (various)", "count": 2}
+  ],
+  "flags": {
+    "security_alerts": [
+      {
+        "messageId": "19d269975f189773",
+        "subject": "Slack account sign in from a new device",
+        "detail": "Chrome login to Antidote Slack (antidote-v8m9166.slack.com) from IP 47.143.203.178, 3/25/26 20:04 UTC"
+      }
+    ],
+    "financial": [
+      {
+        "messageId": "19d26cc247a7291e",
+        "subject": "We've got your mobile deposit",
+        "detail": "$630.00 check deposited to account ...6419 on 03/25/2026"
+      },
+      {
+        "messageId": "19d2691756022db3",
+        "subject": "Completed: ZYVA SCIENTIFIC LLC - DISCLOSURES AND REQUIRED DOCUMENTS FOR SIGNATURE",
+        "detail": "DocuSign completed for Zyva Scientific LLC new WF business account"
+      },
+      {
+        "messageId": "19d26ad31c0266ca",
+        "subject": "RE: ANTIDOTE GROUP INC.",
+        "detail": "Wells Fargo confirming Antidote Group Inc. account opening; expected same/next day"
+      }
+    ]
+  },
+  "limitations": [
+    "Personal account (beryljacobson@gmail.com) not scanned — MCP connector only authenticated to beryl@antidote.group",
+    "Gmail labels NOT applied — no gmail_modify_message tool in MCP connector; Python/Gmail API unavailable due to session disk full"
+  ]
+}

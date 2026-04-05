@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uluwatu Guide — Full Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+  :root { --sand: #F5F0E8; --ocean: #1A6B6A; --charcoal: #2C2C2C; --stone: #6B6B6B; --white: #FFFFFF; --green: #2D8B4E; --red: #C0392B; --sand-dark: #E8E0D0; --gold: #D4A843; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--sand); color: var(--charcoal); min-height: 100vh; }
+
+  .hero { background: linear-gradient(135deg, var(--ocean) 0%, #2A8B8A 50%, #E07A3A 100%); padding: 2rem 1.5rem 1.5rem; text-align: center; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: white; }
+  .hero p { color: rgba(255,255,255,0.8); font-size: 0.85rem; margin-top: 0.4rem; }
+
+  .container { max-width: 800px; margin: 0 auto; padding: 1rem 1.2rem 6rem; }
+
+  .section { margin-bottom: 1.5rem; }
+  .section-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; cursor: pointer; padding: 0.6rem 0; border-bottom: 2px solid var(--ocean); }
+  .section-header:hover { opacity: 0.8; }
+  .section-emoji { font-size: 1.3rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; flex: 1; }
+  .section-count { font-size: 0.75rem; color: var(--stone); background: var(--sand-dark); padding: 0.15rem 0.55rem; border-radius: 100px; }
+  .section-toggle { font-size: 0.8rem; color: var(--stone); }
+  .section-items { display: none; }
+  .section-items.open { display: block; }
+
+  .item { background: var(--white); border-radius: 10px; padding: 0.8rem 1rem; margin-bottom: 0.45rem; display: flex; gap: 0.7rem; align-items: flex-start; transition: all 0.2s; border-left: 4px solid transparent; }
+  .item.yes { border-left-color: var(--green); background: #F0FFF4; }
+  .item.no { border-left-color: var(--red); opacity: 0.35; }
+  .item.confirmed { border-left-color: var(--gold); background: #FFFDF0; }
+
+  .item-btns { display: flex; flex-direction: column; gap: 0.25rem; flex-shrink: 0; padding-top: 0.1rem; }
+  .btn { width: 42px; height: 28px; border: none; border-radius: 6px; font-size: 0.7rem; font-family: 'DM Sans', sans-serif; font-weight: 600; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+  .btn-y { background: #E8F5EC; color: var(--green); } .btn-y:hover, .btn-y.on { background: var(--green); color: white; }
+  .btn-n { background: #FDE8E8; color: var(--red); } .btn-n:hover, .btn-n.on { background: var(--red); color: white; }
+
+  .item-body { flex: 1; min-width: 0; }
+  .item-name { font-weight: 700; font-size: 0.9rem; }
+  .item-desc { font-size: 0.8rem; color: var(--stone); line-height: 1.35; margin-top: 0.15rem; }
+  .confirmed-badge { font-size: 0.65rem; background: var(--gold); color: white; padding: 0.1rem 0.45rem; border-radius: 100px; margin-left: 0.4rem; vertical-align: middle; }
+
+  .summary-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); padding: 0.8rem 1.2rem; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+  .summary-text { font-size: 0.8rem; color: var(--stone); }
+  .summary-text b { color: var(--charcoal); }
+  .copy-btn { padding: 0.55rem 1rem; background: var(--ocean); color: white; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.8rem; cursor: pointer; } .copy-btn:hover { background: #15585A; }
+
+  @media (max-width: 480px) {
+    .container { padding: 0.8rem 0.8rem 6rem; }
+    .item { padding: 0.7rem 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Uluwatu — Full Review</h1>
+  <p>Tap a category to expand. Hit ✓ or ✗ on each place. Copy your picks at the bottom.</p>
+</div>
+
+<div class="container" id="app"></div>
+
+<div class="summary-bar">
+  <div class="summary-text"><b id="yC">0</b> ✓ &nbsp; <b id="nC">0</b> ✗ &nbsp; <b id="pC">0</b> pending</div>
+  <button class="copy-btn" onclick="copySummary()">Copy My Picks</button>
+</div>
+
+<script>
+const data = [
+  { cat: "☕ Coffee", id: "coffee", items: [
+    { n: "The Dharma Experience", d: "Specialty coffee + surf shop, Bingin. Great to start the day and work from.", c: true },
+    { n: "Analog", d: "Meticulously sourced beans, turmeric lattes, minimalist design. Jl. Labuansait.", c: true },
+    { n: "Drifter Surf Shop & Cafe", d: "Beautiful garden seating, solid espresso, surfer-friendly. Pecatu.", c: true },
+    { n: "BGS Bali", d: "Near Suluban Beach, digital nomad hub, great wifi, good coffee.", c: true },
+    { n: "%Arabica (at Alchemy)", d: "Japanese specialty coffee chain in a garden setting next to Alchemy. Premium beans.", c: true },
+    { n: "Suka Espresso", d: "Aussie-style cafe, specialty beans, avo toast, eggs benny. Road to Uluwatu Temple." },
+    { n: "Overhead Cafe", d: "Striking minimalist architecture, Melbourne-style specialty coffee. 7:30am-10pm." },
+    { n: "Bukit Cafe", d: "Innovative menu on Labuansait between Bingin & Padang Padang. Family-friendly." },
+    { n: "Ours Bali", d: "Scandinavian minimalist design, brunch destination, shakshuka, wagyu burgers." },
+    { n: "BAKED", d: "Top-tier house blend, famous sourdough & pastries, great oat latte." },
+    { n: "Uluwatu Motorcycles", d: "Cute little espresso bar just off the main street." },
+  ]},
+  { cat: "💻 Cowork / Work Spots", id: "cowork", items: [
+    { n: "Alchemy", d: "Plant-based cafe with wifi, great juices, coconut soft serve. Permaculture garden. Bingin.", c: true },
+    { n: "The Dharma Experience", d: "Good for morning laptop work with coffee. Bingin.", c: true },
+    { n: "BGS Bali", d: "Strong wifi, power outlets, near Suluban. Nomad hub.", c: true },
+    { n: "Uluwatu Hub", d: "Dedicated coworking — fast fiber, meeting rooms, 2 pools, restaurant. Day pass 200-250k IDR." },
+    { n: "Monday Coworking & Coffee", d: "Casual cafe + coworking blend. Day pass 80-200k IDR. Free coffee." },
+    { n: "The Space Bali", d: "Yoga + coworking combo, Bingin. Ergonomic setup, 4K monitors, pool access." },
+    { n: "Hedonist Space", d: "Upscale coworking with restaurant, bar, hookah lounge. 300+ Mbps. Networking vibe." },
+    { n: "Bukit Hub", d: "Most affordable — 150k IDR/day. Ungasan. 24/7, nap zone, game room." },
+    { n: "Lemanja", d: "Cafe + pool + workspace. 140 Mbps wifi. 250k IDR min spend/day." },
+    { n: "Sait Society Café", d: "Budget work cafe — 80k IDR day pass includes coffee & pastries." },
+  ]},
+  { cat: "🌊 Beaches", id: "beaches", items: [
+    { n: "Bingin Beach", d: "Boho vibes, reef breaks, cliffside warungs. Free entry. The community hub." },
+    { n: "Padang Padang", d: "Famous Eat Pray Love cove — turquoise water, cliffs, intimate. 15-30k IDR." },
+    { n: "Suluban Beach (Blue Point)", d: "Dramatic cave entrance, world-class surf break. 130 steps down. Advanced surfers." },
+    { n: "Balangan Beach", d: "Golden sand, great sunset, afternoon surf. Chilled. 5k IDR parking." },
+    { n: "Thomas Beach", d: "Beginner-friendly surf, laid-back local vibe, gentle waves. Free." },
+    { n: "Dreamland Beach", d: "Big white sand beach, dramatic cliffs, great sunsets. 10-15k IDR." },
+    { n: "Melasti Beach", d: "Crystal-clear water, organized, limestone cliffs on both sides. 15k IDR." },
+    { n: "Nyang Nyang Beach", d: "Remote untouched coastline, turquoise waves, wild cliffs. Steep 1.5km walk down. No facilities." },
+    { n: "Green Bowl Beach", d: "Secluded cove, 330 jungle stairs, natural cave, snorkeling. 12k IDR." },
+    { n: "Impossibles", d: "Powerful reef breaks, fewer crowds. Access via Bingin. Advanced surfers only." },
+    { n: "Karma Kandara Beach", d: "Luxury resort beach, cliffside elevator access. 450k IDR entry." },
+    { n: "Nunggalan Beach", d: "Secluded, shipwreck landmark, 30-min steep hike down. Zero crowds." },
+    { n: "Pandawa Beach", d: "Easy access, calm water, family-friendly, seafood warungs. 15k IDR." },
+    { n: "Gunung Payung Beach", d: "Quiet, peaceful, crystal-clear water, tide pools. 4k IDR." },
+    { n: "Labuan Sait Beach", d: "Small scenic bay, clear water, easy path, monkeys. 15k IDR." },
+  ]},
+  { cat: "🌅 Sunset Views", id: "sunset", items: [
+    { n: "Single Fin", d: "THE OG sunset spot since 2008. Cliff terraces overlooking surf. Legendary Sundays.", c: true },
+    { n: "Mana", d: "Infinity pool, two-floor pavilion, uninterrupted ocean views. Friday sunset happy hour.", c: true },
+    { n: "Karang Boma Cliff", d: "Epic panoramic ocean views, dramatic colors. Only 10k IDR. 5 min from Nyang Nyang." },
+    { n: "Jaran Hill (Batu Jaran)", d: "75m limestone cliffs, fewer crowds, views of Uluwatu Temple. Free." },
+    { n: "Uluwatu Temple (Pura Luhur)", d: "Sacred temple on 70m cliffs. Kecak Fire Dance at sunset. 30k IDR." },
+    { n: "Ulu Cliffhouse", d: "Multi-level venue, 25m pool, daybeds, beach bar at base via Robinson Crusoe path." },
+    { n: "La Terrazza", d: "Hidden intimate cocktail bar with sweeping Uluwatu views." },
+    { n: "Rock Bar (Ayana Resort)", d: "Iconic 360° ocean panorama, cliff inclinator access. Jimbaran." },
+    { n: "Teja Bar", d: "Newer (2024) understated elegance with sweeping sunset views." },
+    { n: "Balangan Beach", d: "Golden sand sunset, natural seating, multiple photo spots. Free." },
+    { n: "Sundays Beach Club", d: "Cable car access beneath limestone cliffs. Sunset cinema experience." },
+  ]},
+  { cat: "🍛 Warungs", id: "warungs", items: [
+    { n: "Yeye's Warung", d: "25+ years, Indo & Western fusion, nasi campur. Laid-back classic." },
+    { n: "Warung Local", d: "Build-your-plate buffet nasi campur at Bingin Beach. Budget-friendly." },
+    { n: "Warung Bu Jonny (Cak Man)", d: "Surfer favorite — nasi goreng, crispy chicken, killer sambal. Huge portions, tiny prices." },
+    { n: "Babi Guling Bali Ayu", d: "Authentic roasted suckling pig with rice & sambal. 20-35k IDR." },
+    { n: "Kelly's Warung", d: "Beachfront Bingin, sate ayam, sunset views, happy hour." },
+    { n: "WANA - Warung Cenana", d: "Chicken satay, tempeh, babi guling buffet. Homey open-air." },
+    { n: "Warung Boga Sari", d: "Nasi campur, gado gado, smoothie bowls. Traditional + healthy." },
+    { n: "Bingin Beach Seafood BBQ", d: "Nightly beachfront fresh-catch BBQ — mahi mahi, snapper, prawns." },
+  ]},
+  { cat: "🍷 Nice Dinner & Restaurants", id: "dinner", items: [
+    { n: "Sushimi", d: "Conveyor belt sushi, Labuansait. Fresh hand-rolled sushi on the belt. Open 11am-11pm. Wednesdays all plates 20k IDR.", c: true },
+    { n: "Gooseberry", d: "Modern French above Bingin. Tuna tataki, soufflé pancakes. Book ahead.", c: true },
+    { n: "Mason", d: "Wood-fired grill, 400g ribeye, moody stylish space. Noon-midnight. Labuansait.", c: true },
+    { n: "Tusk Grill & Bar", d: "Fire-grilled Aussie steaks, Bingin. Chef Nick from Cape Town.", c: true },
+    { n: "Yuki", d: "Progressive Japanese izakaya — wagyu yakitori, tuna truffle maki. Two-storey. Book weekends." },
+    { n: "The Cave by Chef Ryan Clift", d: "Limestone cave 70m above ocean. 7-10 course tasting. Only 22 seats. Book way ahead." },
+    { n: "Rockfish", d: "Fine dining carved into Uluwatu cliffs. Glass-floored terrace, ex-NOBU chef. Seafood-focused." },
+    { n: "Teja", d: "Dry-aged meats, open-flame, cliff-top sunset. Modern European. Mains 150k-650k IDR." },
+    { n: "El Kabron", d: "Spanish Mediterranean on the cliff. Famous sunset, infinity pool, Hedonism Lounge. Book for sunset." },
+    { n: "Bartolo", d: "French-Italian bistro. Beef bourguignon, grilled prawns, pici cacio e pepe, handcrafted cocktails." },
+    { n: "L'Osteria Pizza e Cucina", d: "Authentic Neapolitan pizza — sourdough-risen, blistered, slow-simmered ragù, handmade pastas." },
+    { n: "Rolling Fork", d: "Italian pizza + pasta with scenic forest views. Also does Tuesday Latin Night." },
+    { n: "KALA", d: "Modern Greek-inspired fine dining, opened 2024. Pecatu." },
+    { n: "Osteria Luna", d: "Southern Italian & Mediterranean with island twist." },
+    { n: "Abracadabra", d: "Contemporary fine dining at Mu Boutique Resort, Bingin cliffs. Fresh organic seasonal menu." },
+    { n: "Zali", d: "Mediterranean cliff-side. Lamb Maklouba, Spicy Fish Samkeh Harra, Beet & Feta salad." },
+    { n: "Ulu Cliffhouse restaurant", d: "Upscale beachside dining, bold design, ocean views. Jalan Labuan Sait." },
+    { n: "BB52", d: "Best craft burgers in Uluwatu. Go-to post-surf, late-night option. Big satisfying feeds." },
+    { n: "The Cashew Tree", d: "Jungle garden cafe on Bingin cliff. Healthy, vegetarian-friendly. Great bowls, big breakfasts, live music Thursdays.", c: true },
+    { n: "The Loft", d: "Lively casual brunch spot with fantastic variety of creative dishes." },
+    { n: "The Beach by Ours", d: "Fresh locally sourced dishes with stunning ocean views. Great breakfast." },
+    { n: "Di Mare (Karma Kandara)", d: "Italian & Greek fine dining, coastal terrace. Book sunset tables a week ahead." },
+    { n: "Il Ristorante - Luca Fantin", d: "Michelin-starred Italian. 5-7 course tasting menus. 36 seats." },
+    { n: "Watu Steakhouse (Six Senses)", d: "Luxury wagyu, cliff-top at Six Senses. Splurge tier." },
+    { n: "Akasa (Jumeirah)", d: "Premium dry-aged, wood-fired, sunset views. Splurge tier." },
+    { n: "Café La Pasion", d: "Casual Mexican + pizza spot. Budget-friendly." },
+    { n: "Pizzeria Italia", d: "Casual Italian pizza, Pecatu. Good value." },
+    { n: "Mana Restaurant", d: "Open-air teak pavilion, breathtaking cliff views. International menu." },
+  ]},
+  { cat: "🥩 Steak", id: "steak", items: [
+    { n: "Papi Sapi", d: "Pick your cut from display chiller, they grill it. Casual neighborhood grill. 4pm-11:30pm.", c: true },
+    { n: "Tusk Grill & Bar", d: "Fire-grilled premium Australian steaks, Bingin.", c: true },
+    { n: "Mason", d: "Wood-fired 400g ribeye, wagyu koftas. Stylish, Labuansait.", c: true },
+    { n: "Teja", d: "Dry-aged Black Angus striploin, open flame. Cliff-top. 150k-650k IDR mains." },
+    { n: "BARA", d: "American low & slow BBQ, wood-fire cooked. Family-style sharing. 4pm-late." },
+    { n: "The Temple Bar & Grill", d: "Budget-friendly steaks & burgers on Labuansait." },
+    { n: "Watu (Six Senses)", d: "Japanese wagyu, cliff-top luxury. MB9+ cuts." },
+    { n: "Akasa (Jumeirah)", d: "Dry-aged tomahawk, wagyu T-bone. Splurge." },
+  ]},
+  { cat: "🎯 Specials & Deals", id: "specials", items: [
+    { n: "Sushimi — Wed all plates 20k IDR", d: "Conveyor belt sushi, every plate 20k on Wednesdays from 5pm. Labuansait.", c: true },
+    { n: "Tabu — Tue Sushi & Afro-Latin", d: "Moyo Tuesdays: sushi platters + Afro-Latin beats.", c: true },
+    { n: "Tabu — Thu Sushi & Beats", d: "Live DJs + exclusive sushi platters + extended happy hour.", c: true },
+    { n: "Tabu — Sun & Wed 2-for-1 drinks", d: "Margaritas, cocktails, fusion dishes. Sundays and Wednesdays." },
+    { n: "Tusk — Tue Sirloin Wagyu deal", d: "Sirloin wagyu with sides and wine for 500k IDR on Tuesdays." },
+    { n: "Single Fin — Sun 150k IDR cover", d: "Legendary Sunday session. Arrive early to avoid queue." },
+  ]},
+  { cat: "🎶 Music & Nightlife", id: "music", items: [
+    { n: "Mana — Friday Sunset", d: "Happy hour 4-6pm, DJs, infinity pool, ocean views.", c: true },
+    { n: "Tabu — Wed Afrohouse", d: "Dedicated Afro House DJ night. Rotating lineup, dance floor goes off.", c: true },
+    { n: "Cashew Tree — Thirsty Thursday", d: "Live music + DJs, fairy-lit courtyard, barefoot Bingin. Open til midnight.", c: true },
+    { n: "Atmos — Sip & Steam Sundays", d: "15+ steam rounds with live music, cold plunge, fire pits. 4-10pm.", c: true },
+    { n: "Single Fin — Sunday Sessions", d: "Legendary clifftop sunset, live bands + DJs til 1am.", c: true },
+    { n: "Rolling Fork — Tue Latin Night", d: "Salsa, Bachata, live band at Padang Padang. Called 'best party in Uluwatu'." },
+    { n: "Savaya — Mon Industry Nights", d: "International DJs, expat crowd. High-end venue." },
+    { n: "Hatch Bar — Multiple Nights", d: "Mon: Afrobeat, Wed: Deep house, Fri: Progressive, Sat: Salsa + 2-for-1 sangria." },
+    { n: "Corazon — Social Dance", d: "Mon: Bachata. Tue: Salsa/Bachata/Kizomba/Reggaeton/Afrobeats." },
+    { n: "Mana — Wed Jazz", d: "Live jazz sessions mid-week." },
+    { n: "Mana — Sun BBQ", d: "BBQ Sundays at Mana." },
+    { n: "Single Fin — Wed Acoustic Jam", d: "Acoustic jam sessions mid-week." },
+    { n: "Ulu Cliffhouse — Tue Cinema Night", d: "Movies under the stars, Tuesday nights." },
+    { n: "Tabu — Fri House/Techno", d: "Biggest party night. Resident + guest DJs. House, minimal, techno." },
+  ]},
+  { cat: "💪 Gyms", id: "gyms", items: [
+    { n: "Bambu Fitness", d: "CrossFit, HIIT, pilates, cycling. Oasis Recovery: sauna, ice baths, jacuzzi, pool. Drop-in 225k IDR.", c: true },
+    { n: "360 Move", d: "HIIT, hot pilates, Muay Thai, dance, spin, BJJ. Two-level modern facility." },
+    { n: "Ulu Active", d: "All-in-one wellness hub, ice baths, outdoor zones, seminars." },
+    { n: "Bali Training Centre", d: "HIIT, Muay Thai, circuit training. Next to Cashew Tree." },
+  ]},
+  { cat: "🧘 Yoga", id: "yoga", items: [
+    { n: "Alchemy Yoga & Meditation", d: "Multiple styles, drop-in 160k IDR. Ice bath + sauna on site. Bingin." },
+    { n: "The Istana", d: "Vinyasa, Yin, Yoga Nidra. Cliff-top, no-phone policy. Stunning views." },
+    { n: "La Tribu", d: "Vinyasa, Power, Yin, Handstands, Surf yoga. Drop-in 150k IDR. Pecatu." },
+    { n: "The Space Bali", d: "Vinyasa, Yoga Sculpt, Yin. 165k IDR. Also has coworking. Bingin." },
+    { n: "Morning Light Yoga", d: "Open-air teak shala with jungle + wave views. 150k IDR incl coconut water. No booking needed." },
+    { n: "ULU Yoga", d: "Hatha, Vinyasa, Ashtanga, Aerial, Acro. Ocean-view shala. Teacher trainings." },
+    { n: "YinSide Yoga", d: "Yin specialist. Clifftop Bingin. Eco-friendly yoga store." },
+    { n: "Yoga Searcher Bali", d: "Most affordable at 120k IDR. Daily classes 7am, 10am, 4:30pm. Eco-lodge." },
+  ]},
+  { cat: "♨️ Sauna & Steam", id: "sauna", items: [
+    { n: "Santai Recovery Spa", d: "Stadium sauna with panoramic glass, group ice bath (8-10 ppl), hot pool, swimming pool. Bingin.", c: true },
+    { n: "Atmos Social", d: "Guided steam rituals daily + Sip & Steam Sundays. Cold plunge, fire pits. Pecatu.", c: true },
+    { n: "Bambu Fitness — Oasis Recovery", d: "Sauna, ice baths, jacuzzi, pool. Access with gym or separate.", c: true },
+    { n: "Ice Break Bali", d: "Recovery center — ice baths + red light therapy. Clean, modern. Pecatu." },
+    { n: "The Istana", d: "Luxury cliff-top: infrared sauna, ice plunge, steam room, pool. No-phone policy." },
+  ]},
+  { cat: "💆 Massage", id: "massage", items: [
+    { n: "Spring Spa (next to Alchemy) — ask for Seven", d: "Not your average Bali massage. Seven is a serious healer, next level. Come prepared for a real healing experience. Hard to get an appt — book early.", c: true },
+    { n: "U Spa", d: "Best value in Uluwatu. 190k IDR/60min Balinese massage. Multiple locations." },
+    { n: "Spring Spa (next to Alchemy)", d: "Boutique spa right next to Alchemy. 6 private rooms, hair salon, head spa. From 310k IDR." },
+    { n: "Svaha Spa Bingin", d: "Ocean views, cliffside luxury. Signature massage, hot stone, herbal compress." },
+    { n: "Zahra Spa", d: "2-hour Balinese massage + foot reflexology for 350k IDR. Great value." },
+    { n: "Spa at Mu", d: "Open-air al fresco spa overlooking ocean and Balinese temple. Bingin." },
+    { n: "Laniakea Spa", d: "Best affordable spa. Uses Sensatia Botanicals (local natural products)." },
+    { n: "OurSpa Bali", d: "Balinese massages, aromatherapy, hot stone therapy." },
+    { n: "Win Bali Spa", d: "Great Balinese massage, affordable, popular." },
+    { n: "The Essence Spa", d: "Wide range, excellent ambiance. Signature + Balinese + Aromatherapy. 11am-10pm." },
+    { n: "Xin Spa Beauty Pecatu", d: "Soothing authentic Balinese techniques. Affordable." },
+  ]},
+  { cat: "🧃 Juice & Smoothies", id: "juice", items: [
+    { n: "Ubud Kitchen Juice Bar", d: "Like going back in time. Sweet ladies, samples, bulk bottles at fraction of the price. Big coconut water jars. Open til 11pm!", c: true },
+    { n: "Alchemy", d: "Cold-pressed juices, superfood smoothies, healing tonics. All plant-based.", c: true },
+  ]},
+  { cat: "🏄 Surf — Learn / Beginner", id: "surf-begin", items: [
+    { n: "Dreamland Beach", d: "White sand beach break, gentle whitewater, wide sandy bottom. Perfect first-timer spot." },
+    { n: "Baby Padang", d: "Small, mellow inside section of Padang Padang. Protected from bigger swell." },
+    { n: "Jimbaran Bay", d: "Mellow beach break, sandy bottom, gentle waves. Great for absolute beginners." },
+    { n: "Inside Balangan", d: "Smaller reformed wave at Balangan, works on lower tides. Manageable for newer surfers." },
+    { n: "Padang Padang Surf Camp", d: "20+ years running. Lessons for all levels. Highly established." },
+    { n: "Kala Surf Camp", d: "All-inclusive with accommodation. Great for surf trip beginners." },
+    { n: "Bali Bisa Surf School", d: "4.9 stars. Flexible lessons. Highly rated." },
+  ]},
+  { cat: "🏄 Surf — Intermediate / Longboard", id: "surf-mid", items: [
+    { n: "Bingin", d: "Fun left-hander over reef. Works well for intermediate. Can longboard on smaller days." },
+    { n: "Padang Padang (inside)", d: "Medium swell days are magic. Fun, punchy, manageable walls." },
+    { n: "Balangan", d: "Left-hander, best in afternoon. Great for progressing intermediates." },
+    { n: "Impossibles", d: "Long, fast left walls. Connecting sections on good days. Reef — need some experience." },
+    { n: "Temples", d: "Multiple peaks, less crowded than other Bukit spots. Good for building confidence." },
+    { n: "Padang Rights", d: "Right-hander — great for longboard cruising when it's on." },
+  ]},
+  { cat: "🏄 Surf — Advanced / Experienced", id: "surf-adv", items: [
+    { n: "Uluwatu Main Peak", d: "World-class left. Multiple sections: The Peak, Racetrack, Outside Corner. Reef, crowds, powerful." },
+    { n: "Outside Padang Padang", d: "THE barrel. Heavy, shallow, fast. Only on big swells. Serious wave." },
+    { n: "Outside Corner (Uluwatu)", d: "Big-wave spot on large swells. Long paddle, powerful. Expert only." },
+    { n: "Suluban / Blue Point", d: "Dramatic cave entry, powerful left point break. Intermediate-advanced reef break." },
+  ]},
+  { cat: "🧖 Spas", id: "spas", items: [
+    { n: "Spring Spa (next to Alchemy)", d: "Boutique spa right next to Alchemy. 6 private rooms, hair salon, head spa. From 310k IDR." },
+    { n: "Svaha Spa Bingin", d: "Ocean views, cliffside luxury. Signature massage, hot stone, herbal compress." },
+    { n: "Spa at Mu", d: "Open-air al fresco spa overlooking ocean and Balinese temple. Bingin." },
+    { n: "The Edge Spa", d: "Breathtaking ocean views, tranquil, panoramic Indian Ocean vistas." },
+    { n: "Six Senses Spa", d: "Ultra-premium luxury wellness spa at the resort. Full treatments." },
+    { n: "Bvlgari Spa", d: "Ultra-luxury resort spa. Facials, massages, detox wraps." },
+  ]},
+  { cat: "🏠 In-Home Massage", id: "inhome", items: [
+    { n: "(Your contacts — add names/numbers here)", d: "Write in your go-to in-home massage people. I'll format them for the guide." },
+  ]},
+  { cat: "🛒 Groceries", id: "groceries", items: [
+    { n: "Nirmala Supermarket", d: "Big local supermarket on Jl. Uluwatu, Ungasan. Wide variety, liquor, French bakery. Budget-friendly. 7am-10pm." },
+    { n: "Pepito Supermarket", d: "Imported goods — cheese, wine, spices, quality meat. Mid-range to higher-end." },
+    { n: "Papa's Deli / Mood by Ours", d: "Organic market on Labuansait. Farm-fresh veg, no-seed-oil products, gourmet groceries. 8am-9pm." },
+    { n: "NOURISH Wholefoods", d: "Organic bulk store on Labuansait. Homemade dips, milks, vegan cheeses. Sustainable." },
+    { n: "Alas Kusuma Market", d: "Local traditional market. Fresh fruits, veg, spices. Cheaper than supermarkets. 6am-10pm." },
+    { n: "Traditional Morning Market", d: "Opens 5am. Largest, cheapest in Uluwatu. 30-50% less than supermarkets. Go early." },
+    { n: "Island Organics Bali", d: "Delivery service — farm-fresh organic veg from their own farms. 16+ years. Delivers to Bukit." },
+    { n: "Bukit Foods", d: "Online organic grocery delivery. Health, beauty, food. Delivers across Bali." },
+  ]},
+  { cat: "🏠 Where to Stay", id: "stay", items: [
+    { n: "(Add your favorite villas/hotels here)", d: "Tell me your spots and I'll add them!" },
+  ]},
+  { cat: "🛍️ Shopping", id: "shop", items: [
+    { n: "(Add your favorite shops here)", d: "Tell me your spots and I'll add them!" },
+  ]},
+  { cat: "🏍️ Motorbikes", id: "ride", items: [
+    { n: "(Add your rental spots here)", d: "Tell me your go-to rental and I'll add it!" },
+  ]},
+];
+
+const state = {};
+data.forEach(sec => sec.items.forEach((item, i) => {
+  const key = sec.id + '_' + i;
+  item.key = key;
+  state[key] = { vote: item.c ? 'yes' : null };
+}));
+
+function render() {
+  const app = document.getElementById('app');
+  let html = '';
+  data.forEach(sec => {
+    const yesCount = sec.items.filter(i => state[i.key].vote === 'yes').length;
+    const total = sec.items.length;
+    html += `<div class="section">`;
+    html += `<div class="section-header" onclick="toggle('${sec.id}')">
+      <span class="section-emoji">${sec.cat.split(' ')[0]}</span>
+      <span class="section-title">${sec.cat.substring(sec.cat.indexOf(' ')+1)}</span>
+      <span class="section-count">${yesCount}/${total}</span>
+      <span class="section-toggle" id="arrow_${sec.id}">▶</span>
+    </div>`;
+    html += `<div class="section-items" id="items_${sec.id}">`;
+    sec.items.forEach(item => {
+      const s = state[item.key];
+      const cls = item.c && s.vote === 'yes' ? 'confirmed' : s.vote === 'yes' ? 'yes' : s.vote === 'no' ? 'no' : '';
+      const badge = item.c ? '<span class="confirmed-badge">already in</span>' : '';
+      html += `<div class="item ${cls}">
+        <div class="item-btns">
+          <button class="btn btn-y ${s.vote==='yes'?'on':''}" onclick="vote('${item.key}','yes')">✓</button>
+          <button class="btn btn-n ${s.vote==='no'?'on':''}" onclick="vote('${item.key}','no')">✗</button>
+        </div>
+        <div class="item-body">
+          <span class="item-name">${item.n}</span>${badge}
+          <div class="item-desc">${item.d}</div>
+        </div>
+      </div>`;
+    });
+    html += '</div></div>';
+  });
+  app.innerHTML = html;
+  updateCounts();
+  // Restore open states
+  document.querySelectorAll('.section-items').forEach(el => {
+    const id = el.id.replace('items_', '');
+    if (openSections[id]) { el.classList.add('open'); document.getElementById('arrow_'+id).textContent = '▼'; }
+  });
+}
+
+const openSections = {};
+function toggle(id) {
+  openSections[id] = !openSections[id];
+  const el = document.getElementById('items_' + id);
+  const arrow = document.getElementById('arrow_' + id);
+  el.classList.toggle('open');
+  arrow.textContent = el.classList.contains('open') ? '▼' : '▶';
+}
+
+function vote(key, v) {
+  state[key] = { vote: state[key].vote === v ? null : v };
+  render();
+}
+
+function updateCounts() {
+  let y=0, n=0, p=0;
+  Object.values(state).forEach(s => { if(s.vote==='yes')y++; else if(s.vote==='no')n++; else p++; });
+  document.getElementById('yC').textContent = y;
+  document.getElementById('nC').textContent = n;
+  document.getElementById('pC').textContent = p;
+}
+
+function copySummary() {
+  let text = "MY ULUWATU PICKS\n\n";
+  data.forEach(sec => {
+    const yes = sec.items.filter(i => state[i.key].vote === 'yes');
+    if (!yes.length) return;
+    text += sec.cat + "\n";
+    yes.forEach(i => text += `  ✓ ${i.n}\n`);
+    text += "\n";
+  });
+  const skipped = [];
+  data.forEach(sec => sec.items.filter(i => state[i.key].vote === 'no').forEach(i => skipped.push(i.n)));
+  if (skipped.length) text += "SKIPPED: " + skipped.join(", ") + "\n";
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy My Picks', 2000);
+  });
+}
+
+render();
+// Auto-open first section
+toggle(data[0].id);
+</script>
+</body>
+</html>
